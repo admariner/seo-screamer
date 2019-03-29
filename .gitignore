@@ -1,0 +1,17 @@
+logging/
+logging/*
+.idea/
+.idea/*
+config/*
+!config/config_sample.yml
+data/
+data/*
+mail-attachments/
+mail-attachments/*
+functions/__pycache__/
+functions/__pycache__/*
+.c9/
+.c9/*
+word_output/*
+venv/
+venv/*
