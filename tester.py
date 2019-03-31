@@ -12,7 +12,7 @@ if __name__ == '__main__':
     strategy = "mobile"
     strategy = "desktop"
 
-    url = "https://www.vandersluijs.nl"
+    url = "https://oesterbaron.nl"
 
     cf = readConfig()
     config = cf.config
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     ps_api = config['google_page_speed_api']
 
     d = Domain(url)
-    p = PageSpeed(ps_api, url, d.domain)
+    p = PageSpeed(ps_api, url, d.domain, strategy, category)
 
     # print(p.google_url)
 

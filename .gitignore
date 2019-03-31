@@ -4,7 +4,6 @@ logging/*
 .idea/*
 config/*
 !config/config_sample.yml
-data/
 data/*
 mail-attachments/
 mail-attachments/*
