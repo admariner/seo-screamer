@@ -1,16 +1,22 @@
-import pandas
 import csv
 import os
-
+from pathlib import Path
 
 class CrawlOverview:
-    def __init__(self, cralw_data=None):
-        if cralw_data is None:
+    def __init__(self, crawl_file=None):
+        self.crawl_data = {}
+        self.ready_data = {}
+
+        if crawl_file is None:
             return None
 
-        self.file = os.path.join(cralw_data, "crawl_overview.csv")
+        self.file = crawl_file  #os.path.join(cralw_data, "crawl_overview.csv")
+
+        my_file = Path(self.file)
+        if not my_file.is_file():
+            return None
+
         self.data = self.get_csv()
-        self.crawl_data = {}
 
         self.get_csv()
         self.get_data()
@@ -185,7 +191,7 @@ if __name__ == '__main__':
     #if you want to see the dict in a viewable style, go to :
     #https://jsoneditoronline.org/?id=4c5e36491ec04ff697710bb13132c5e3
 
-    csv_file = "../data/oesterbaron.nl/"
+    csv_file = "../data/oesterbaron.nl/crawl_overview.csv"
     c = CrawlOverview(csv_file)
     print(c.ready_data)
 
