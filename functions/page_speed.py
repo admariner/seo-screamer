@@ -40,16 +40,31 @@ class PageSpeed:
         resp = requests.get(url=self.google_url)
         self.ps_data = resp.json()
 
-    def mobile_data(self):
-        print('mobile')
-
-    def desktop_data(self):
-        print('desktop')
+    # def mobile_data(self):
+    #     print('mobile')
+    #
+    # def desktop_data(self):
+    #     print('desktop')
 
     def create_data(self):
+        ps_data = self.ps_data['lighthouseResult']
         for c in self.category:
-            self.ready_data['mob_{}_score'.format(c)] = self.ps_data['categories'][c]['score']
-            self.ready_data['desk_{}_score'.format(c)] = self.ps_data['categories'][c]['score']
+            self.ready_data['mob_{}_score'.format(c)] = ps_data['categories'][c]['score']
+            self.ready_data['desk_{}_score'.format(c)] = ps_data['categories'][c]['score']
+
+
+# Toegankelijkheid
+# Deze controles markeren mogelijkheden om [de toegankelijkheid van uw web-app te verbeteren] (https://developers.google.com/web/fundamentals/accessibility). Alleen een deel van de toegankelijkheidsproblemen kan automatisch worden gedetecteerd, zodat handmatig testen ook wordt aangemoedigd.
+# Deze items behandelen gebieden die een geautomatiseerde testtool niet kan dekken. Lees meer in onze handleiding over het uitvoeren van een beoordeling van de toegankelijkheid (https://developers.google.com/web/fundamentals/accessibility/how-to-review).
+
+# SEO
+# Deze controles zorgen ervoor dat uw pagina is geoptimaliseerd voor het rangschikken van zoekmachines. Er zijn nog andere factoren die Lighthouse niet controleert en die van invloed kan zijn op uw positie in de zoekresultaten. Meer informatie (https://support.google.com/webmasters/answer/35769).
+# Voer deze extra validators uit op uw site om aanvullende SEO-best practices te controleren.
+
+# PWA
+# Deze controles valideren de aspecten van een Progressive Web App. Meer informatie (https://developers.google.com/web/progressive-web-apps/checklist).
+# Deze controles zijn vereist door de basislijn PWA-checklist (https://developers.google.com/web/progressive-web-apps/checklist) maar worden niet automatisch gecontroleerd door Lighthouse. Ze hebben geen invloed op je score, maar het is belangrijk dat je ze handmatig verifieert.
+
 
     def save_file_with_contents(self, file=None):
         if file is not None:
