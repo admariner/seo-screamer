@@ -4,16 +4,16 @@ from datetime import date
 
 
 class PageSpeed:
-    def __init__(self, ps_api=None, url=None, domain=None, strategy="mobile", category="performance", locale="nl"):
+    def __init__(self, ps_api=None, url=None, domain=None, strategy="mobile", locale="nl"):
         if url is None or ps_api is None:
             return None
 
         self.datum = '{:%d-%b-%Y}'.format(date.today())
-
+        self.ready_data = {}
         self.google_api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
         self.url = url
         self.strategy = strategy
-        self.category = category
+        self.category = ['performance', 'accessibility', 'seo', 'best-practices', 'pwa']
         self.locale = locale
         self.ps_data = ""
         self.data_file = "../data/{}-{}.csv".format(self.datum, domain)
@@ -40,7 +40,21 @@ class PageSpeed:
         resp = requests.get(url=self.google_url)
         self.ps_data = resp.json()
 
-    def save_file_with_contents(self):
+    def mobile_data(self):
+        print('mobile')
+
+    def desktop_data(self):
+        print('desktop')
+
+    def create_data(self):
+        for c in self.category:
+            self.ready_data['mob_{}_score'.format(c)] = self.ps_data['categories'][c]['score']
+            self.ready_data['desk_{}_score'.format(c)] = self.ps_data['categories'][c]['score']
+
+    def save_file_with_contents(self, file=None):
+        if file is not None:
+            self.data_file = file
+
         with open(self.data_file, 'w+') as f:
             f.write(str(self.ps_data))
 
@@ -53,8 +67,6 @@ if __name__ == '__main__':
     category = "accessibility"
     category = "seo"
 
-    category = ['performance']
-
     strategy = "mobile"
     strategy = "desktop"
 
@@ -62,7 +74,7 @@ if __name__ == '__main__':
     domain = "vandersluijs.nl"
     ps_api = ""
 
-    p = PageSpeed(ps_api, url, domain)
+    p = PageSpeed(ps_api, url, domain, strategy)
 
     lighthouseResult = p.ps_data['lighthouseResult']
 
@@ -74,7 +86,8 @@ if __name__ == '__main__':
         print(lighthouseResult['categories'][c]['title'])
         print(lighthouseResult['categories'][c]['score'])
 
-    audit_list = ['first-contentful-paint', 'speed-index', 'interactive', 'first-meaningful-paint', 'first-cpu-idle', 'estimated-input-latency']
+    audit_list = ['first-contentful-paint', 'speed-index', 'interactive', 'first-meaningful-paint', 'first-cpu-idle',
+                  'estimated-input-latency']
     audits = lighthouseResult['audits']
 
     for a in audit_list:

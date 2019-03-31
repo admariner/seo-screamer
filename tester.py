@@ -1,6 +1,9 @@
+import os
+
 from functions.readConfig import readConfig
 from functions.page_speed import PageSpeed
 from functions.domain import Domain
+
 
 if __name__ == '__main__':
     category = "performance"
@@ -12,6 +15,11 @@ if __name__ == '__main__':
     strategy = "mobile"
     strategy = "desktop"
 
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    folder = os.path.join(dir_path, "data")
+    file_name = "{}-{}.csv".format(strategy, "oesterbaron.nl")
+    data_file = os.path.join(folder, file_name)
+
     url = "https://oesterbaron.nl"
 
     cf = readConfig()
@@ -20,11 +28,12 @@ if __name__ == '__main__':
     ps_api = config['google_page_speed_api']
 
     d = Domain(url)
-    p = PageSpeed(ps_api, url, d.domain, strategy, category)
+    p = PageSpeed(ps_api, url, d.domain, strategy)
 
-    # print(p.google_url)
+    # print(p.google_url)dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    # p.save_file_with_contents()
+
+    p.save_file_with_contents(data_file)
 
     lighthouseResult = p.ps_data['lighthouseResult']
 
@@ -36,7 +45,8 @@ if __name__ == '__main__':
         print(lighthouseResult['categories'][c]['title'])
         print(lighthouseResult['categories'][c]['score'])
 
-    audit_list = ['first-contentful-paint', 'speed-index', 'interactive', 'first-meaningful-paint', 'first-cpu-idle', 'estimated-input-latency']
+    audit_list = ['first-contentful-paint', 'speed-index', 'interactive', 'first-meaningful-paint', 'first-cpu-idle',
+                  'estimated-input-latency']
     audits = lighthouseResult['audits']
 
     for a in audit_list:
