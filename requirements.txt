@@ -22,10 +22,10 @@ ipywidgets==7.4.2
 jedi==0.13.3
 Jinja2==2.10
 jsonschema==3.0.1
-jupyter==1.0.0
-jupyter-client==5.2.4
-jupyter-console==6.0.0
-jupyter-core==4.4.0
+jupyter
+jupyter-client
+jupyter-console
+jupyter-core
 kiwisolver==1.0.1
 lxml==4.3.2
 MarkupSafe==1.1.1
@@ -51,9 +51,6 @@ pyppeteer==0.0.25
 pyquery==1.4.0
 pyrsistent==0.14.11
 python-dateutil==2.8.0
-pytz==2018.9
-pyzmq==18.0.1
-qtconsole==4.4.3
 requests==2.21.0
 requests-html==0.10.0
 Send2Trash==1.5.0
@@ -70,3 +67,6 @@ wcwidth==0.1.7
 webencodings==0.5.1
 websockets==7.0
 widgetsnbextension==3.4.2
+pytz==2018.9
+pyzmq==18.0.1
+qtconsole==4.4.3
