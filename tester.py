@@ -33,6 +33,7 @@ if __name__ == '__main__':
 
     p.create_data()
     print(p.ready_data)
+    print(p.google_url)
 
     # print(p.google_url)dir_path = os.path.dirname(os.path.realpath(__file__))
 
