@@ -118,10 +118,8 @@ class PageSpeed:
 
 
 if __name__ == '__main__':
-
     #https://jsoneditoronline.org/?id=241176c2533b4dfa8804972405f91059 mobile seo
     #https://jsoneditoronline.org/?id=73a278b6ebeb46a39f867c485285120e desktop performance
-    
     category = "performance"
     category = "accessibility"
     category = "seo"

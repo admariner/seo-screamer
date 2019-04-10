@@ -1,0 +1,86 @@
+{ 
+ 
+'meta_keywords_multiple.csv': '', 
+'meta_description_over_940_pixels.csv': '', 
+'meta_keywords_duplicate.csv': '', 
+'meta_description_over_155_characters.csv': '', 
+'meta_description_below_70_characters.csv': '', 
+'meta_keywords_missing.csv': '', 
+'meta_description_multiple.csv': '', 
+'meta_description_below_400_pixels.csv': '', 
+'meta_description_duplicate.csv': '', 
+'meta_description_missing.csv': '',
+
+'page_titles_missing.csv': 'Pagina titel afwezig', 
+'page_titles_below_30_characters.csv': 'Pagina titel onder de 30 tekens', 
+'page_titles_over_65_characters.csv': 'Pagina title meer dan 65 tekens',  
+'page_titles_multiple.csv': 'Pagina titel meerdere', 
+'page_titles_below_200_pixels.csv': 'Pagina titel oOnder 200 pixels', 
+'page_titles_duplicate.csv': 'Pagina titel duplicaat', 
+'page_titles_over_568_pixels.csv': 'Pagina titel meer dan 568 pixels', 
+'page_titles_same_as_h1.csv': 'Pagina titel hetzelfde als H1',  
+ 
+'external_javascript.csv': '', 
+'external_images.csv': '', 
+'external_flash.csv': '', 
+'external_pdf.csv': '',
+'external_css.csv': '', 
+'external_other.csv': '', 
+'external_html.csv': '', 
+'external_unknown.csv': '', 
+
+'internal_html.csv': '', 
+'internal_pdf.csv': '',
+'internal_other.csv': '', 
+'internal_unknown.csv': '', 
+'internal_images.csv': '', 
+'internal_flash.csv': '', 
+'internal_css.csv': '',
+'internal_javascript.csv': '', 
+
+'h1_missing.csv': 'H1 afwezig', 
+'h1_over_70_characters.csv': '', 
+'h1_multiple.csv': 'H1 meerdere', 
+'h1_duplicate.csv': 'H1 duplicaat',
+
+'h2_missing.csv': '',
+'h2_duplicate.csv': '', 
+'h2_over_70_characters.csv': '', 
+'h2_multiple.csv': '',
+
+'url_underscores.csv': '', 
+'url_non_ascii_characters.csv': '',
+'url_over_115_characters.csv': '', 
+'url_duplicate.csv': '', 
+'url_uppercase.csv': '', 
+'url_parameters.csv': '',
+
+'protocol_http.csv': 'Protocol HTTP', 
+
+'response_codes_no_response.csv': 'Geen antwoord', 
+'response_codes_redirection_(3xx).csv': 'Doorverwijzing (3xx)', 
+'response_codes_blocked_resource.csv': 'Geblokkeerde bron', 
+'response_codes_blocked_by_robots_txt.csv': 'Geblokkeerd door Robots.txt:', 
+'response_codes_server_error_(5xx).csv': 'Serverfout (5xx)', 
+'response_codes_client_error_(4xx).csv': 'Clientfout (4xx)', 
+'response_codes_redirection_(meta_refresh).csv': 'Doorverwijzing (Meta Refresh)', 
+'response_codes_redirection_(javascript).csv': 'Redirection (JavaScript)'}
+
+
+# 'page_titles_all.csv': '', 
+# 'url_all.csv': '', 
+# 'h2_all.csv': '', 
+# 'internal_all.csv': '', 
+# 'external_all.csv': '', 
+# 'protocol_all.csv': '',
+# 'protocol_https.csv': 'Protocol https', 
+# 'response_codes_all.csv': '',
+# 'meta_description_all.csv': '', 
+# 'h1_all.csv': '', 
+# 'meta_keywords_all.csv': '',
+# 'response_codes_success_(2xx).csv': '', 
+
+'translate" : 'Alt-tekst Meer dan 100 tekens:'
+'translate" : 'Ontbrekende Alt-tekst:'
+'translate" : 'Meer dan 100 KB:'
+
