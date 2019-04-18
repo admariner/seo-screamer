@@ -12,8 +12,6 @@ class ParceCSV:
         if file is None:
             return None
 
-        files = {}
-
         self.file = file
         self.headers = []
         self.ready_data = {}
@@ -37,7 +35,6 @@ class ParceCSV:
         with open(self.file, newline='') as f:
             reader = csv.reader(f)
             for row in reader:
-            # do something here with `row`
                 return row[0]
 
 
@@ -47,27 +44,18 @@ if __name__ == '__main__':
     folder = os.path.join(dir_path, "../data")
     domain_folder = os.path.join(folder, "{}".format(domain))
 
-    # fileNames = os.listdir(domain_folder)
-    # for fileName in fileNames:
-    #     if fileName.endswith(".csv") and fileName != 'crawl_overview.csv':
-    #         print(fileName)
-
     csv_file = "../data/oesterbaron.nl/protocol_https.csv"
     c = ParceCSV(csv_file)
     
     for key, val in c.ready_data.items():
         print(val['headers'])
         print(len(val['headers']))
-    
-    # print(c.headers)
-    # print(c.ready_data)
 
 # protocol_http.csv
 # h1_missing.csv
 # h1_multiple.csv
 # h1_over_70_characters.csv
 # h1_duplicate.csv
-
 # url_uppercase.csv
 # url_parameters.csv
 # h1_duplicate.csv

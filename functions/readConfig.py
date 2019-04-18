@@ -8,11 +8,14 @@ class readConfig:
 
     config = ""
 
-    def __init__(self):
+    def __init__(self, file=None):
         try:
-            with open('./config/config.yml') as f:
+            if file is None:
+                file = "./config/config.yml"
+
+            with open(file) as f:
                 self.config = yaml.load(f, Loader=yaml.FullLoader)
             f.close
         except Exception as e:
-            print("We could not open the config file!")
+            print("We could not open or parse the config file! {}".format(e))
             sys.exit()

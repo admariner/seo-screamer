@@ -1,6 +1,5 @@
 import requests
 import os
-import time
 import json
 
 from datetime import date
@@ -36,11 +35,13 @@ class PageSpeed:
         
         self.google_url = ""
 
-        self.ps_api = ps_api # PageSpeed API
+        self.ps_api = ps_api  # PageSpeed API
         # self.get_pagespeed_data()
         self.get_data()
-        self.create_data()
-
+        if self.create_data() == False:
+            return None
+        else:
+            pass
 
     def get_pagespeed_data(self):
         new_category = ""
@@ -62,8 +63,6 @@ class PageSpeed:
                      "&locale={}" \
                      "{}".format(self.google_api, self.url, new_category, self.strategy, self.locale, key)
 
-        print(self.google_url)
-
         r = requests.get(url=self.google_url)
         return r.json()
 
@@ -71,7 +70,10 @@ class PageSpeed:
         try:
             ps_data = self.ps_data['lighthouseResult']
         except KeyError:
+            print(self.ps_data['error'])
             print('No Data')
+            return False
+
         for c in self.category:
             self.ready_data['{}_{}_score'.format(self.strategy, c)] = round(ps_data['categories'][c]['score']*100)
 
@@ -94,10 +96,16 @@ class PageSpeed:
             if file_date[0] == self.datum:
                 print('Using data from pagespeed json file')
                 self.ps_data = self.open_file_with_contents(self.data_file)
-                return 
-    
-        self.ps_data = self.get_pagespeed_data()
+                return
         print('No pagespeed file found')
+
+
+        self.ps_data = self.get_pagespeed_data()
+        try:
+            self.ps_data['lighthouseResult']
+        except KeyError:
+            return False
+
         if self.ps_data is not None:
             print('Create file with pagespeed json file')
             self.save_file_with_contents(self.data_file)
@@ -139,25 +147,6 @@ if __name__ == '__main__':
     
         print(p.ready_data)
 
-"""    
-        print(lighthouseResult['configSettings']['emulatedFormFactor'])
-        print(lighthouseResult['configSettings']['locale'])
-    
-        for c in category:
-            print(c)
-            print(lighthouseResult['categories'][c]['title'])
-            print(lighthouseResult['categories'][c]['score'])
-    
-        audit_list = ['first-contentful-paint', 'speed-index', 'interactive', 'first-meaningful-paint', 'first-cpu-idle',
-                      'estimated-input-latency']
-        audits = lighthouseResult['audits']
-    
-        for a in audit_list:
-            print(audits[a]['title'])
-            print(audits[a]['score'])
-            print(audits[a]['displayValue'])
-            print(audits[a]['description'])
-"""
 # render-blocking-resources -> css enz wat te lang duurt -> details -> items[0] enz (url, totalBytes, wastedMs)
 # uses-optimized-images details -> items[0] enz (url, totalBytes, wastedBytes, overallSavingsBytes)
 # uses-text-compression (gzip)

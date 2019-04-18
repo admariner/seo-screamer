@@ -1,6 +1,5 @@
 import os
 
-
 class Screaming:
     def __init__(self, folder=None, url=None):
         if folder is None or url is None:
@@ -68,20 +67,32 @@ class Screaming:
                       "--crawl {} "
                       "--config /Users/theovandersluijs/PycharmProjects/seowork/data/crawl.seospiderconfig "
                       "--headless --save-crawl --overwrite  "
-                      "--output-folder /Users/theovandersluijs/PycharmProjects/seowork/data/{}/ "
+                      "--output-folder {}/ "
                       "--save-report 'Crawl Overview' "
                       "--export-tabs '{}' "
                       "--export-format 'csv'".format(self.url, self.folder, ','.join(map(str, self.tabs))))
 
 
+# "--output-folder /Users/theovandersluijs/PycharmProjects/seowork/data/{}/ "
+
 if __name__ == '__main__':
-    folder = "www.vandersluijs.nl"
-    url = "https://www.vandersluijs.nl"
-    s = Screaming()
-    s.run_screamer()
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    folder = os.path.join(dir_path, "../data")
 
+    for domain in os.listdir(folder):
+        domain_folder = os.path.join(folder, domain)
+        if os.path.isdir(domain_folder) or os.path.islink(domain_folder):
+            url = "https://{}".format(domain)
 
-# "Directives:All","Directives:Index","Directives:Noindex","Directives:Follow","Directives:Nofollow",
+            s = Screaming(domain_folder, url)
+            s.run_screamer()
+
+    # s = Screaming("/Users/theovandersluijs/PycharmProjects/seowork/data/www.bouwbedrijfjari.nl/", "www.bouwbedrijfjari.nl")
+    # s.run_screamer()
+    #
+
+# "Directives:All","Directiv
+# es:Index","Directives:Noindex","Directives:Follow","Directives:Nofollow",
 #         "Directives:None","Directives:NoArcH1ve","Directives:NoSnippet","Directives:NoODP","Directives:NoYDlR",
 #         "Directives:NoImageIndex","Directives:NoTranslate","Directives:Unavailable_After","Directives:Refresh",
 

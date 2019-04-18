@@ -57,3 +57,27 @@ crawl_files:
     - 'response_codes_client_error_(4xx).csv'
     - 'response_codes_redirection_(meta_refresh).csv'
     - 'response_codes_redirection_(javascript).csv'
+icons:
+    medal: ""
+    thumbs_up: ""
+    thumbs_down: ""
+    alarm: ""
+    analytics: ""
+    wordpress: ""
+    joomla: ""
+    badge: ""
+    ok: ""
+    mobile: ""
+    desktop: ""
+    wrench: ""
+    lock_open: ""
+    lock_closed: ""
+    at: ""
+    code: ""
+    comment: ""
+    exclamation: ""
+    external_link: ""
+    image: ""
+    lightbulb: ""
+    sitemap: ""
+    stopwatch: ""
