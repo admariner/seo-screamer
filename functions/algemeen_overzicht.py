@@ -35,21 +35,21 @@ class AlgemeenOverzicht:
                     paragraph.add_run("")
                 elif r[2] == 0:
                     runner = paragraph.add_run(severity['low']['icon'])
-                    runner.font.name = 'Font Awesome 5 Pro'
+                    runner.font.name = 'Font Awesome 5 Pro Light'
                     color = severity['low']['color']
                     runner.font.color.rgb = RGBColor(color[0], color[1], color[2])
                     runner.font.size = Pt(13)
                     runner.bold = True
                 elif r[2] == 1 or r[2] == 2:
                     runner = paragraph.add_run(severity['medium']['icon'])
-                    runner.font.name = 'Font Awesome 5 Pro'
+                    runner.font.name = 'Font Awesome 5 Pro Light'
                     color = severity['medium']['color']
                     runner.font.color.rgb = RGBColor(color[0], color[1], color[2])
                     runner.font.size = Pt(13)
                     runner.bold = True
                 elif r[2] > 2:
                     runner = paragraph.add_run(severity['high']['icon'])
-                    runner.font.name = 'Font Awesome 5 Pro'
+                    runner.font.name = 'Font Awesome 5 Pro Light'
                     color = severity['high']['color']
                     runner.font.color.rgb = RGBColor(color[0], color[1], color[2])
                     runner.font.size = Pt(13)

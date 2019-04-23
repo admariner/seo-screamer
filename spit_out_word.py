@@ -37,6 +37,7 @@ class CreateWord:
         except KeyError as e:
             return "Config variables not found! {}".format(e)
 
+        self.ps = None
         self.frog_files = {}
         self.frog_data_folder = None
         self.document_fields = None
@@ -53,18 +54,15 @@ class CreateWord:
         self.config = config
         self.ps_api = config['google_page_speed_api']
 
-        self.ps_category = []
-        self.ps_categorien = {}
-        self.audit_list_performance = []
-
         self.word_output_file = self.set_doc_params()
         self.frog_data_folder = self.get_frog_folder()
         self.get_frog_files()
 
-
         self.get_crawl_overview_data()
+
         self.ps_all_data = {}
-        self.ps_data = {'mobile': self.get_page_speed_data('mobile'), 'desktop': self.get_page_speed_data('desktop')}
+
+
         # self.crawl_data = self.get_crawl_data()
         
         self.open_document()
@@ -73,20 +71,16 @@ class CreateWord:
         self.write_document()
     
     def set_doc_params(self):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
+        start_path = os.path.dirname(os.path.realpath(__file__))
 
         if self.tempate_file is not None:
-            template_folder = os.path.join(dir_path, "word_templates")
-            self.template = os.path.join(template_folder, self.tempate_file)
+            self.template = os.path.join(start_path, "word_templates", self.tempate_file)
         
-        output_folder = os.path.join(dir_path, "word_output")
-        output_name = "{}-{}.docx".format(self.datum, self.domain)
-        return os.path.join(output_folder, output_name)
+        return os.path.join(start_path, "word_output", "{}-{}.docx".format(self.datum, self.domain))
     
     def get_frog_folder(self):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        data_folder = os.path.join(dir_path, "data")
-        return os.path.join(data_folder, self.domain)
+        start_path = os.path.dirname(os.path.realpath(__file__))
+        return os.path.join(start_path, "data", self.domain, 'crawl')
 
     def get_frog_files(self):
         for r, d, f in os.walk(self.frog_data_folder):
@@ -104,12 +98,8 @@ class CreateWord:
             return {}
 
     def get_page_speed_data(self, strategy='mobile'):
-        ps = PageSpeed(self.ps_api, self.url, self.domain, strategy)
-        self.ps_category = ps.category
-        self.ps_categorien = ps.categorien
-        self.audit_list_performance = ps.audit_list_performance
-        self.ps_all_data = ps.ps_data
-        return ps.ready_data
+        self.ps = PageSpeed(self.ps_api, self.url, self.domain, strategy)
+        self.ps.get_audits()
 
     def open_document(self):
         self.doc = Document(self.template)
@@ -117,24 +107,44 @@ class CreateWord:
     def set_document_styles(self):
         obj_styles = self.doc.styles
 
+        style = self.doc.styles['Title']
+        font = style.font
+        font.name = 'Font Awesome 5 Pro Light'
+        font.size = Pt(20)
+
+        style = self.doc.styles['Heading 1']
+        font = style.font
+        font.name = 'Font Awesome 5 Pro Light'
+        font.size = Pt(16)
+
+        style = self.doc.styles['Heading 2']
+        font = style.font
+        font.name = 'Font Awesome 5 Pro Light'
+        font.size = Pt(14)
+
+        style = self.doc.styles['Heading 3']
+        font = style.font
+        font.name = 'Font Awesome 5 Pro Light'
+        font.size = Pt(12)
+
         obj_charstyle = obj_styles.add_style('FontAwesomeBrands', WD_STYLE_TYPE.CHARACTER)
         obj_font = obj_charstyle.font
-        obj_font.size = Pt(10)
+        obj_font.size = Pt(13)
         obj_font.name = 'Font Awesome 5 Brands'
 
         obj_charstyle = obj_styles.add_style('FontAwesomeLight', WD_STYLE_TYPE.CHARACTER)
         obj_font = obj_charstyle.font
-        obj_font.size = Pt(10)
+        obj_font.size = Pt(13)
         obj_font.name = 'Font Awesome 5 Pro Light'
 
         obj_charstyle = obj_styles.add_style('FontAwesomeRegular', WD_STYLE_TYPE.CHARACTER)
         obj_font = obj_charstyle.font
-        obj_font.size = Pt(10)
+        obj_font.size = Pt(13)
         obj_font.name = 'Font Awesome 5 Pro Regular'
 
         obj_charstyle = obj_styles.add_style('FontAwesomeSolid', WD_STYLE_TYPE.CHARACTER)
         obj_font = obj_charstyle.font
-        obj_font.size = Pt(10)
+        obj_font.size = Pt(13)
         obj_font.name = 'Font Awesome 5 Pro Solid'
 
     def print_document_styles(self):
@@ -207,18 +217,28 @@ class CreateWord:
         # self.legenda()
 
     def page_speed(self, strategy='mobile'):
+        # self.ps_data = {'mobile': self.get_page_speed_data('mobile'), 'desktop': self.get_page_speed_data('desktop')}
+        self.get_page_speed_data(strategy)
+
+        # print(self.ps.ready_data)
+
         self.doc.add_page_break()
-        self.doc.add_heading("{} Test".format(strategy.capitalize()), level=1)
+        if strategy == 'mobile':
+            icon = self.config['icons']['mobile']
+        else:
+            icon = self.config['icons']['desktop']
+
+        self.doc.add_heading("{} {} Test".format(icon, strategy.capitalize()), level=1)
 
         self.doc.add_paragraph('Onderstaande tests zijn gedaan op basis van de homepage.')
 
         table = self.doc.add_table(rows=1, cols=2)
-        for v in self.ps_category:
+        for v in self.ps.category:
             row_cells = table.add_row().cells
-            row_cells[0].text = self.ps_categorien[v]
+            row_cells[0].text = self.ps.categorien[v]
             paragraph = row_cells[1].paragraphs[0]
-            paragraph.add_run("{}".format(self.ps_data[strategy]['{}_{}_score'.format(strategy, v)])).font.color.rgb = \
-                self.colorsPercent(self.ps_data[strategy]['{}_{}_score'.format(strategy, v)])
+            paragraph.add_run("{}".format(self.ps.ready_data['{}_{}_score'.format(strategy, v)])).font.color.rgb = \
+                self.colorsPercent(self.ps.ready_data['{}_{}_score'.format(strategy, v)])
 
         self.doc.add_paragraph()
 
@@ -257,20 +277,21 @@ class CreateWord:
                                "kunnen variëren.").italic = True
 
         self.doc.add_paragraph()
-        self.doc.add_heading("Metrieken", level=2)
+        icon = self.config['icons']['stopwatch']
+        self.doc.add_heading("{} Metrieken".format(icon), level=2)
 
         table = self.doc.add_table(rows=1, cols=4)
 
         i = 0
-        for a in self.audit_list_performance:
+        for a in self.ps.audit_list_performance:
             if i == 0:
                 row_cells = table.add_row().cells
 
-            row_cells[i].text = self.ps_data[strategy]['{}_{}_title'.format(strategy, a)]
+            row_cells[i].text = self.ps.ready_data['{}_{}_title'.format(strategy, a)]
             i += 1
             paragraph = row_cells[i].paragraphs[0]
-            paragraph.add_run("{}".format(self.ps_data[strategy]['{}_{}_displayValue'.format(strategy, a)])).font.\
-                color.rgb = self.colorsPercent(self.ps_data[strategy]['{}_{}_score'.format(strategy, a)])
+            paragraph.add_run("{}".format(self.ps.ready_data['{}_{}_displayValue'.format(strategy, a)])).font.\
+                color.rgb = self.colorsPercent(self.ps.ready_data['{}_{}_score'.format(strategy, a)])
             i += 1
             if i == 4:
                 i = 0
@@ -280,7 +301,69 @@ class CreateWord:
                 tcW = c.tcPr.tcW
                 tcW.type = 'auto'
                 tcW.w = 0
-       
+
+        self.doc.add_paragraph()
+        icon = self.config['icons']['ballot']
+        self.doc.add_heading("{} Aanbevelingen".format(icon), level=2)
+        self.doc.add_paragraph()
+
+        i = 0
+        table = self.doc.add_table(rows=1, cols=2) # , style='Table Grid'
+        heading_cells = table.rows[0].cells
+        heading_cells[0].text = "Aanbeveling"
+        heading_cells[1].text = "Geschatte besparing"
+
+        self.shade_cells([table.cell(0, 0), table.cell(0, 1)], "#99badd")
+
+        for r in self.ps.ps_recommendations:
+            i += 2
+            cells = table.add_row().cells
+            cells[0].text = r['title']
+            cells[1].text = str(r['displayValue'])
+
+            cells = table.add_row().cells
+            cells[0].text = r['descr']
+            cells[1].text = ""
+            a = table.cell(i, 0)
+            b = table.cell(i, 1)
+            a.merge(b)
+
+        for r in table.rows:
+            for c in r._tr.tc_lst:
+                tcW = c.tcPr.tcW
+                tcW.type = 'auto'
+                tcW.w = 0
+
+        self.doc.add_paragraph()
+        icon = self.config['icons']['stethoscope']
+        self.doc.add_heading("{} Diagnostische gegevens".format(icon), level=2)
+        self.doc.add_paragraph()
+
+        table = self.doc.add_table(rows=1, cols=2)
+        print(self.ps.diagnostic_data)
+        i = 0
+        for d in self.ps.diagnostic_data:
+            i += 2
+            cells = table.add_row().cells
+            cells[0].text = d['title']
+            cells[1].text = "{}".format(d['displayValue'])
+
+            cells = table.add_row().cells
+            cells[0].text = d['descr']
+            cells[1].text = ""
+            a = table.cell(i, 0)
+            b = table.cell(i, 1)
+            a.merge(b)
+
+        self.auto_cell(table)
+
+    def auto_cell(self, table):
+        for r in table.rows:
+            for c in r._tr.tc_lst:
+                tcW = c.tcPr.tcW
+                tcW.type = 'auto'
+                tcW.w = 0
+
     def legenda(self):
         self.change_orientation()
         self.doc.add_heading("Legenda & Uitleg", level=2)
@@ -289,7 +372,7 @@ class CreateWord:
         for key, val in self.ps_all_data['lighthouseResult']['audits'].items():
             self.doc.add_heading(val['title'], level=3)
             self.doc.add_paragraph(val['description'])
-            self.doc.add_paragraph()       
+            self.doc.add_paragraph()
             
     def change_orientation(self):
         current_section = self.doc.sections[-1]
@@ -319,6 +402,13 @@ class CreateWord:
         trPr.append(tblHeader)
         return row
 
+    def shade_cells(self, cells, shade):
+        for cell in cells:
+            tcPr = cell._tc.get_or_add_tcPr()
+            tcVAlign = OxmlElement("w:shd")
+            tcVAlign.set(qn("w:fill"), shade)
+            tcPr.append(tcVAlign)
+
     def write_document(self):
         self.doc.save(self.word_output_file)
 
@@ -340,3 +430,4 @@ if __name__ == '__main__':
     config_file = os.path.join(profile, "config.yml")
     c = readConfig(config_file)
     m = CreateWord(c.config)
+    m.print_document_styles()

@@ -1,15 +1,22 @@
 # https://github.com/joshcarty/google-searchconsole
-import searchconsole
 import os
+import datetime
+import searchconsole
+import json
 
 
 class GoogleSearchConsole:
-    def __init__(self, url=None, start_day='today', days=-30):
-        if url is None:
+    def __init__(self, url=None, domain=None, start_date="today", days=-30, dimension="device"):
+        if url == domain is None:
             return
 
-        self.start_day = start_day
+        self.start_date = start_date
         self.days_back = days
+        self.domain = domain
+        self.dimensions = ['device', 'query', 'country', 'page']
+        self.dimension_data = {}
+
+        self.data_file = ""
 
         if os.path.exists('../config/credentials.json'):
             account = searchconsole.authenticate(client_config='../config/client_secrets.json',
@@ -22,32 +29,73 @@ class GoogleSearchConsole:
         if self.webproperty is None:
             return False
 
-    def devices(self):
-        dimension = 'device'
-        report = self.webproperty.query.range(self.start_day, days=self.days_back).dimension(dimension).get()
-        return report.rows
+        if isinstance(dimension, (list, tuple)):
+            for d in dimension:
+                self.get_dimension_data(d)
+        else:
+            self.get_dimension_data(dimension)
 
-    def queries(self):
-        dimension = 'query'
-        report = self.webproperty.query.range(self.start_day, days=self.days_back).dimension(dimension).get()
-        return report.rows
+    def get_dimension_data(self, dimension):
+        self.data_file = self.file_name(dimension)
 
-    def countries(self):
-        dimension = 'country'
-        report = self.webproperty.query.range(self.start_day, days=self.days_back).dimension(dimension).get()
-        return report.rows
+        if os.path.isfile(self.data_file):
+            print('Found google search console json file')
 
-    def pages(self):
-        dimension = 'page'
-        report = self.webproperty.query.range(self.start_day, days=self.days_back).dimension(dimension).get()
-        return report.rows
+            file = os.path.basename(self.data_file)
+            file_date = file.split("_")
 
+            if file_date[0] == str(self.start_date):
+                print('Using data from google search console json file')
+                self.dimension_data[dimension] = self.open_file_with_contents(self.data_file)
+                return
+        print('No google search console file found')
+
+        if dimension in self.dimensions:
+            self.dimension_data[dimension] = self.get_data(dimension)
+
+            if self.dimension_data[dimension] is not None:
+                print('Create file with google search console json file')
+                self.save_file_with_contents(self.data_file, self.dimension_data[dimension])
+
+    def get_data(self, dimension):
+        report = self.webproperty.query.range(self.start_date, days=self.days_back).dimension(dimension).get()
+        return report.raw
+
+    def file_name(self, dimension=None):
+        if dimension is None:
+            return False
+
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        data_folder = os.path.join(dir_path, "../data", self.domain, 'google_search_console')
+        data_file_name = "{}_{}.json".format(self.start_date, dimension)
+        return os.path.join(data_folder, data_file_name)
+
+    def open_file_with_contents(self, file=None):
+        if file is not None:
+            self.data_file = file
+
+        with open(self.data_file, 'r') as json_file:
+            return json.load(json_file)
+
+    def save_file_with_contents(self, file=None, content=None):
+        if file == content is not None:
+            self.data_file = file
+
+        with open(self.data_file, 'w+') as output:
+            json.dump(content, output)
 
 if __name__ == '__main__':
-    g = GoogleSearchConsole('https://oesterbaron.nl/')
-    report = g.countries()
+    now = datetime.datetime.now()
+    today = datetime.date.today()
+    first = today.replace(day=1)
+    lastMonth = first - datetime.timedelta(days=1)
+    today_lastMonth = lastMonth.strftime("%Y-%m-%d")
 
-    print(report)
+    dimensions = ['device', 'query', 'country', 'page']
+    domain = 'oesterbaron.nl'
+    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today, -30, dimensions)
+    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today_lastMonth, -30, dimensions)
+    print(g.dimension_data)
 
 # https://www.purepython.org/
 # https://zldsteigerbouw.nl/

@@ -1,6 +1,7 @@
 import requests
 import os
 import json
+import re
 
 from datetime import date
 
@@ -26,12 +27,13 @@ class PageSpeed:
         self.category = ['performance', 'accessibility', 'seo', 'best-practices'] #pwa
         self.locale = locale
         self.ps_data = ""
+        self.ps_recommendations = []
+        self.diagnostic_data = []
         
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        folder = os.path.join(dir_path, "../data")
-        domain_folder = os.path.join(folder, "{}".format(domain))
+        domain_folder = os.path.join(dir_path, "../data", "{}".format(domain), 'page_speed')
         data_file_name = "{}_{}_{}.json".format(self.datum, self.strategy, domain)
-        self.data_file =  os.path.join(domain_folder, data_file_name)
+        self.data_file = os.path.join(domain_folder, data_file_name)
         
         self.google_url = ""
 
@@ -85,9 +87,8 @@ class PageSpeed:
     def get_data(self, file=None):
         if file is not None:
             self.data_file = file
-        
-        exists = os.path.isfile(self.data_file)
-        if exists:
+
+        if os.path.isfile(self.data_file):
             print('Found pagespeed json file')
             
             file = os.path.basename(self.data_file)
@@ -110,6 +111,41 @@ class PageSpeed:
             print('Create file with pagespeed json file')
             self.save_file_with_contents(self.data_file)
 
+    def get_audits(self):
+        keys_dont = ['first-contentful-paint', 'interactive', 'max-potential-fid', 'first-cpu-idle', 'speed-index',
+                     'first-contentful-paint-3g']
+
+        regex = r"[0-9]*,[0-9]*\ss"
+
+        for key, val in self.ps_data['lighthouseResult']['audits'].items():
+            if key in keys_dont:
+                continue
+
+            if val['score'] is not None  and val['score'] != 1.0: #  and 0 < val['score'] < 1
+                descr = self.remove_Meer_Informatie(val['description'])
+                data = {"key": key, "title": val['title'], "score": val['score'], "descr": descr}
+
+                try:
+                    data["displayValue"] = val['displayValue']
+                    # detail_items = val['details']['items']
+                    # for d in detail_items:
+                    #     try:
+                    #         print(d)
+                    #         print(d['url'])
+                    #     except KeyError:
+                    #         continue
+                except KeyError:
+                    data["displayValue"] = ""
+
+                try:
+                    if re.match(regex, val['displayValue']) is None:
+                        self.ps_recommendations.append(data)
+                    else:
+                        self.diagnostic_data.append(data)
+                except KeyError:
+                    self.diagnostic_data.append(data)
+                    continue
+
     def open_file_with_contents(self, file=None):
         if file is not None:
             self.data_file = file
@@ -124,6 +160,9 @@ class PageSpeed:
         with open(self.data_file, 'w+') as output:
             json.dump(self.ps_data, output)
 
+    def remove_Meer_Informatie(self, myString=""):
+        regex = r"(\[.*\).)"
+        return re.sub(regex, '', myString)
 
 if __name__ == '__main__':
     #https://jsoneditoronline.org/?id=241176c2533b4dfa8804972405f91059 mobile seo
@@ -132,11 +171,11 @@ if __name__ == '__main__':
     category = "accessibility"
     category = "seo"
 
-    strategy = "mobile"
     strategy = "desktop"
+    strategy = "mobile"
 
-    url = "https://www.vandersluijs.nl"
-    domain = "www.vandersluijs.nl"
+    url = "https://oesterbaron.nl"
+    domain = "oesterbaron.nl"
     ps_api = ""
 
     p = PageSpeed(ps_api, url, domain, strategy)
@@ -145,7 +184,10 @@ if __name__ == '__main__':
     else:
         lighthouseResult = p.ps_data['lighthouseResult']
     
-        print(p.ready_data)
+        # print(p.ready_data)
+        print(p.google_url)
+
+
 
 # render-blocking-resources -> css enz wat te lang duurt -> details -> items[0] enz (url, totalBytes, wastedMs)
 # uses-optimized-images details -> items[0] enz (url, totalBytes, wastedBytes, overallSavingsBytes)

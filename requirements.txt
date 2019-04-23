@@ -20,8 +20,8 @@ ipython==7.3.0
 ipython-genutils==0.2.0
 ipywidgets==7.4.2
 jedi==0.13.3
-Jinja2==2.10
-jsonschema==3.0.1
+Jinja2
+jsonschema
 jupyter
 jupyter-client
 jupyter-console
@@ -33,7 +33,7 @@ matplotlib==3.0.3
 mistune==0.8.4
 nbconvert==5.4.1
 nbformat==4.4.0
-notebook==5.7.6
+notebook
 numpy==1.16.2
 pandas==0.24.2
 pandocfilters==1.4.2
@@ -61,7 +61,7 @@ testpath==0.4.2
 tornado==6.0.1
 tqdm==4.31.1
 traitlets==4.3.2
-urllib3==1.24.1
+urllib3
 w3lib==1.20.0
 wcwidth==0.1.7
 webencodings==0.5.1
