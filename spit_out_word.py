@@ -2,6 +2,7 @@
 
 import os
 from datetime import date
+from time import time
 
 from docx import Document
 from docx.shared import RGBColor, Inches, Cm, Pt
@@ -16,11 +17,13 @@ from docx.oxml.ns import qn
 
 from functions.readConfig import readConfig
 from functions.crawl_overview import CrawlOverview
-from functions.csv_files import ParceCSV
-from functions.page_speed import PageSpeed
-from functions.inleiding import inleiding
-from functions.eerste_pagina import EerstePagina
-from functions.algemeen_overzicht import AlgemeenOverzicht
+from functions.docx_inleiding import inleiding
+from functions.docx_eerste_pagina import EerstePagina
+from functions.docx_algemeen_overzicht import AlgemeenOverzicht
+from functions.docx_toc import toc
+from functions.docx_pagespeed import DocxPageSpeed
+from functions.docx_csv_files import CSV2Docx
+from functions.screaming import Screaming
 
 # import locale
 # locale.setlocale(locale.LC_TIME, "nl_NL.utf8")
@@ -28,6 +31,7 @@ from functions.algemeen_overzicht import AlgemeenOverzicht
 class CreateWord:
     def __init__(self, config=None):
         self.datum = '{:%d-%b-%Y}'.format(date.today())
+        self.start_path = os.path.dirname(os.path.realpath(__file__))
 
         try:
             self.url = config['url']
@@ -39,7 +43,6 @@ class CreateWord:
 
         self.ps = None
         self.frog_files = {}
-        self.frog_data_folder = None
         self.document_fields = None
         self.doc = None
         self.data = {}
@@ -48,20 +51,18 @@ class CreateWord:
         self.template = None
 
         cf = readConfig()
-        config = cf.config
-        self.crawl_files = [i for i in config['crawl_files'] if not (i['active'] == 0)]
-        # self.crawl_files = crawl_files = [i for i in config['crawl_files'] if not (i['active'] == 0)]
-        self.config = config
-        self.ps_api = config['google_page_speed_api']
+        self.config = cf.config
+        self.ps_api = self.config['google_page_speed_api']
 
         self.word_output_file = self.set_doc_params()
         self.frog_data_folder = self.get_frog_folder()
+        self.domain_folder = self.set_data_domain_path()
         self.get_frog_files()
 
+        self.create_crawl_data()
         self.get_crawl_overview_data()
 
         self.ps_all_data = {}
-
 
         # self.crawl_data = self.get_crawl_data()
         
@@ -71,13 +72,14 @@ class CreateWord:
         self.write_document()
     
     def set_doc_params(self):
-        start_path = os.path.dirname(os.path.realpath(__file__))
-
         if self.tempate_file is not None:
-            self.template = os.path.join(start_path, "word_templates", self.tempate_file)
+            self.template = os.path.join(self.start_path, "word_templates", self.tempate_file)
         
-        return os.path.join(start_path, "word_output", "{}-{}.docx".format(self.datum, self.domain))
-    
+        return os.path.join(self.start_path, "word_output", "{}-{}.docx".format(self.datum, self.domain))
+
+    def set_data_domain_path(self):
+        return os.path.join(self.start_path, "../data", self.domain)
+
     def get_frog_folder(self):
         start_path = os.path.dirname(os.path.realpath(__file__))
         return os.path.join(start_path, "data", self.domain, 'crawl')
@@ -88,6 +90,19 @@ class CreateWord:
                 if '.csv' in file:
                     self.frog_files[file] = os.path.join(r, file)
 
+    def create_crawl_data(self):
+        try:
+            t = os.path.getmtime(self.frog_files['crawl_overview.csv'])
+            if int(t) + 86400 <= int(time()):
+                print('Creating Screaming Frog crawl data')
+                s = Screaming(self.domain_folder, self.url, self.search_console_url)
+                s.run_screamer()
+            else:
+                print('Using current Screaming Frog crawl data')
+        except KeyError as e:
+            print('error {}'.format(e))
+            return {}
+
     def get_crawl_overview_data(self):
         try:
             co = CrawlOverview(self.frog_files['crawl_overview.csv'])
@@ -96,10 +111,6 @@ class CreateWord:
         except KeyError:
             print('error')
             return {}
-
-    def get_page_speed_data(self, strategy='mobile'):
-        self.ps = PageSpeed(self.ps_api, self.url, self.domain, strategy)
-        self.ps.get_audits()
 
     def open_document(self):
         self.doc = Document(self.template)
@@ -147,215 +158,38 @@ class CreateWord:
         obj_font.size = Pt(13)
         obj_font.name = 'Font Awesome 5 Pro Solid'
 
-    def print_document_styles(self):
+    def print_paragraph_styles(self):
         styles = self.doc.styles
         paragraph_styles = [s for s in styles if s.type == WD_STYLE_TYPE.PARAGRAPH]
         for style in paragraph_styles:
             print(style.name)    
 
+    def print_table_styles(self):
+        styles = self.doc.styles
+        paragraph_styles = [s for s in styles if s.type == WD_STYLE_TYPE.TABLE]
+        for style in paragraph_styles:
+            print(style.name)
+
+    def print_list_styles(self):
+        styles = self.doc.styles
+        paragraph_styles = [s for s in styles if s.type == WD_STYLE_TYPE.LIST]
+        for style in paragraph_styles:
+            print(style.name)
+
     def merge_document(self):
         sc = 0
         EerstePagina(self.doc, sc, self.domain)
         inleiding(self.doc, self.domain)
+        toc(self.doc)
         AlgemeenOverzicht(self.doc, self.config, self.co_readydata, self.co_table_headers)
 
-        self.page_speed('mobile')
-        self.page_speed('desktop')
-        
+        DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'mobile')
+        DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'desktop')
+
         self.change_orientation()
+        CSV2Docx(self.config, self.doc, self.frog_data_folder)
 
-        self.doc.add_heading('Crawl overzichten', 0)
-        self.doc.add_paragraph("Hier vind u alle informatie behorende bij het algemene overzicht. "
-                                "Deze informatie geeft u meer inzicht in wat u inhoudelijk aan uw "
-                                "pagina's dient te wijzigen om betere SEO resultaten te krijgen")
-                                
-        for cf in self.crawl_files:
-            
-            self.doc.add_paragraph()
-            
-            file = os.path.join(self.frog_data_folder, cf['file'])
-            c = ParceCSV(file)
-        
-            for key, val in c.ready_data.items():
-                if len(val['data']) == 0:
-                    continue
-                
-                if cf['name'] == "":
-                    self.doc.add_heading(key, 1)
-                else:
-                    self.doc.add_heading(cf['name'], 1)
-                    
-                self.doc.add_paragraph(cf['description'])
-                                
-                kolommen = len(cf['columns'])
-                table = self.doc.add_table(rows=1, cols=kolommen)
-                hdr_cells = table.rows[0].cells
-                self.set_repeat_table_header(table.rows[0])
-                i = 0
-                for h in cf['columns']:
-                    cell = hdr_cells[i]
-                    paragraph = cell.paragraphs[0]
-                    runner = paragraph.add_run(h)
-                    runner.font.size = Pt(9)
-                    i += 1
-                
-                for d in val['data']:
-                    row_cells = table.add_row().cells
-                    i = 0
-                    for h in cf['columns']:
-                        cell = row_cells[i]
-                        paragraph = cell.paragraphs[0]
-                        runner = paragraph.add_run(str(d[h]))
-                        runner.font.size = Pt(9)
-                        i += 1
-            
-                for r in table.rows:
-                    for c in r._tr.tc_lst:
-                        tcW = c.tcPr.tcW
-                        tcW.type = 'auto'
-                        tcW.w = 0
         # self.legenda()
-
-    def page_speed(self, strategy='mobile'):
-        # self.ps_data = {'mobile': self.get_page_speed_data('mobile'), 'desktop': self.get_page_speed_data('desktop')}
-        self.get_page_speed_data(strategy)
-
-        # print(self.ps.ready_data)
-
-        self.doc.add_page_break()
-        if strategy == 'mobile':
-            icon = self.config['icons']['mobile']
-        else:
-            icon = self.config['icons']['desktop']
-
-        self.doc.add_heading("{} {} Test".format(icon, strategy.capitalize()), level=1)
-
-        self.doc.add_paragraph('Onderstaande tests zijn gedaan op basis van de homepage.')
-
-        table = self.doc.add_table(rows=1, cols=2)
-        for v in self.ps.category:
-            row_cells = table.add_row().cells
-            row_cells[0].text = self.ps.categorien[v]
-            paragraph = row_cells[1].paragraphs[0]
-            paragraph.add_run("{}".format(self.ps.ready_data['{}_{}_score'.format(strategy, v)])).font.color.rgb = \
-                self.colorsPercent(self.ps.ready_data['{}_{}_score'.format(strategy, v)])
-
-        self.doc.add_paragraph()
-
-        table = self.doc.add_table(rows=1, cols=4)
-        table.allow_autofit = True
-        row_cells = table.add_row().cells
-        row_cells[0].text = "Schaal"
-
-        paragraph = row_cells[1].paragraphs[0]
-        runner = paragraph.add_run("●")
-        runner.font.color.rgb = RGBColor(0, 131, 48)
-        runner.font.size = Pt(16)
-        paragraph.add_run(" 90-100")
-
-        paragraph = row_cells[2].paragraphs[0]
-        runner = paragraph.add_run("●")
-        runner.font.color.rgb = RGBColor(255, 162, 0)
-        runner.font.size = Pt(16)
-        paragraph.add_run(" 50-89")
-
-        paragraph = row_cells[3].paragraphs[0]
-        runner = paragraph.add_run("●")
-        runner.font.color.rgb = RGBColor(161, 33, 1)
-        runner.font.size = Pt(16)
-        paragraph.add_run(" 0-49")
-
-        row_cells = table.add_row().cells
-        row_cells[0].text = ""
-        row_cells[1].text = "(snel)"
-        row_cells[2].text = "(gemiddeld)"
-        row_cells[3].text = "(langzaam)"
-
-        self.doc.add_paragraph()
-
-        self.doc.add_paragraph("Analyse van de pagina via een geëmuleerd netwerk. Waarden worden geschat en "
-                               "kunnen variëren.").italic = True
-
-        self.doc.add_paragraph()
-        icon = self.config['icons']['stopwatch']
-        self.doc.add_heading("{} Metrieken".format(icon), level=2)
-
-        table = self.doc.add_table(rows=1, cols=4)
-
-        i = 0
-        for a in self.ps.audit_list_performance:
-            if i == 0:
-                row_cells = table.add_row().cells
-
-            row_cells[i].text = self.ps.ready_data['{}_{}_title'.format(strategy, a)]
-            i += 1
-            paragraph = row_cells[i].paragraphs[0]
-            paragraph.add_run("{}".format(self.ps.ready_data['{}_{}_displayValue'.format(strategy, a)])).font.\
-                color.rgb = self.colorsPercent(self.ps.ready_data['{}_{}_score'.format(strategy, a)])
-            i += 1
-            if i == 4:
-                i = 0
-
-        for r in table.rows:
-            for c in r._tr.tc_lst:
-                tcW = c.tcPr.tcW
-                tcW.type = 'auto'
-                tcW.w = 0
-
-        self.doc.add_paragraph()
-        icon = self.config['icons']['ballot']
-        self.doc.add_heading("{} Aanbevelingen".format(icon), level=2)
-        self.doc.add_paragraph()
-
-        i = 0
-        table = self.doc.add_table(rows=1, cols=2) # , style='Table Grid'
-        heading_cells = table.rows[0].cells
-        heading_cells[0].text = "Aanbeveling"
-        heading_cells[1].text = "Geschatte besparing"
-
-        self.shade_cells([table.cell(0, 0), table.cell(0, 1)], "#99badd")
-
-        for r in self.ps.ps_recommendations:
-            i += 2
-            cells = table.add_row().cells
-            cells[0].text = r['title']
-            cells[1].text = str(r['displayValue'])
-
-            cells = table.add_row().cells
-            cells[0].text = r['descr']
-            cells[1].text = ""
-            a = table.cell(i, 0)
-            b = table.cell(i, 1)
-            a.merge(b)
-
-        for r in table.rows:
-            for c in r._tr.tc_lst:
-                tcW = c.tcPr.tcW
-                tcW.type = 'auto'
-                tcW.w = 0
-
-        self.doc.add_paragraph()
-        icon = self.config['icons']['stethoscope']
-        self.doc.add_heading("{} Diagnostische gegevens".format(icon), level=2)
-        self.doc.add_paragraph()
-
-        table = self.doc.add_table(rows=1, cols=2)
-        print(self.ps.diagnostic_data)
-        i = 0
-        for d in self.ps.diagnostic_data:
-            i += 2
-            cells = table.add_row().cells
-            cells[0].text = d['title']
-            cells[1].text = "{}".format(d['displayValue'])
-
-            cells = table.add_row().cells
-            cells[0].text = d['descr']
-            cells[1].text = ""
-            a = table.cell(i, 0)
-            b = table.cell(i, 1)
-            a.merge(b)
-
-        self.auto_cell(table)
 
     def auto_cell(self, table):
         for r in table.rows:
@@ -382,15 +216,6 @@ class CreateWord:
         new_section.page_width = new_width
         new_section.page_height = new_height
         return new_section            
-            
-    def colorsPercent(self, number=0):
-        #https://www.colorspire.com/rgb-color-wheel/
-        if number < 50:
-            return RGBColor(161, 33, 1)
-        elif number >= 50 and number < 89:
-            return RGBColor(255, 162, 0)
-        elif number >= 89:  
-            return RGBColor(0, 131, 48)
 
     def set_repeat_table_header(self, row):
         """ set repeat table row on every new page
@@ -430,4 +255,6 @@ if __name__ == '__main__':
     config_file = os.path.join(profile, "config.yml")
     c = readConfig(config_file)
     m = CreateWord(c.config)
-    m.print_document_styles()
+    m.print_table_styles()
+    # m.print_paragraph_styles()
+    # m.print_list_styles()

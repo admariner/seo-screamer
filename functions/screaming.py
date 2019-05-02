@@ -1,5 +1,5 @@
 import os
-from readConfig import readConfig
+from functions.readConfig import readConfig
 
 class Screaming:
     def __init__(self, folder=None, url=None, search_console_url=None):

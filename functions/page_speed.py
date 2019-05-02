@@ -23,16 +23,16 @@ class PageSpeed:
         self.ready_data = {}
         self.google_api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
         self.url = url
-        self.strategy = strategy
+        self.ps_strategy = strategy
         self.category = ['performance', 'accessibility', 'seo', 'best-practices'] #pwa
         self.locale = locale
         self.ps_data = ""
-        self.ps_recommendations = []
+        self.recommendations = []
         self.diagnostic_data = []
         
         dir_path = os.path.dirname(os.path.realpath(__file__))
         domain_folder = os.path.join(dir_path, "../data", "{}".format(domain), 'page_speed')
-        data_file_name = "{}_{}_{}.json".format(self.datum, self.strategy, domain)
+        data_file_name = "{}_{}_{}.json".format(self.datum, self.ps_strategy, domain)
         self.data_file = os.path.join(domain_folder, data_file_name)
         
         self.google_url = ""
@@ -63,7 +63,7 @@ class PageSpeed:
                      "{}" \
                      "&strategy={}" \
                      "&locale={}" \
-                     "{}".format(self.google_api, self.url, new_category, self.strategy, self.locale, key)
+                     "{}".format(self.google_api, self.url, new_category, self.ps_strategy, self.locale, key)
 
         r = requests.get(url=self.google_url)
         return r.json()
@@ -77,28 +77,28 @@ class PageSpeed:
             return False
 
         for c in self.category:
-            self.ready_data['{}_{}_score'.format(self.strategy, c)] = round(ps_data['categories'][c]['score']*100)
+            self.ready_data['{}_{}_score'.format(self.ps_strategy, c)] = round(ps_data['categories'][c]['score']*100)
 
         for a in self.audit_list_performance:
-            self.ready_data['{}_{}_title'.format(self.strategy, a)] = ps_data['audits'][a]['title']
-            self.ready_data['{}_{}_score'.format(self.strategy, a)] = round(ps_data['audits'][a]['score']*100)
-            self.ready_data['{}_{}_displayValue'.format(self.strategy, a)] = ps_data['audits'][a]['displayValue']
+            self.ready_data['{}_{}_title'.format(self.ps_strategy, a)] = ps_data['audits'][a]['title']
+            self.ready_data['{}_{}_score'.format(self.ps_strategy, a)] = round(ps_data['audits'][a]['score']*100)
+            self.ready_data['{}_{}_displayValue'.format(self.ps_strategy, a)] = ps_data['audits'][a]['displayValue']
         
     def get_data(self, file=None):
         if file is not None:
             self.data_file = file
 
         if os.path.isfile(self.data_file):
-            print('Found pagespeed json file')
+            print('Found {} pagespeed json file'.format(self.ps_strategy))
             
             file = os.path.basename(self.data_file)
             file_date = file.split("_")
             
             if file_date[0] == self.datum:
-                print('Using data from pagespeed json file')
+                print('Using data from {} pagespeed json file'.format(self.ps_strategy))
                 self.ps_data = self.open_file_with_contents(self.data_file)
                 return
-        print('No pagespeed file found')
+        print('No {} pagespeed file found'.format(self.ps_strategy))
 
 
         self.ps_data = self.get_pagespeed_data()
@@ -108,14 +108,13 @@ class PageSpeed:
             return False
 
         if self.ps_data is not None:
-            print('Create file with pagespeed json file')
+            print('Create {} file with pagespeed json file'.format(self.ps_strategy))
             self.save_file_with_contents(self.data_file)
 
     def get_audits(self):
         keys_dont = ['first-contentful-paint', 'interactive', 'max-potential-fid', 'first-cpu-idle', 'speed-index',
-                     'first-contentful-paint-3g']
-
-        regex = r"[0-9]*,[0-9]*\ss"
+                     'first-contentful-paint-3g', 'first-meaningful-paint', 'meta-viewport' , 'no-vulnerable-libraries',
+                     'color-contrast', 'errors-in-console', 'external-anchors-use-rel-noopener']
 
         for key, val in self.ps_data['lighthouseResult']['audits'].items():
             if key in keys_dont:
@@ -127,23 +126,16 @@ class PageSpeed:
 
                 try:
                     data["displayValue"] = val['displayValue']
-                    # detail_items = val['details']['items']
-                    # for d in detail_items:
-                    #     try:
-                    #         print(d)
-                    #         print(d['url'])
-                    #     except KeyError:
-                    #         continue
                 except KeyError:
                     data["displayValue"] = ""
 
                 try:
-                    if re.match(regex, val['displayValue']) is None:
-                        self.ps_recommendations.append(data)
-                    else:
+                    if val['details']['type'] == 'opportunity':
                         self.diagnostic_data.append(data)
+                    else:
+                        self.recommendations.append(data)
                 except KeyError:
-                    self.diagnostic_data.append(data)
+                    self.recommendations.append(data)
                     continue
 
     def open_file_with_contents(self, file=None):

@@ -1,62 +1,20 @@
-from docx import Document
-from docx.shared import RGBColor, Inches, Cm, Pt
+import os
+from datetime import datetime
+from time import time
+from functions.docx2pdf import docx2pdf
+#
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# word_doc = os.path.join(dir_path, "word_output", "29-Apr-2019-oesterbaron.nl.docx")
+# pdf_files = os.path.join(dir_path, "pdf_files")
+# d = docx2pdf(pdf_files, word_doc)
+# print('Converted to ' + d.convert_to())
 
-from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.text import WD_COLOR_INDEX
-from docx.enum.section import WD_SECTION, WD_ORIENT
-from docx.enum.table import WD_ALIGN_VERTICAL
+dir_path = os.path.dirname(os.path.realpath(__file__))
+path = "data/www.bouwbedrijfjari.nl/crawl/crawl_overview.csv"
+t = os.path.getmtime(path)
 
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
-from docx.shared import Pt
+if int(t)+86400 <= int(time()):
+    print("ouder dan 24 uur")
+else:
+    print("nog jong genoeg")
 
-# doc = Document('word_templates/font_awesome.docx')
-doc = Document()
-
-obj_styles = doc.styles
-
-obj_charstyle = obj_styles.add_style('FontAwesomeBrands', WD_STYLE_TYPE.CHARACTER)
-obj_font = obj_charstyle.font
-obj_font.size = Pt(10)
-obj_font.name = 'Font Awesome 5 Brands'
-
-obj_charstyle = obj_styles.add_style('FontAwesomeLight', WD_STYLE_TYPE.CHARACTER)
-obj_font = obj_charstyle.font
-obj_font.size = Pt(10)
-obj_font.name = 'Font Awesome 5 Pro Light'
-
-obj_charstyle = obj_styles.add_style('FontAwesomeRegular', WD_STYLE_TYPE.CHARACTER)
-obj_font = obj_charstyle.font
-obj_font.size = Pt(10)
-obj_font.name = 'Font Awesome 5 Pro Regular'
-
-obj_charstyle = obj_styles.add_style('FontAwesomeSolid', WD_STYLE_TYPE.CHARACTER)
-obj_font = obj_charstyle.font
-obj_font.size = Pt(10)
-obj_font.name = 'Font Awesome 5 Pro Solid'
-
-
-story = "Wordpress "
-paragraph = doc.add_paragraph()
-paragraph.add_run(story, style='FontAwesomeBrands')
-
-story = "	alicorn f6b0 Light"
-paragraph = doc.add_paragraph()
-paragraph.add_run(story, style='FontAwesomeLight')
-
-story = "	alicorn	f6b0 Regular"
-paragraph = doc.add_paragraph()
-paragraph.add_run(story, style='FontAwesomeRegular')
-
-
-story = "	alicorn	f6b0 Solid"
-paragraph = doc.add_paragraph()
-paragraph.add_run(story, style='FontAwesomeSolid')
-
-
-story = " desktop  wrench 	medal"
-paragraph = doc.add_paragraph()
-paragraph.add_run(story, style='FontAwesomeLight')
-
-
-doc.save('test.docx')

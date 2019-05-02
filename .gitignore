@@ -9,6 +9,7 @@ images/*s
 data/*
 mail-attachments/
 mail-attachments/*
+pdf_files/*
 functions/__pycache__/
 functions/__pycache__/*
 .c9/
