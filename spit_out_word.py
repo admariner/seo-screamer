@@ -17,6 +17,7 @@ from docx.oxml.ns import qn
 
 from functions.readConfig import readConfig
 from functions.crawl_overview import CrawlOverview
+from functions.google_search_console import GoogleSearchConsole
 from functions.docx_inleiding import inleiding
 from functions.docx_eerste_pagina import EerstePagina
 from functions.docx_algemeen_overzicht import AlgemeenOverzicht
@@ -24,6 +25,7 @@ from functions.docx_toc import toc
 from functions.docx_pagespeed import DocxPageSpeed
 from functions.docx_csv_files import CSV2Docx
 from functions.screaming import Screaming
+from functions.docx_google_search_console import DocxGoogleSearch
 
 # import locale
 # locale.setlocale(locale.LC_TIME, "nl_NL.utf8")
@@ -49,18 +51,21 @@ class CreateWord:
         self.co_table_headers = None
         self.co_readydata = None
         self.template = None
+        self.dimensions_data = None
 
         cf = readConfig()
         self.config = cf.config
         self.ps_api = self.config['google_page_speed_api']
 
         self.word_output_file = self.set_doc_params()
-        self.frog_data_folder = self.get_frog_folder()
         self.domain_folder = self.set_data_domain_path()
+        self.frog_data_folder = self.get_frog_folder()
+        self.graph_data_folder = self.get_graph_folder()
         self.get_frog_files()
 
         self.create_crawl_data()
         self.get_crawl_overview_data()
+        self.get_google_search_console_data()
 
         self.ps_all_data = {}
 
@@ -78,11 +83,13 @@ class CreateWord:
         return os.path.join(self.start_path, "word_output", "{}-{}.docx".format(self.datum, self.domain))
 
     def set_data_domain_path(self):
-        return os.path.join(self.start_path, "../data", self.domain)
+        return os.path.join(self.start_path, "data", self.domain)
+
+    def get_graph_folder(self):
+        return os.path.join(self.domain_folder, 'graph')
 
     def get_frog_folder(self):
-        start_path = os.path.dirname(os.path.realpath(__file__))
-        return os.path.join(start_path, "data", self.domain, 'crawl')
+        return os.path.join(self.domain_folder, 'crawl')
 
     def get_frog_files(self):
         for r, d, f in os.walk(self.frog_data_folder):
@@ -111,6 +118,11 @@ class CreateWord:
         except KeyError:
             print('error')
             return {}
+
+    def get_google_search_console_data(self):
+        dimension = ['device', 'query', 'country', 'page']
+        g = GoogleSearchConsole(self.url, self.domain, "today", -30, dimension)
+        self.dimensions_data = g.dimension_data
 
     def open_document(self):
         self.doc = Document(self.template)
@@ -185,6 +197,8 @@ class CreateWord:
 
         DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'mobile')
         DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'desktop')
+
+        DocxGoogleSearch(self.doc, self.dimension_data)
 
         self.change_orientation()
         CSV2Docx(self.config, self.doc, self.frog_data_folder)

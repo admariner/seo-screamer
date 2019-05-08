@@ -38,7 +38,9 @@ These are referred to as ‘WordML’, ‘Office Open XML’ and ‘Open XML’ 
 
 These documents can be opened in Microsoft Office 2007 / 2010, Microsoft Mac Office 2008, Google Docs, OpenOffice.org 3, and Apple iWork 08.
 
-`pip install docx`
+`pip install docx` (py2)
+
+`pip install python-docx` (py3x)
 
 https://pypi.org/project/docx/
 
@@ -48,6 +50,10 @@ PyYAML is a YAML parser and emitter for Python.
 `pip install pyyaml`
 
 https://pyyaml.org/
+
+### Pandas
+
+`pip install pandas`
 
 ### Beautifulsoup4
 

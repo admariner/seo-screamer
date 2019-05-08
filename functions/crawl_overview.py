@@ -86,8 +86,8 @@ class CrawlOverview:
 
         self.readydata['Afbeeldingen'] = []
         try:
-            self.readydata['Afbeeldingen'].append(self.happy_data('Alt-tekst Meer dan 100 tekens:', self.crawl_data['Images']['Alt Text Over 100 Characters'][0], [0, 1], 1))
             self.readydata['Afbeeldingen'].append(self.happy_data('Ontbrekende Alt-tekst:', self.crawl_data['Images']['Missing Alt Text'][0], [0, 1], 1))
+            self.readydata['Afbeeldingen'].append(self.happy_data('Alt-tekst Meer dan 100 tekens:', self.crawl_data['Images']['Alt Text Over 100 Characters'][0], [0, 1], 1))
             self.readydata['Afbeeldingen'].append(self.happy_data('Meer dan 100 KB:', self.crawl_data['Images']['Over 100 KB'][0], [0, 1], 1))
         except KeyError as e:
             print('Afbeeldingen error : {}'.format(e))
@@ -198,9 +198,10 @@ class CrawlOverview:
 
         self.readydata['Meta-trefwoorden'] = []
         try:
-            self.readydata['Meta-trefwoorden'].append(self.happy_data('Afwezig:', self.crawl_data['Meta Keywords']['Missing'][0], [0, 1], 1))
-            self.readydata['Meta-trefwoorden'].append(self.happy_data('Duplicaat:', self.crawl_data['Meta Keywords']['Duplicate'][0], [0, 1], 1))
-            self.readydata['Meta-trefwoorden'].append(self.happy_data('Meerdere:', self.crawl_data['Meta Keywords']['Multiple'][0], [0, 1], 5))
+            meta_aanwezig = (int(self.crawl_data['Internal']['HTML'][0])-int(self.crawl_data['Meta Keywords']['Missing'][0]))
+            self.readydata['Meta-trefwoorden'].append(self.happy_data('Aanwezig:', meta_aanwezig, [0, 1], 1))
+            # self.readydata['Meta-trefwoorden'].append(self.happy_data('Duplicaat:', self.crawl_data['Meta Keywords']['Duplicate'][0], [0, 1], 1))
+            # self.readydata['Meta-trefwoorden'].append(self.happy_data('Meerdere:', self.crawl_data['Meta Keywords']['Multiple'][0], [0, 1], 5))
         except KeyError as e:
             print('Meta-trefwoorden error : {}'.format(e))
     

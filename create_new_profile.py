@@ -30,26 +30,8 @@ class CreateProfile:
                     print('Sorry, this domain already exists!')
                     return False
                 # create crawl folder
-                crawl_folder = os.path.join(self.profile_folder, 'crawl')
-                try:
-                    os.makedirs(crawl_folder, exist_ok=False)
-                except OSError as e:
-                    print('Sorry, {}'.format(e))
-                    return False
-                # create pagespeed folder
-                pagespeed_folder = os.path.join(self.profile_folder, 'page_speed')
-                try:
-                    os.makedirs(pagespeed_folder, exist_ok=False)
-                except OSError as e:
-                    print('Sorry, {}'.format(e))
-                    return False
-                #create google_search_console folder
-                    google_search_console = os.path.join(self.profile_folder, 'google_search_console')
-                try:
-                    os.makedirs(google_search_console, exist_ok=False)
-                except OSError as e:
-                    print('Sorry, {}'.format(e))
-                    return False
+                folders = ['crawl', 'page_speed', 'graphs', 'google_search_console']
+                self.create_folders(folders)
 
         print('Folder {} is created'.format(self.profile_folder))
 
@@ -89,6 +71,17 @@ class CreateProfile:
                         elif empty == 'n':
                             self.word_template = input('Other Word template')
 
+    def create_folders(self, folders=None):
+        if folders is None:
+            return False
+
+        for f in folders:
+            folder = os.path.join(self.profile_folder, f)
+            try:
+                os.makedirs(folder, exist_ok=False)
+            except OSError as e:
+                print('Sorry, {}'.format(e))
+                return False
 
     def create_config_data(self):
         self.conf_data += "domain: {}\n".format(self.domain)

@@ -6,24 +6,29 @@ import json
 
 
 class GoogleSearchConsole:
-    def __init__(self, url=None, domain=None, start_date="today", days=-30, dimension="device"):
-        if url == domain is None:
+    def __init__(self, url=None, domain=None, start_date="today", days=-30, dimension=['device', 'query', 'country',
+                                                                                       'page'], config_path=None):
+        if url == domain == config_path is None:
             return
 
         self.start_date = start_date
         self.days_back = days
         self.domain = domain
-        self.dimensions = ['device', 'query', 'country', 'page']
+        self.dimensions = dimension
         self.dimension_data = {}
 
         self.data_file = ""
 
-        if os.path.exists('../config/credentials.json'):
-            account = searchconsole.authenticate(client_config='../config/client_secrets.json',
-                                                 credentials='../config/credentials.json')
+        credentials = os.path.join(config_path, 'credentials.json')
+        client_secrets = os.path.join(config_path, 'client_secrets.json')
+        client_service_secret = os.path.join(config_path, 'client_service_secret.json')
+
+        if os.path.exists(credentials):
+            account = searchconsole.authenticate(client_config=client_secrets,
+                                                 credentials=credentials)
         else:
-            account = searchconsole.authenticate(client_config='../config/client_service_secret.json',
-                                                 serialize='../config/credentials.json')
+            account = searchconsole.authenticate(client_config=client_service_secret,
+                                                 serialize=credentials)
 
         self.webproperty = account[url]
         if self.webproperty is None:
@@ -84,7 +89,10 @@ class GoogleSearchConsole:
         with open(self.data_file, 'w+') as output:
             json.dump(content, output)
 
+
 if __name__ == '__main__':
+    start_path = os.path.dirname(os.path.realpath(__file__))
+    config_path = os.path.join(start_path, "../config")
     now = datetime.datetime.now()
     today = datetime.date.today()
     first = today.replace(day=1)
@@ -93,8 +101,8 @@ if __name__ == '__main__':
 
     dimensions = ['device', 'query', 'country', 'page']
     domain = 'oesterbaron.nl'
-    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today, -30, dimensions)
-    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today_lastMonth, -30, dimensions)
+    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today, -30, dimensions, config_path)
+    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today_lastMonth, -30, dimensions, config_path)
     print(g.dimension_data)
 
 # https://www.purepython.org/
