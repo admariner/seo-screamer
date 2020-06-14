@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: searchconsole
+Version: 0.0.3
+Summary: A wrapper for the Google Search Console API.
+Home-page: UNKNOWN
+Author: Josh Carty
+Author-email: carty.josh@gmail.com
+License: MIT
+Description: UNKNOWN
+Keywords: data analysis search console google api seo
+Platform: UNKNOWN

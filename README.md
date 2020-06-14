@@ -44,6 +44,8 @@ These documents can be opened in Microsoft Office 2007 / 2010, Microsoft Mac Off
 
 https://pypi.org/project/docx/
 
+pip install git+https://github.com/joshcarty/google-searchconsole
+
 ### YAML
 PyYAML is a YAML parser and emitter for Python.
 

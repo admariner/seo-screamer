@@ -1,42 +1,63 @@
 import csv
 import os
+import sys
+import logging
 
 from pathlib import Path
 import pandas as pd
 
+
 class ParceCSV:
     def __init__(self, file=None):
-        self.crawl_data = {}
-        self.ready_data = {}
+        try:
+            self.crawl_data = {}
+            self.ready_data = {}
 
-        if file is None:
+            if file is None:
+                raise Exception("File is None")
+
+            self.file = file
+            self.headers = []
+            self.ready_data = {}
+
+            my_file = Path(self.file)
+            if not my_file.is_file():
+                raise Exception("File is not a file (or not found {}".format(my_file))
+
+            self.get_csv()
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
-
-        self.file = file
-        self.headers = []
-        self.ready_data = {}
-
-        my_file = Path(self.file)
-        if not my_file.is_file():
-            return None
-
-        self.get_csv()
 
     def get_csv(self):
-        df = pd.read_csv(self.file, skiprows=1)
-        col_headers = list(df.columns)
+        try:
+            name = os.path.splitext(self.file)[0]
 
-        self.headers = col_headers
-        name = self.first_row()
-        
-        self.ready_data[name] = {'headers': self.headers, 'data': df.to_dict(orient='records')}
+            df = pd.read_csv(self.file)
+            col_headers = list(df.columns)
+
+            self.headers = col_headers
+
+            self.ready_data[name] = {'headers': self.headers, 'data': df.to_dict(orient='records')}
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            return False
 
     def first_row(self):
-        with open(self.file, newline='') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                return row[0]
-
+        try:
+            with open(self.file, newline='') as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    return row[0]
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            return False
 
 if __name__ == '__main__':
     domain = "oesterbaron.nl"

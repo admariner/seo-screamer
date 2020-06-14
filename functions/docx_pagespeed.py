@@ -1,3 +1,7 @@
+import sys
+import os
+import logging
+
 from docx.shared import RGBColor, Inches, Cm, Pt
 
 # from docx.enum.style import WD_STYLE_TYPE
@@ -12,30 +16,32 @@ from .page_speed import PageSpeed
 class DocxPageSpeed:
 
     def __init__(self, doc=None, config=None, url=None, domain=None, strategy='mobile'):
-        if config is None:
-            print('no config DocxPageSpeed')
-            return
-        if url is None:
-            print('no url DocxPageSpeed')
-            return
-        if domain is None:
-            print('no dommain DocxPageSpeed')
-            return
-        if doc is None:
-            print('no Doc DocxPageSpeed')
-            return
+        try:
+            if config is None:
+                raise Exception("Config is None")
+            if url is None:
+                raise Exception("Url is None")
+            if domain is None:
+                raise Exception("Domain is None")
+            if doc is None:
+                raise Exception("Doc is None")
 
-        self.doc = doc
-        self.ps = None
-        self.ps_strategy = strategy
-        self.ps_config = config
+            self.doc = doc
+            self.ps = None
+            self.ps_strategy = strategy
+            self.ps_config = config
 
-        self.ps_api = self.ps_config['google_page_speed_api']
-        self.ps_url = url
-        self.ps_domain = domain
+            self.ps_api = self.ps_config['google_page_speed_api']
+            self.ps_url = url
+            self.ps_domain = domain
 
-        self.get_page_speed_data()
-        self.create_doc_page()
+            self.get_page_speed_data()
+            self.create_doc_page()
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            return None
 
     def create_doc_page(self):
         self.doc.add_page_break()

@@ -1,20 +1,23 @@
 # pip install python-docx
 
 import os
-from datetime import date
-from time import time
+import sys
+import logging
 
+from time import time
+from datetime import date, datetime
 from docx import Document
 from docx.shared import RGBColor, Inches, Cm, Pt
 
 from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.text import WD_COLOR_INDEX
+# from docx.enum.text import WD_COLOR_INDEX
 from docx.enum.section import WD_SECTION, WD_ORIENT
 from docx.enum.table import WD_ALIGN_VERTICAL
 
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
+from functions.docx_prep import DocxPrep
 from functions.readConfig import readConfig
 from functions.crawl_overview import CrawlOverview
 from functions.google_search_console import GoogleSearchConsole
@@ -29,188 +32,191 @@ from functions.docx_google_search_console import DocxGoogleSearch
 
 # import locale
 # locale.setlocale(locale.LC_TIME, "nl_NL.utf8")
+now = datetime.now()
+today = "{}-{}-{}".format(now.year, now.month, now.day)
+sf = os.path.dirname(os.path.realpath(__file__))
+folder = os.path.join(sf, 'logging')
+log_file = os.path.join(folder, "{}.log".format(today))
+
+if os.environ['HOME'] == '/Users/theovandersluijs':
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+else:
+    os.makedirs(folder, exist_ok=True)
+    logging.basicConfig(filename=log_file, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        level=logging.CRITICAL)
+
 
 class CreateWord:
-    def __init__(self, config=None):
-        self.datum = '{:%d-%b-%Y}'.format(date.today())
-        self.start_path = os.path.dirname(os.path.realpath(__file__))
-
+    def __init__(self, config=None, export_tabs=None, bulk_export=None):
         try:
-            self.url = config['url']
-            self.domain = config['domain']
-            self.tempate_file = config['word_template']
-            self.search_console_url = config['search_console_url']
-        except KeyError as e:
-            return "Config variables not found! {}".format(e)
+            self.datum = '{:%d-%b-%Y}'.format(date.today())
+            self.maand_jaar = '{:%B-%Y}'.format(date.today())
 
-        self.ps = None
-        self.frog_files = {}
-        self.document_fields = None
-        self.doc = None
-        self.data = {}
-        self.co_table_headers = None
-        self.co_readydata = None
-        self.template = None
-        self.dimensions_data = None
+            try:
+                self.url = config['url']
+                self.domain = config['domain']
+                self.template_file = config['word_template']
+                self.search_console_url = config['search_console_url']
+            except KeyError as e:
+                raise Exception("Error getting config variables: {}".format(e))
 
-        cf = readConfig()
-        self.config = cf.config
-        self.ps_api = self.config['google_page_speed_api']
+            self.start_path = os.path.dirname(os.path.realpath(__file__))
+            self.domain_folder = self.set_data_domain_path()
+            self.frog_data_folder = self.get_frog_folder()
+            self.graph_data_folder = self.get_graph_folder()
+            self.config_folder = self.get_config_folder()
+            self.export_tabs = export_tabs
+            self.bulk_export = bulk_export
 
-        self.word_output_file = self.set_doc_params()
-        self.domain_folder = self.set_data_domain_path()
-        self.frog_data_folder = self.get_frog_folder()
-        self.graph_data_folder = self.get_graph_folder()
-        self.get_frog_files()
+            self.ps = None
+            self.frog_files = {}
+            self.document_fields = None
+            self.doc = None
+            self.dp = None
+            self.data = {}
+            self.co_table_headers = None
+            self.co_readydata = None
+            self.template = None
+            self.dimensions_data = None
 
-        self.create_crawl_data()
-        self.get_crawl_overview_data()
-        self.get_google_search_console_data()
+            cf = readConfig()
+            self.config = cf.config
+            self.ps_api = self.config['google_page_speed_api']
 
-        self.ps_all_data = {}
+            self.template = self.get_doc_template()
+            self.word_output_file = self.get_doc_word_output()
 
-        # self.crawl_data = self.get_crawl_data()
-        
-        self.open_document()
-        self.set_document_styles()
-        self.merge_document()
-        self.write_document()
-    
-    def set_doc_params(self):
-        if self.tempate_file is not None:
-            self.template = os.path.join(self.start_path, "word_templates", self.tempate_file)
-        
-        return os.path.join(self.start_path, "word_output", "{}-{}.docx".format(self.datum, self.domain))
+            self.get_frog_files()
+            self.create_crawl_data()
+            self.get_crawl_overview_data()
+            self.get_google_search_console_data()
+
+            self.ps_all_data = {}
+
+            # self.crawl_data = self.get_crawl_data()
+
+            self.prep_document()
+            self.merge_document()
+            self.write_document()
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            return
+
+    def get_doc_template(self):
+        if self.template_file is not None:
+            return os.path.join(self.start_path, "word_templates", self.template_file)
+
+    def get_doc_word_output(self):
+        return os.path.join(self.start_path, "word_output", "{}-{}.docx".format(self.maand_jaar, self.domain))
+
+    def get_config_folder(self):
+        return os.path.join(self.start_path, 'config')
 
     def set_data_domain_path(self):
         return os.path.join(self.start_path, "data", self.domain)
 
     def get_graph_folder(self):
-        return os.path.join(self.domain_folder, 'graph')
+        return os.path.join(self.domain_folder, 'graphs')
 
     def get_frog_folder(self):
         return os.path.join(self.domain_folder, 'crawl')
 
     def get_frog_files(self):
-        for r, d, f in os.walk(self.frog_data_folder):
-            for file in f:
-                if '.csv' in file:
-                    self.frog_files[file] = os.path.join(r, file)
+        try:
+            for r, d, f in os.walk(self.frog_data_folder):
+                for file in f:
+                    if '.csv' in file:
+                        self.frog_files[file] = os.path.join(r, file)
+
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
 
     def create_crawl_data(self):
         try:
-            t = os.path.getmtime(self.frog_files['crawl_overview.csv'])
+            try:
+                if os.path.isfile(self.frog_files['crawl_overview.csv']):
+                    t = os.path.getmtime(self.frog_files['crawl_overview.csv'])
+            except KeyError:
+                t = 0
+
             if int(t) + 86400 <= int(time()):
                 print('Creating Screaming Frog crawl data')
-                s = Screaming(self.domain_folder, self.url, self.search_console_url)
+                export_tabs = []
+                bulk_export = []
+
+                for e in self.export_tabs['export_tabs']:
+                    if e['active'] == 1:
+                        export_tabs.append(e['id'])
+
+                for b in self.bulk_export['bulk_exports']:
+                    if b['active'] == 1:
+                        bulk_export.append(b['id'])
+
+                s = Screaming(self.domain_folder, self.url, self.search_console_url, export_tabs, bulk_export)
                 s.run_screamer()
             else:
                 print('Using current Screaming Frog crawl data')
-        except KeyError as e:
-            print('error {}'.format(e))
-            return {}
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.critical(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            sys.exit()
 
     def get_crawl_overview_data(self):
         try:
-            co = CrawlOverview(self.frog_files['crawl_overview.csv'])
+            try:
+                co = CrawlOverview(self.frog_files['crawl_overview.csv'])
+            except KeyError as e:
+                raise Exception("Error getting frog files key: {}".format(e))
+
             self.co_table_headers = co.table_headers
             self.co_readydata = co.readydata
-        except KeyError:
-            print('error')
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logging.critical(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return {}
 
     def get_google_search_console_data(self):
-        dimension = ['device', 'query', 'country', 'page']
-        g = GoogleSearchConsole(self.url, self.domain, "today", -30, dimension)
-        self.dimensions_data = g.dimension_data
+        self.dimensions_data = ""
 
-    def open_document(self):
+        if self.search_console_url is not None and self.search_console_url != "":
+            dimension = ['device', 'query', 'country', 'page']
+            g = GoogleSearchConsole(self.search_console_url, self.domain, date.today(),
+                                    -30, dimension, self.config_folder)
+            self.dimensions_data = g.dimension_data
+
+    def prep_document(self):
         self.doc = Document(self.template)
-
-    def set_document_styles(self):
-        obj_styles = self.doc.styles
-
-        style = self.doc.styles['Title']
-        font = style.font
-        font.name = 'Font Awesome 5 Pro Light'
-        font.size = Pt(20)
-
-        style = self.doc.styles['Heading 1']
-        font = style.font
-        font.name = 'Font Awesome 5 Pro Light'
-        font.size = Pt(16)
-
-        style = self.doc.styles['Heading 2']
-        font = style.font
-        font.name = 'Font Awesome 5 Pro Light'
-        font.size = Pt(14)
-
-        style = self.doc.styles['Heading 3']
-        font = style.font
-        font.name = 'Font Awesome 5 Pro Light'
-        font.size = Pt(12)
-
-        obj_charstyle = obj_styles.add_style('FontAwesomeBrands', WD_STYLE_TYPE.CHARACTER)
-        obj_font = obj_charstyle.font
-        obj_font.size = Pt(13)
-        obj_font.name = 'Font Awesome 5 Brands'
-
-        obj_charstyle = obj_styles.add_style('FontAwesomeLight', WD_STYLE_TYPE.CHARACTER)
-        obj_font = obj_charstyle.font
-        obj_font.size = Pt(13)
-        obj_font.name = 'Font Awesome 5 Pro Light'
-
-        obj_charstyle = obj_styles.add_style('FontAwesomeRegular', WD_STYLE_TYPE.CHARACTER)
-        obj_font = obj_charstyle.font
-        obj_font.size = Pt(13)
-        obj_font.name = 'Font Awesome 5 Pro Regular'
-
-        obj_charstyle = obj_styles.add_style('FontAwesomeSolid', WD_STYLE_TYPE.CHARACTER)
-        obj_font = obj_charstyle.font
-        obj_font.size = Pt(13)
-        obj_font.name = 'Font Awesome 5 Pro Solid'
-
-    def print_paragraph_styles(self):
-        styles = self.doc.styles
-        paragraph_styles = [s for s in styles if s.type == WD_STYLE_TYPE.PARAGRAPH]
-        for style in paragraph_styles:
-            print(style.name)    
-
-    def print_table_styles(self):
-        styles = self.doc.styles
-        paragraph_styles = [s for s in styles if s.type == WD_STYLE_TYPE.TABLE]
-        for style in paragraph_styles:
-            print(style.name)
-
-    def print_list_styles(self):
-        styles = self.doc.styles
-        paragraph_styles = [s for s in styles if s.type == WD_STYLE_TYPE.LIST]
-        for style in paragraph_styles:
-            print(style.name)
+        self.dp = DocxPrep(self.doc)
+        self.dp.set_document_styles()
 
     def merge_document(self):
         sc = 0
         EerstePagina(self.doc, sc, self.domain)
         inleiding(self.doc, self.domain)
         toc(self.doc)
+
+        # crawl overzicht
         AlgemeenOverzicht(self.doc, self.config, self.co_readydata, self.co_table_headers)
 
+        # Doc Pagespeed overzicht
         DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'mobile')
         DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'desktop')
 
-        DocxGoogleSearch(self.doc, self.dimension_data)
+        if self.dimensions_data != "":  # only use when we have data!
+            DocxGoogleSearch(self.doc, self.dimensions_data, self.graph_data_folder)
+        else:
+            self.dp.empty_page('Google Search Console')
 
         self.change_orientation()
-        CSV2Docx(self.config, self.doc, self.frog_data_folder)
+        CSV2Docx(self.config, self.doc, self.frog_data_folder, self.export_tabs, self.bulk_export)
 
         # self.legenda()
-
-    def auto_cell(self, table):
-        for r in table.rows:
-            for c in r._tr.tc_lst:
-                tcW = c.tcPr.tcW
-                tcW.type = 'auto'
-                tcW.w = 0
 
     def legenda(self):
         self.change_orientation()
@@ -221,6 +227,25 @@ class CreateWord:
             self.doc.add_heading(val['title'], level=3)
             self.doc.add_paragraph(val['description'])
             self.doc.add_paragraph()
+
+
+        self.doc.add_heading("Google Zoeken", level=3)
+        self.doc.add_heading("Klikken (CLicks)", level=4)
+        self.doc.add_paragraph("Het aantal klikken (clicks) afkomstig van een Google zoekresultaat waarmee de "
+                               "gebruiker/bezoeker op je site is terechtgekomen.")
+
+        self.doc.add_heading("Vertoningen", level=4)
+        self.doc.add_paragraph("Hoeveel links naar je site een gebruiker zag op de pagina met Google zoekresultaten van "
+                               "Google Zoeken. Vertoningen worden geteld wanneer de gebruiker die pagina met "
+                               "resultaten bezoekt, zelfs wanneer de gebruiker niet naar het resultaat is gescrold. "
+                               "Als een gebruiker echter alleen pagina 1 bekijkt en het resultaat op pagina 2 staat, "
+                               "telt die vertoning niet mee.")
+
+        self.doc.add_heading("Positie", level=4)
+        self.doc.add_paragraph("De gemiddelde positie van het hoogste resultaat van de site. "
+                               "Als je site bijvoorbeeld drie resultaten heeft op posities 2, 4 en 6, wordt de "
+                               "positie gerapporteerd als 2. Belangrijk is dat deze waarde zo laag mogelijk is, "
+                               "hoe lager hoe hoger in de zoek resultaten.")
             
     def change_orientation(self):
         current_section = self.doc.sections[-1]
@@ -256,19 +281,55 @@ if __name__ == '__main__':
     dir_path = os.path.dirname(os.path.realpath(__file__))
     profiles = os.path.join(dir_path, "data")
 
-    #
-    # for domain in os.listdir(folder):
-    #     domain_folder = os.path.join(folder, domain)
-    #     if os.path.isdir(domain_folder) or os.path.islink(domain_folder):
-    #         url = "https://{}".format(domain)
-    #         t = None  # test_doc.docx   seo_doc.docx
-    #         d = Domain(url)
-    #         m = CreateWord(url, domain, t)
+    bulk_export = None
+    bulk_export_file = os.path.join(dir_path, 'config', 'bulk_exports.yml')
+    if os.path.isfile(bulk_export_file):
+        bulk_export = readConfig(bulk_export_file)
 
-    profile = os.path.join(profiles, "oesterbaron.nl")
-    config_file = os.path.join(profile, "config.yml")
-    c = readConfig(config_file)
-    m = CreateWord(c.config)
-    m.print_table_styles()
-    # m.print_paragraph_styles()
-    # m.print_list_styles()
+    export_tabs = None
+    export_tabs_file = os.path.join(dir_path, 'config', 'export_tabs.yml')
+    if os.path.isfile(export_tabs_file):
+        export_tabs = readConfig(export_tabs_file)
+
+    domain = ""
+
+    try:
+        if sys.argv[1]:
+            domain = sys.argv[1]
+    except KeyError as e:
+        pass
+
+    if domain != "":
+        profile = os.path.join(profiles, domain)
+        config_file = os.path.join(profile, "config.yml")
+        if os.path.isfile(config_file):
+            c = readConfig(config_file)
+
+            if c.config['active'] == 1:
+                m = CreateWord(c.config, export_tabs.config, bulk_export.config)
+            else:
+                print("Skip: {}".format(profile))
+    else:
+        for domain in os.listdir(profiles):
+            donts = ['.DS_Store', 'ORGS']
+            if domain in donts:
+                continue
+
+            profile = os.path.join(profiles, domain)
+            config_file = os.path.join(profile, "config.yml")
+            if os.path.isfile(config_file):
+                c = readConfig(config_file)
+
+                if c.config['active'] == 1:
+                    m = CreateWord(c.config, export_tabs.config, bulk_export.config)
+                else:
+                    print("Skip: {}".format(profile))
+
+
+    # profile = os.path.join(profiles, "oesterbaron.nl")
+    # config_file = os.path.join(profile, "config.yml")
+    # c = readConfig(config_file)
+    # m = CreateWord(c.config)
+    # m.dp.print_table_styles()
+    # m.dp.print_paragraph_styles()
+    # m.dp.print_list_styles()
