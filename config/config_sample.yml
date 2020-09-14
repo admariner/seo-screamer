@@ -1,565 +1,489 @@
 google_page_speed_api: #page speed api
-crawl_overview:
-    Algemene informatie:
-        name: "Algemene informatie"
-        description: "Hieronder vind u algemene informatie over de site.
-                      Hoeveel url's er gevonden zijn en hoeveel er daarwerkelijk door ons zijn onderzocht.
-                      Daarnaast kunt u zien hoeveel interne url's er zijn (verwijzingen naar content binnen de site)
-                      en hoeveel externe url's er zijn (verwijzingen naar content buiten de site).
-                      Als laatste vindt u in dit deel het aantal url's wat geblokkeerd is voor crawl robots.
-                      Deze worden niet opgenomen in zoekmachines."
-        recommendations:
-    Interne Urls:
-        name: "Interne Urls"
-        description: "Hier vindt u een overzicht van alle interne urls binnen de site. Deze links kunnen pagina's (html), scriptjes, plaatjes en andere content bevatten."
-        recommendations:
-    Externe Urls:
-        name: "Externe Urls"
-        description: "Hier vindt u een overzicht van alle externe urls waar uw site naar externe content linkt. Deze content is dus buiten uw site te vinden. Deze links kunnen pagina's (html), scriptjes, plaatjes en andere content bevatten."
-        recommendations:
-            - "Er dienen zo min mogelijk JavaScripts extern gelinkt te zijn"
-            - "Er dienen zo min mogelijk CSS extern gelinkt te zijn"
-            - "Het gebruik van Flash wordt afgeraden en dient dus niet gelinkt te zijn"
-            - "Er dient uitgezocht te worden welke andere en onbekende bestanden er gelinkt worden"
-    Protocol:
-        name: "Protocol"
-        description: "HTTPS is de beveiligde tegenhanger van HTTP, het protocol dat gebruikt wordt om internetpagina’s op te vragen. Het doel van de technologie is om communicatie tussen bezoekers en de websites die ze bezoeken volledig te versleutelen zodat er niemand mee kan kijken. Sinds augustus 2014 krijg je van Google pluspunten wanneer de website met HTTPS beveiligd is."
-        recommendations:
-            - "Er dienen zo min mogelijk, tot liefst geen content op te vragen zijn met HTTP"
-            - "Zorg er voor dat alles via HTTPS verloopt"
-    Response Codes:
-        name: "Response Codes"
-        description: ""
-        recommendations:
-            - ""
-    Inhoud:
-        name: "Inhoud"
-        description: ""
-        recommendations:
-    URL:
-        name: "URL"
-        description: ""
-        recommendations:
-    Paginatitels:
-        name: "Paginatitels"
-        description: ""
-        recommendations:
-    Meta omschrijving:
-        name: "Meta omschrijving"
-        description: ""
-        recommendations:
-    Meta-trefwoorden:
-        name: "Meta-trefwoorden"
-        description: ""
-        recommendations:
-    H1:
-        name: "H1"
-        description: ""
-        recommendations:
-    H2:
-        name: "H2"
-        description: ""
-        recommendations:
-    Afbeeldingen:
-        name: "Afbeeldingen"
-        description: ""
-        recommendations:
-    Gestructureerde gegevens:
-        name: "Gestructureerde gegevens"
-        description: ""
-        recommendations:
-    Sitemaps:
-        name: "Sitemaps"
-        description: "Een sitemap is een overzicht van alle webpagina's binnen uw website en dienen deze dus ook te bevatten.
-                      De sitemap is vooral bedoelt voor zoekmachines om zo makkelijk en eenvoudig de site te indexeren."
-        recommendations:
-            - "Alle pagina's moeten binnen de sitemap('s) te vinden zijn en indexeerbaar zijn."
-            - "Een url mag maar in 1 sitemap van de site voorkomen."
-            - "Een sitemap mag geen orphan url's bevatten daar deze alleen via de sitemap te vinden zijn en niet via een pagina of een menu item."
-            - "Een sitemap mag niet groter zijn dan 50.000 urls of 50MB."
 crawl_files:
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: ''
-        description: 'Google gebruikt nu HTTPS als een ranglijstsignaal. Uit gegevensanalyse is gebleken dat HTTPS-websites een hoger voordeel hebben van rangschikken via HTTP-koppelingen, dus overschakelen naar HTTPS komt ten goede aan elke website, ongeacht of het vertrouwelijke informatie betreft. Hieronder een lijst met HTTP urls die gewijzigd dienen te worden.'
-        file: 'protocol_http.csv'
-        columns: ["Address","Status Code","Indexability"]
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: 'Response Codes - Redirection (3xx)'
-        description: 'URL-omleiding, ook wel URL-forwarding genoemd, is een World Wide Web-techniek voor het beschikbaar maken van een webpagina onder meer dan één URL-adres. Wanneer een webbrowser probeert een URL te openen die is omgeleid, wordt een pagina met een andere URL geopend. Alhoewel redirects onvermijdelijk zijn, is het het beste om tot max 5 diep te redirecten (redirect op redirect) en om redirects van externe links direct op te lossen door de link naar de externe partij aan te passen voor zover dit mogelijk is.'
-        file: 'response_codes_redirection_(3xx).csv'
-        columns: ["Address","Status Code","Status","Response Time","Redirect URL","Redirect Type"]
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: 'Response Codes - Client Error (4xx)'
-        description: 'Deze groep HTTP-statuscodes geeft aan dat de aanvraag voor de pagina niet juist is of om een ​​andere reden niet kan worden gevonden of getoond, vermoedelijk door een fout van de bezoeker die de pagina bezoekt. Vaak voorkomende 404 paginas dienen zsm met een redirect op gelost te worden zodat Google ook de juiste pagina kan vinden. De andere codes en urls dienen individueel naar gekeken te worden.'
-        file: 'response_codes_client_error_(4xx).csv'
-        columns: ["Address","Status Code","Status","Response Time","Redirect URL","Redirect Type"]
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: 'Response Codes - Server Error (5xx)'
-        description: 'De 500-statuscode of interne serverfout betekent dat de server het verzoek tot tonen van de pagina niet kan verwerken door een onbekende reden. Deze dient direct opgelost te worden.'
-        file: 'response_codes_server_error_(5xx).csv'
-        columns: ["Address","Status Code","Status","Response Time","Redirect URL","Redirect Type"]
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: 'Response Codes - Blocked Resource'
-        description: ""
-        file: 'response_codes_blocked_resource.csv'
-        columns: ["Address","Status Code","Status","Response Time","Redirect URL","Redirect Type"]
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: 'Response Codes - No Response'
-        description: ""
-        file: 'response_codes_no_response.csv'
-        columns: ["Address","Status Code","Status","Response Time","Redirect URL","Redirect Type"]
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: 'Response Codes - Redirection (Meta Refresh)'
-        description: ""
-        file: 'response_codes_redirection_(meta_refresh).csv'
-        columns: ["Address","Status Code","Status","Response Time","Redirect URL","Redirect Type"]
-    -
-        id: ''
-        icon: ''
-        active: 1
-        name: 'Response Codes - Redirection (JavaScript)'
-        description: ""
-        file: 'response_codes_redirection_(javascript).csv'
-        columns: ["Address","Status Code","Status","Response Time","Redirect URL","Redirect Type"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_html.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_pdf.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_images.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_css.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_javascript.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_flash.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_unknown.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'internal_other.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_html.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_pdf.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_images.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_css.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_javascript.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_flash.csv'
-        columns:
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_unknown.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'external_other.csv'
-        columns: ["Address","Status Code", "Size (bytes)", "Response Time"]
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_keywords_multiple.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_description_over_940_pixels.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_keywords_duplicate.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_description_over_155_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_description_below_70_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_keywords_missing.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_description_multiple.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_description_below_400_pixels.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_description_duplicate.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'meta_description_missing.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_missing.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_below_30_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_over_65_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_multiple.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_below_200_pixels.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_duplicate.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_over_568_pixels.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'page_titles_same_as_h1.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h1_missing.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h1_over_70_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h1_multiple.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h1_duplicate.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h2_missing.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h2_duplicate.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h2_over_70_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'h2_multiple.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'url_underscores.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'url_non_ascii_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'url_over_115_characters.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'url_duplicate.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'url_uppercase.csv'
-        columns: []
-    -
-        id: ''
-        icon: ''
-        active: 0
-        name: ''
-        description: ""
-        file: 'url_parameters.csv'
-        columns: []
+  - id: ""
+    icon: ""
+    active: 1
+    name: ""
+    description: "Google gebruikt nu HTTPS als een ranglijstsignaal. Uit gegevensanalyse is gebleken dat HTTPS-websites een hoger voordeel hebben van rangschikken via HTTP-koppelingen, dus overschakelen naar HTTPS komt ten goede aan elke website, ongeacht of het vertrouwelijke informatie betreft. Hieronder een lijst met HTTP urls die gewijzigd dienen te worden."
+    file: "protocol_http.csv"
+    columns: ["Address", "Status Code", "Indexability"]
+  - id: ""
+    icon: ""
+    active: 1
+    name: "Response Codes - Redirection (3xx)"
+    description: "URL-omleiding, ook wel URL-forwarding genoemd, is een World Wide Web-techniek voor het beschikbaar maken van een webpagina onder meer dan één URL-adres. Wanneer een webbrowser probeert een URL te openen die is omgeleid, wordt een pagina met een andere URL geopend. Alhoewel redirects onvermijdelijk zijn, is het het beste om tot max 5 diep te redirecten (redirect op redirect) en om redirects van externe links direct op te lossen door de link naar de externe partij aan te passen voor zover dit mogelijk is."
+    file: "response_codes_redirection_(3xx).csv"
+    columns:
+      [
+        "Address",
+        "Status Code",
+        "Status",
+        "Response Time",
+        "Redirect URL",
+        "Redirect Type",
+      ]
+  - id: ""
+    icon: ""
+    active: 1
+    name: "Response Codes - Client Error (4xx)"
+    description: "Deze groep HTTP-statuscodes geeft aan dat de aanvraag voor de pagina niet juist is of om een ​​andere reden niet kan worden gevonden of getoond, vermoedelijk door een fout van de bezoeker die de pagina bezoekt. Vaak voorkomende 404 paginas dienen zsm met een redirect op gelost te worden zodat Google ook de juiste pagina kan vinden. De andere codes en urls dienen individueel naar gekeken te worden."
+    file: "response_codes_client_error_(4xx).csv"
+    columns:
+      [
+        "Address",
+        "Status Code",
+        "Status",
+        "Response Time",
+        "Redirect URL",
+        "Redirect Type",
+      ]
+  - id: ""
+    icon: ""
+    active: 1
+    name: "Response Codes - Server Error (5xx)"
+    description: "De 500-statuscode of interne serverfout betekent dat de server het verzoek tot tonen van de pagina niet kan verwerken door een onbekende reden. Deze dient direct opgelost te worden."
+    file: "response_codes_server_error_(5xx).csv"
+    columns:
+      [
+        "Address",
+        "Status Code",
+        "Status",
+        "Response Time",
+        "Redirect URL",
+        "Redirect Type",
+      ]
+  - id: ""
+    icon: ""
+    active: 1
+    name: "Response Codes - Blocked Resource"
+    description: ""
+    file: "response_codes_blocked_resource.csv"
+    columns:
+      [
+        "Address",
+        "Status Code",
+        "Status",
+        "Response Time",
+        "Redirect URL",
+        "Redirect Type",
+      ]
+  - id: ""
+    icon: ""
+    active: 1
+    name: "Response Codes - No Response"
+    description: ""
+    file: "response_codes_no_response.csv"
+    columns:
+      [
+        "Address",
+        "Status Code",
+        "Status",
+        "Response Time",
+        "Redirect URL",
+        "Redirect Type",
+      ]
+  - id: ""
+    icon: ""
+    active: 1
+    name: "Response Codes - Redirection (Meta Refresh)"
+    description: ""
+    file: "response_codes_redirection_(meta_refresh).csv"
+    columns:
+      [
+        "Address",
+        "Status Code",
+        "Status",
+        "Response Time",
+        "Redirect URL",
+        "Redirect Type",
+      ]
+  - id: ""
+    icon: ""
+    active: 1
+    name: "Response Codes - Redirection (JavaScript)"
+    description: ""
+    file: "response_codes_redirection_(javascript).csv"
+    columns:
+      [
+        "Address",
+        "Status Code",
+        "Status",
+        "Response Time",
+        "Redirect URL",
+        "Redirect Type",
+      ]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_html.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_pdf.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_images.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_css.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_javascript.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_flash.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_unknown.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "internal_other.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_html.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_pdf.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_images.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_css.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_javascript.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_flash.csv"
+    columns:
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_unknown.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "external_other.csv"
+    columns: ["Address", "Status Code", "Size (bytes)", "Response Time"]
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_keywords_multiple.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_description_over_940_pixels.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_keywords_duplicate.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_description_over_155_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_description_below_70_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_keywords_missing.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_description_multiple.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_description_below_400_pixels.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_description_duplicate.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "meta_description_missing.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_missing.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_below_30_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_over_65_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_multiple.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_below_200_pixels.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_duplicate.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_over_568_pixels.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "page_titles_same_as_h1.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h1_missing.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h1_over_70_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h1_multiple.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h1_duplicate.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h2_missing.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h2_duplicate.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h2_over_70_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "h2_multiple.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "url_underscores.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "url_non_ascii_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "url_over_115_characters.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "url_duplicate.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "url_uppercase.csv"
+    columns: []
+  - id: ""
+    icon: ""
+    active: 0
+    name: ""
+    description: ""
+    file: "url_parameters.csv"
+    columns: []
 icons:
-    medal: ""
-    thumbs_up: ""
-    thumbs_down: ""
-    alarm: ""
-    analytics: ""
-    wordpress: ""
-    joomla: ""
-    badge: ""
-    ok: ""
-    mobile: ""
-    desktop: ""
-    wrench: ""
-    lock_open: ""
-    lock_closed: ""
-    at: ""
-    code: ""
-    comment: ""
-    exclamation: ""
-    external_link: ""
-    image: ""
-    lightbulb: ""
-    sitemap: ""
-    stopwatch: ""
+  ballot: ""
+  stethoscope: ""
+  medal: ""
+  thumbs_up: ""
+  thumbs_down: ""
+  alarm: ""
+  analytics: ""
+  wordpress: ""
+  joomla: ""
+  badge: ""
+  ok: ""
+  mobile: ""
+  desktop: ""
+  wrench: ""
+  lock_open: ""
+  lock_closed: ""
+  at: ""
+  code: ""
+  comment: ""
+  exclamation: ""
+  external_link: ""
+  image: ""
+  lightbulb: ""
+  sitemap: ""
+  stopwatch: ""
 severity:
-    high:
-        color: [198, 3, 26]
-        icon: ""
-    medium:
-        color: [216, 160, 4]
-        icon: ""
-    low:
-        color: [28, 124, 47]
-        icon: ""
-    neutral:
-        color: [28, 124, 47]
-        icon: ""
+  high:
+    color: [198, 3, 26]
+    icon: ""
+  medium:
+    color: [216, 160, 4]
+    icon: ""
+  low:
+    color: [28, 124, 47]
+    icon: ""
+  neutral:
+    color: [28, 124, 47]
+    icon: ""

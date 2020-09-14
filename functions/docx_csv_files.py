@@ -15,6 +15,7 @@ from docx.oxml.ns import qn
 
 from functions.csv_files import ParceCSV
 
+
 class CSV2Docx:
     def __init__(self, config=None, doc=None, frog_data_folder=None, export_tabs=None, bulk_exports=None):
         try:
@@ -29,19 +30,20 @@ class CSV2Docx:
             if bulk_exports is None:
                 raise Exception("Bulk exports is None")
 
-            export_tabs = [i for i in export_tabs['export_tabs'] if not (i['active'] == 0)]
-            bulk_exports = [i for i in bulk_exports['bulk_exports'] if not (i['active'] == 0)]
+            export_tabs = [i for i in export_tabs['export_tabs']
+                           if not (i['active'] == 0)]
+            bulk_exports = [
+                i for i in bulk_exports['bulk_exports'] if not (i['active'] == 0)]
 
             crawl_files = export_tabs + bulk_exports
 
             doc.add_heading('Crawl overzichten', 0)
             doc.add_paragraph("Hier vind u alle informatie behorende bij het algemene overzicht. "
-                                   "Deze informatie geeft u meer inzicht in wat u inhoudelijk aan uw "
-                                   "pagina's dient te wijzigen om betere SEO resultaten te krijgen.")
+                              "Deze informatie geeft u meer inzicht in wat u inhoudelijk aan uw "
+                              "pagina's dient te wijzigen om betere SEO resultaten te krijgen.")
 
             for cf in crawl_files:
                 doc.add_paragraph()
-
                 file = os.path.join(frog_data_folder, cf['file'])
                 c = ParceCSV(file)
 
@@ -49,15 +51,19 @@ class CSV2Docx:
                     if len(val['data']) == 0:
                         continue
 
-                    if cf['name'] == "":
+                    if cf['id'] == "":
                         doc.add_heading(key, 1)
                     else:
-                        doc.add_heading(cf['name'], 1)
+                        doc.add_heading(cf['id'], 1)
 
-                    doc.add_paragraph(cf['description'])
+                    try:
+                        doc.add_paragraph(cf['description'])
+                    except Exception:
+                        pass
 
                     kolommen = len(cf['columns'])
-                    table = doc.add_table(rows=1, cols=kolommen, style="Grid Table 4 Accent 5")
+                    table = doc.add_table(
+                        rows=1, cols=kolommen, style="Grid Table 4 Accent 5")
                     hdr_cells = table.rows[0].cells
                     self.set_repeat_table_header(table.rows[0])
                     i = 0
@@ -82,7 +88,8 @@ class CSV2Docx:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
     def auto_cell(self, table):

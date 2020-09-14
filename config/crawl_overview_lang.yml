@@ -1,0 +1,180 @@
+crawl_overview:
+  Info:
+    name: "Algemene informatie"
+    description: "Hieronder vind u algemene informatie over de site.
+      Hoeveel url's er gevonden zijn en hoeveel er daarwerkelijk door ons zijn onderzocht.
+      Daarnaast kunt u zien hoeveel interne url's er zijn (verwijzingen naar content binnen de site)
+      en hoeveel externe url's er zijn (verwijzingen naar content buiten de site).
+      Als laatste vindt u in dit deel het aantal url's wat geblokkeerd is voor crawl robots.
+      Deze worden niet opgenomen in zoekmachines."
+    recommendations:
+    table_header: 1
+    table_cols: 2
+  Internal:
+    name: "Interne Urls"
+    description: "Hier vindt u een overzicht van alle interne urls binnen de site. Deze links kunnen pagina's (html), scriptjes, plaatjes en andere content bevatten."
+    recommendations:
+    table_header: 1
+    table_cols: 2
+  External:
+    name: "Externe Urls"
+    description: "Hier vindt u een overzicht van alle externe urls waar uw site naar externe content linkt. Deze content is dus buiten uw site te vinden. Deze links kunnen pagina's (html), scriptjes, plaatjes en andere content bevatten."
+    recommendations:
+      - "Er dienen zo min mogelijk JavaScripts extern gelinkt te zijn"
+      - "Er dienen zo min mogelijk CSS extern gelinkt te zijn"
+      - "Het gebruik van Flash wordt afgeraden en dient dus niet gelinkt te zijn"
+      - "Er dient uitgezocht te worden welke andere en onbekende bestanden er gelinkt worden"
+    table_header: 1
+    table_cols: 2
+  Security:
+    name: "Veiligheid"
+    description: "HTTPS is de beveiligde tegenhanger van HTTP, het protocol dat gebruikt wordt om internetpagina’s op te vragen. Het doel van de technologie is om communicatie tussen bezoekers en de websites die ze bezoeken volledig te versleutelen zodat er niemand mee kan kijken. Sinds augustus 2014 krijg je van Google pluspunten wanneer de website met HTTPS beveiligd is."
+    recommendations:
+      - "Er dienen zo min mogelijk, tot liefst geen content op te vragen zijn met HTTP"
+      - "Zorg er voor dat alles via HTTPS verloopt"
+    table_header: 1
+    table_cols: 4
+  Response Codes:
+    name: "Response Codes"
+    description: "200 is de normale response code die een pagina van de site hoort mee te geven. Daarnaast is het toegestaan om een aantal javascript redirection, meta- en 3xx doorverwijzingen te hebben. Van alle andere dienen er geen meldingen te zijn."
+    recommendations:
+      - "400 code, is pagina niet gevonden en dient zo snel mogelijk te worden opgelost"
+      - "500 code, is een server fout en dient zo snel mogelijk te worden opgelost"
+      - "Geen antwoord of geblokeerde bron van de pagina dient zo snel mogelijk te worden opgelost"
+    table_header: 1
+    table_cols: 4
+  Content:
+    name: "Inhoud"
+    description: "De inhoudt van een pagina is belangrijk om gevonden en getoond te worden bij Google. Pagina's met een minimaal aantal woorden of hele grote pagina's worden niet goed geindexeerd en dus ook niet getoond in de Google zoekmachine."
+    recommendations:
+      - "Verklein grote pagina's, door ze bijvoorbeeld op te delen in meerdere pagina's"
+      - "Maak langere inhoudelijke teksten zodat deze beter indexeerbaar zijn door Google"
+    table_header: 1
+    table_cols: 4
+  URL:
+    name: "URL"
+    description: "URL staat voor Uniform Resource Locator en is het adres iedere webpagina van uw website. Ieder bestand krijgt een eigen unieke URL."
+    recommendations:
+      - "Dubbele URls zijn niet toegestaan en dienen uniek te zijn"
+      - "Er dienen geen vaste extra parameters achter urls geplaatst te worden"
+      - "Urls mogen geen underscores _ te bevatten. Pas deze aan naar streepjes - "
+      - "Urls mogen alleen ASCII-tekens zoals A t/m Z, 0 t/m 9 en streepjes - bevatten"
+      - "Een URL mag niet langer zijn dan 115 tekens"
+      - "Een URL mag geen hoofdletters bevatten"
+    table_header: 1
+    table_cols: 4
+  Page Titles:
+    name: "Paginatitels"
+    description: "Een SEO-titel is een andere naam voor de meta-titel van een pagina. De meta-titel is de titel die in de titelbalk van een browser verschijnt. Wat veel mensen echter niet weten, is dat deze titel ook door Google gebruikt wordt in de zoekresultaten. Een pagina titel dient dus altijd aanwezig te zijn."
+    recommendations:
+      - "Een titel moet uniek zijn en dus niet vaker voorkomen"
+      - "Een titel mag niet langer zijn dan 65 tekens"
+      - "Een titel mag niet korter zijn dan 30 tekens"
+      - "Een titel mag niet langer zijn dan 586 pixels"
+      - "Een titel mag niet korter zijn dan 200 pixels"
+      - "Een titel mag niet het zelfde zijn als de H1"
+      - "Er mogen niet meerdere titels op een pagina voorkomen"
+
+    table_header: 1
+    table_cols: 4
+  Meta Description:
+    name: "Meta omschrijving"
+    description: "Elke pagina dient een eigen, unieke omschrijving te hebben. De META-description is vaak zichtbaar bij de zoekresultaten pagina van een zoekmachine. Alhoewel het niet verplicht is voor Google is het toch aan te raden om er 1 te hebben."
+    recommendations:
+      - "Er mogen niet meerdere Meta omschrijving op een pagina voorkomen"
+      - "Een Meta omschrijving moet uniek zijn en dus niet vaker voorkomen"
+      - "Een Meta omschrijving mag niet langer zijn dan 155 tekens"
+      - "Een Meta omschrijving mag niet korter zijn dan 70 tekens"
+      - "Een Meta omschrijving mag niet langer zijn dan 940 pixels"
+      - "Een Meta omschrijving mag niet korter zijn dan 400 pixels"
+    table_header: 1
+    table_cols: 4
+  Meta Keywords:
+    name: "Meta-trefwoorden"
+    description: "Meta trefwoorden werd vroeger misbruikt om pagina's hoger te ranken en zouden moeten worden gebruikt om aan te geven wat de belangrijkste onderwerpen van de pagina waren. Google raadt het gebruik van Meta Trefwoorden af. Het is beter om alle Meta Trefwoorden te verwijderen."
+    recommendations:
+      - "Probeer geen Meta trefwoorden te gebruiken"
+    table_header: 1
+    table_cols: 4
+  H1:
+    name: "H1"
+    description: "De H1 tag (header tag) of ook wel kop genoemd, wordt meegegeven boven aan de tekst. De H1 dient uniek te zijn en de dient de lading te dekken van je pagina. Wil je de H1 helemaal SEO-waardig maken, zet dan je belangrijkste zoekwoord (het zoekwoord waar je het best op wilt scoren of waarop je gevonden wilt worden) in de titel, het liefst vooraan."
+    recommendations:
+      - "H1 moet uniek zijn en dus op geen andere pagina het zelfde zijn."
+      - "Een H1 mag niet langer zijn dan 70 tekens."
+      - "Er mogen geen meerdere H1's per pagina voorkomen"
+    table_header: 1
+    table_cols: 4
+  H2:
+    name: "H2"
+    description: "Om structuur aan te brengen in je teksten, en zo de website te verbeteren voor zoekmachine en bezoeker, maak je gebruik van H2 koppen die aangeven wat de verschillende onderdelen zijn."
+    recommendations:
+      - "H2 moet uniek zijn en dus op geen andere pagina het zelfde zijn"
+      - "Een H2 mag niet langer zijn dan 70 tekens"
+      - "Er mogen meerdere H2's per pagina voorkomen, maar let op dat het er niet te veel worden"
+    table_header: 1
+    table_cols: 4
+  Images:
+    name: "Afbeeldingen"
+    description: "Zoekmachines analyseren niet alleen tekst, maar ook afbeeldingen en hun alt-tekst (afbeeldings titel). Hoe relevanter een plaatje op uw site is voor een bepaalde zoekterm, hoe groter de kans dat uw afbeelding getoond wordt in de zoekresultaten van Google of in Google afbeeldingen."
+    recommendations:
+      - "Iedere afbeelding dient een alt-tekst te hebben zodat ze geindexeerd kunnen worden voor Google Image search."
+      - "De alt-tekst mag niet langer zijn dan 100 tekens"
+      - "Een afbeelding mag niet groter zijn dan 100KB"
+    table_header: 1
+    table_cols: 4
+  Structured Data:
+    name: "Gestructureerde gegevens"
+    description: "Gestructureerde gegevens (structured data markup) is een standaard manier om inhoud op uw website te annoteren, zodat zoekmachines de inhoud beter kunnen begrijpen."
+    recommendations:
+      - "Zorg dat iedere pagina gestructureerde gegevens heeft zodat Google de pagina eenvoudig kan analyseren"
+      - "Zorg dat de gestructureerde gegevens vrij zijn van validatie fouten"
+      - "Zorg dat de gestructureerde gegevens vrij zijn van validatie waarschuwingen"
+      - "Zorg dat de gestructureerde gegevens vrij zijn van verwerkings fouten"
+    table_header: 1
+    table_cols: 4
+  Sitemaps:
+    name: "Sitemaps"
+    description:
+      "Een sitemap is een overzicht van alle webpagina's binnen uw website en dienen deze dus ook te bevatten.
+      De sitemap is vooral bedoelt voor zoekmachines om zo makkelijk en eenvoudig de site te indexeren."
+    recommendations:
+      - "Alle pagina's moeten binnen de sitemap('s) te vinden zijn en indexeerbaar zijn."
+      - "Een url mag maar in 1 sitemap van de site voorkomen."
+      - "Een sitemap mag geen orphan url's bevatten daar deze alleen via de sitemap te vinden zijn en niet via een pagina of een menu item."
+      - "Een sitemap mag niet groter zijn dan 50.000 urls of 50MB."
+    table_header: 1
+    table_cols: 4
+  PageSpeed:
+    name: "Pagina snelheid info kort"
+    description: "Google PageSpeed ​​is een reeks tools van Google Inc, ontworpen om de prestatie-optimalisaties van een website te helpen. Om je paginasnelheid zo hoog mogelijk te krijgen kan je verschillende acties ondernemen."
+    recommendations:
+      - "Optimalisatie CCS, javascirpt, HTML"
+      - "Server responstijd verbeteren"
+      - "Browser caching gebruiken"
+      - "Optimaliseren van content"
+    table_header: 1
+    table_cols: 4
+  Analytics:
+    name: "Bezoekers info kort"
+    description: ""
+    recommendations:
+      - ""
+    table_header: 1
+    table_cols: 4
+  Search Console:
+    name: "Indexeringsstatus Google kort"
+    description: "Google Search Console is een webservice van Google waarmee webmasters de indexeringsstatus kunnen controleren en de zichtbaarheid van hun websites kunnen optimaliseren."
+    recommendations:
+      - "Indexeringsproblemen oplossen"
+      - "Crawl problemen oplossen"
+      - ""
+    table_header: 1
+    table_cols: 4
+  AMP:
+    name: "Accelerated Mobile Pages"
+    description: "Accelerated Mobile Pages zijn webpagina's met statische content, geoptimaliseerd voor browsen op mobiele apparaten. AMP documenten zijn ontwikkeld in 'AMP HTML', een open source framework speciaal ontworpen met bestaande webtechnologie voor het ontwikkelen van kleine en snelle webpagina's."
+    recommendations:
+      - ""
+    table_header: 1
+    table_cols: 4

@@ -4,8 +4,9 @@ import logging
 
 from functions.readConfig import readConfig
 
+
 class Screaming:
-    def __init__(self, folder=None, url=None, search_console_url=None, export_tabs=None, bulk_export=None):
+    def __init__(self, folder=None, url=None, search_console_url=None, export_tabs=None, bulk_export=None, analytics=None):
         if folder is None or url is None:
             return None
 
@@ -15,38 +16,42 @@ class Screaming:
 
         self.export_tabs = export_tabs
         self.bulk_export = bulk_export
+        self.analytics = analytics
 
     def run_screamer(self):
         try:
             search_console_url = ""
             bulk_export = ""
             export_tabs = ""
+            analytics_info = ""
+
+            if self.analytics is not None and self.analytics != '':
+                analytics_info = f"--use-google-analytics {self.analytics['google account']} {self.analytics['account']} {self.analytics['property']} {self.analytics['view']} {self.analytics['segment']} "
 
             if self.search_console_url is not None and self.search_console_url != '':
-                search_console_url = "--use-google-search-console prive {} ".format(self.search_console_url)
+                search_console_url = "--use-google-search-console prive {} ".format(
+                    self.search_console_url)
+
+            application = "/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"
+            crawl = f"--crawl {self.url}"
+            config = f"--config /Users/theovandersluijs/PyProjects/seo-screamer/data/crawl.seospiderconfig"
+            output = f"--output-folder {self.folder}/crawl/"
 
             if self.bulk_export is not None:
-                bulk_export = "--bulk-export '{}'".format(','.join(self.bulk_export))
+                bulk_export = "--bulk-export '{}'".format(
+                    ','.join(self.bulk_export))
             if self.export_tabs is not None:
-                export_tabs = "--export-tabs '{}'".format(','.join(self.export_tabs))
+                export_tabs = "--export-tabs '{}'".format(
+                    ','.join(self.export_tabs))
 
-            os.system("/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher "
-                          "--crawl {} "
-                          "--config /Users/theovandersluijs/PycharmProjects/seowork/data/crawl.seospiderconfig "
-                          "--headless --save-crawl --overwrite  "
-                          "{}"
-                          "--output-folder {}/crawl/ "
-                          "--save-report 'Crawl Overview' --headless "
-                          "{} "
-                          "{} "
-                          "--export-format 'csv'".format(self.url, search_console_url, self.folder,
-                                                         export_tabs, bulk_export
-                                                         )
-                      )
+            screamer = f"""{application} {crawl} {config} --headless --save-crawl --overwrite {search_console_url} {analytics_info} {output} --save-report 'Crawl Overview' {export_tabs} {bulk_export} --export-format 'csv'"""
+            os.system(screamer)
+
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.critical(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.critical(str(e) + " | " + str(exc_type) +
+                             " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             sys.exit()
             return {}
 # --use-google-analytics [google account] [account] [property] [view] [segment]
@@ -54,10 +59,10 @@ class Screaming:
 
 if __name__ == '__main__':
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    folder = os.path.join(dir_path, "../data")
+    folder = os.path.join(dir_path, "..", "data")
 
     for domain in os.listdir(folder):
-        if domain is 'ORGS':
+        if domain == 'ORGS':
             continue
         domain_folder = os.path.join(folder, domain)
         config_file = os.path.join(domain_folder, "config.yml")

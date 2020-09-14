@@ -1,4 +1,6 @@
 {
-    "python.pythonPath": ".venv/bin/python3.8",
-    "git.ignoreLimitWarning": true
+    "editor.rulers": [
+        100
+    ],
+    "python.pythonPath": "/Users/theovandersluijs/PyProjects/seo-screamer/.venv/bin/python3.8"
 }

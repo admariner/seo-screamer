@@ -22,13 +22,15 @@ class ParceCSV:
 
             my_file = Path(self.file)
             if not my_file.is_file():
-                raise Exception("File is not a file (or not found {}".format(my_file))
+                raise Exception(
+                    "File is not a file (or not found {}".format(my_file))
 
             self.get_csv()
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
     def get_csv(self):
@@ -40,11 +42,13 @@ class ParceCSV:
 
             self.headers = col_headers
 
-            self.ready_data[name] = {'headers': self.headers, 'data': df.to_dict(orient='records')}
+            self.ready_data[name] = {
+                'headers': self.headers, 'data': df.to_dict(orient='records')}
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return False
 
     def first_row(self):
@@ -56,18 +60,20 @@ class ParceCSV:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return False
+
 
 if __name__ == '__main__':
     domain = "oesterbaron.nl"
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    folder = os.path.join(dir_path, "../data")
+    folder = os.path.join(dir_path, "..", "data")
     domain_folder = os.path.join(folder, "{}".format(domain))
 
     csv_file = "../data/oesterbaron.nl/protocol_https.csv"
     c = ParceCSV(csv_file)
-    
+
     for key, val in c.ready_data.items():
         print(val['headers'])
         print(len(val['headers']))

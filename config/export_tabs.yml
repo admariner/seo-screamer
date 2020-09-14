@@ -1,0 +1,689 @@
+export_tabs:
+  - active: 1
+    file: internal_all.csv
+    id: Internal:All
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: internal_html.csv
+    id: Internal:HTML
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: internal_javascript.csv
+    id: Internal:JavaScript
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: internal_css.csv
+    id: Internal:CSS
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: internal_images.csv
+    id: Internal:Images
+  - active: 0
+    file: internal_pdf.csv
+    id: Internal:PDF
+  - active: 0
+    file: internal_flash.csv
+    id: Internal:Flash
+  - active: 0
+    file: internal_other.csv
+    id: Internal:Other
+  - active: 0
+    file: internal_unknown.csv
+    id: Internal:Unknown
+  - active: 0
+    file: external_all.csv
+    id: External:All
+  - active: 0
+    file: external_html.csv
+    id: External:HTML
+  - active: 0
+    file: external_javascript.csv
+    id: External:JavaScript
+  - active: 0
+    file: directives_none.csv
+    id: Directives:None
+  - active: 0
+    file: directives_noarchive.csv
+    id: Directives:NoArchive
+  - active: 0
+    file: directives_nosnippet.csv
+    id: Directives:NoSnippet
+  - active: 0
+    file: directives_noodp.csv
+    id: Directives:NOODP
+  - active: 0
+    file: directives_noydir.csv
+    id: Directives:NoYDIR
+  - active: 0
+    file: directives_noimageindex.csv
+    id: Directives:NoImageIndex
+  - active: 0
+    file: directives_notranslate.csv
+    id: Directives:NoTranslate
+  - active: 0
+    file: directives_unavailable_after.csv
+    id: Directives:Unavailable_After
+  - active: 0
+    file: directives_refresh.csv
+    id: Directives:Refresh
+  - active: 0
+    file: hreflang_all.csv
+    id: Hreflang:All
+  - active: 0
+    file: hreflang_contains_hreflang.csv
+    id: Hreflang:Contains hreflang
+  - active: 0
+    file: hreflang_non200_hreflang_urls.csv
+    id: Hreflang:Non-200 hreflang URLs
+  - active: 0
+    file: hreflang_unlinked_hreflang_urls.csv
+    id: Hreflang:Unlinked hreflang URLs
+  - active: 0
+    file: hreflang_missing_confirmation_links.csv
+    id: Hreflang:Missing Confirmation Links
+  - active: 0
+    file: hreflang_incorrect_language_&_region_codes.csv
+    id: Hreflang:Incorrect Language & Region Codes
+  - active: 0
+    file: hreflang_multiple_entries.csv
+    id: Hreflang:Multiple Entries
+  - active: 0
+    file: hreflang_missing_self_reference.csv
+    id: Hreflang:Missing Self Reference
+  - active: 0
+    file: hreflang_not_using_canonical.csv
+    id: Hreflang:Not Using Canonical
+  - active: 0
+    file: hreflang_missing_xdefault.csv
+    id: Hreflang:Missing X-Default
+  - active: 0
+    file: hreflang_missing.csv
+    id: Hreflang:Missing
+  - active: 0
+    file: hreflang_inconsistent_language_&_region_confirmation_links.csv
+    id: Hreflang:Inconsistent Language & Region Confirmation Links
+  - active: 0
+    file: custom_search_all.csv
+    id: Custom Search:All
+  - active: 0
+    file: custom_extraction_all.csv
+    id: Custom Extraction:All
+  - active: 0
+    file: custom_extraction_all.csv
+    id: Custom:Extraction
+  - active: 0
+    file: analytics_all.csv
+    id: Analytics:All
+  - active: 0
+    file: analytics_sessions_above_0.csv
+    id: Analytics:Sessions Above 0
+  - active: 0
+    file: analytics_bounce_rate_above_70%.csv
+    id: Analytics:Bounce Rate Above 70%
+  - active: 0
+    file: analytics_no_ga_data.csv
+    id: Analytics:No GA Data
+  - active: 0
+    file: analytics_nonindexable_with_ga_data.csv
+    id: Analytics:Non-Indexable with GA Data
+  - active: 0
+    file: analytics_orphan_urls.csv
+    id: Analytics:Orphan URLs
+  - active: 0
+    file: search_console_all.csv
+    id: Search Console:All
+  - active: 0
+    file: search_console_clicks_above_0.csv
+    id: Search Console:Clicks Above 0
+  - active: 0
+    file: search_console_no_gsc_data.csv
+    id: Search Console:No GSC Data
+  - active: 0
+    file: search_console_nonindexable_with_gsc_data.csv
+    id: Search Console:Non-Indexable with GSC Data
+  - active: 0
+    file: search_console_orphan_urls.csv
+    id: Search Console:Orphan URLs
+  - active: 0
+    file: pagespeed_serve_images_in_nextgen_formats.csv
+    id: PageSpeed:Serve Images in Next-Gen Formats
+  - active: 0
+    file: pagespeed_enable_text_compression.csv
+    id: PageSpeed:Enable Text Compression
+  - active: 0
+    file: pagespeed_preconnect_to_required_origins.csv
+    id: PageSpeed:Preconnect to Required Origins
+  - active: 0
+    file: pagespeed_reduce_server_response_times_(ttfb).csv
+    id: PageSpeed:Reduce Server Response Times (TTFB)
+  - active: 0
+    file: pagespeed_avoid_multiple_page_redirects.csv
+    id: PageSpeed:Avoid Multiple Page Redirects
+  - active: 0
+    file: pagespeed_preload_key_requests.csv
+    id: PageSpeed:Preload Key Requests
+  - active: 0
+    file: pagespeed_use_video_formats_for_animated_content.csv
+    id: PageSpeed:Use Video Formats for Animated Content
+  - active: 0
+    file: pagespeed_avoid_excessive_dom_size.csv
+    id: PageSpeed:Avoid Excessive DOM Size
+  - active: 0
+    file: pagespeed_reduce_javascript_execution_time.csv
+    id: PageSpeed:Reduce JavaScript Execution Time
+  - active: 0
+    file: pagespeed_serve_static_assets_with_an_efficient_cache_policy.csv
+    id: PageSpeed:Serve Static Assets with an Efficient Cache Policy
+  - active: 0
+    file: pagespeed_minimize_mainthread_work.csv
+    id: PageSpeed:Minimize Main-Thread Work
+  - active: 0
+    file: pagespeed_ensure_text_remains_visible_during_webfont_load.csv
+    id: PageSpeed:Ensure Text Remains Visible During Webfont Load
+  - active: 0
+    file: pagespeed_request_errors.csv
+    id: PageSpeed:Request Errors
+  - active: 0
+    file: directives_maxsnippet.csv
+    id: Directives:Max-Snippet
+  - active: 0
+    file: directives_maximagepreview.csv
+    id: Directives:Max-Image-Preview
+  - active: 0
+    file: directives_maxvideopreview.csv
+    id: Directives:Max-Video-Preview
+  - active: 0
+    file: structured_data_missing.csv
+    id: Structured Data:Missing
+  - active: 0
+    file: pagespeed_all.csv
+    id: PageSpeed:All
+  - active: 0
+    file: pagespeed_eliminate_renderblocking_resources.csv
+    id: PageSpeed:Eliminate Render-Blocking Resources
+  - active: 0
+    file: pagespeed_properly_size_images.csv
+    id: PageSpeed:Properly Size Images
+  - active: 0
+    file: pagespeed_defer_offscreen_images.csv
+    id: PageSpeed:Defer Offscreen Images
+  - active: 0
+    file: pagespeed_minify_css.csv
+    id: PageSpeed:Minify CSS
+  - active: 0
+    file: pagespeed_minify_javascript.csv
+    id: PageSpeed:Minify Javascript
+  - active: 0
+    file: pagespeed_remove_unused_css.csv
+    id: PageSpeed:Remove Unused CSS
+  - active: 0
+    file: pagespeed_efficiently_encode_images.csv
+    id: PageSpeed:Efficiently Encode Images
+  - active: 0
+    file: amp_missing_invalid_amp_boilerplate.csv
+    id: AMP:Missing/Invalid AMP Boilerplate
+  - active: 0
+    file: amp_contains_disallowed_html.csv
+    id: AMP:Contains Disallowed HTML
+  - active: 0
+    file: amp_other_validation_errors.csv
+    id: AMP:Other Validation Errors
+  - active: 0
+    file: structured_data_all.csv
+    id: Structured Data:All
+  - active: 0
+    file: structured_data_contains_structured_data.csv
+    id: Structured Data:Contains Structured Data
+  - active: 0
+    file: structured_data_missing.csv
+    id: Structured Data:Missing Structured Data
+  - active: 0
+    file: structured_data_validation_errors.csv
+    id: Structured Data:Validation Errors
+  - active: 0
+    file: structured_data_validation_warnings.csv
+    id: Structured Data:Validation Warnings
+  - active: 0
+    file: structured_data_parse_errors.csv
+    id: Structured Data:Parse Errors
+  - active: 0
+    file: structured_data_microdata_urls.csv
+    id: Structured Data:Microdata URLs
+  - active: 0
+    file: structured_data_jsonld_urls.csv
+    id: Structured Data:JSON-LD URLs
+  - active: 0
+    file: structured_data_rdfa_urls.csv
+    id: Structured Data:RDFa URLs
+  - active: 0
+    file: sitemaps_all.csv
+    id: Sitemaps:All
+  - active: 0
+    file: sitemaps_urls_in_sitemap.csv
+    id: Sitemaps:URLs in Sitemap
+  - active: 0
+    file: sitemaps_urls_not_in_sitemap.csv
+    id: Sitemaps:URLs not in Sitemap
+  - active: 0
+    file: sitemaps_orphan_urls.csv
+    id: Sitemaps:Orphan URLs
+  - active: 0
+    file: sitemaps_nonindexable_urls_in_sitemap.csv
+    id: Sitemaps:Non-Indexable URLs in Sitemap
+  - active: 0
+    file: sitemaps_urls_in_multiple_sitemaps.csv
+    id: Sitemaps:URLs in Multiple Sitemaps
+  - active: 0
+    file: sitemaps_xml_sitemap_with_over_50k_urls.csv
+    id: Sitemaps:XML Sitemap with over 50k URLs
+  - active: 0
+    file: sitemaps_xml_sitemap_over_50mb.csv
+    id: Sitemaps:XML Sitemap over 50MB
+  - active: 0
+    file: amp_missing_nonamp_canonical.csv
+    id: AMP:Missing Non-AMP Canonical
+  - active: 0
+    file: amp_nonindexable_canonical.csv
+    id: AMP:Non-Indexable Canonical
+  - active: 0
+    file: amp_indexable.csv
+    id: AMP:Indexable
+  - active: 0
+    file: amp_nonindexable.csv
+    id: AMP:Non-Indexable
+  - active: 0
+    file: amp_missing_html_amp_tag.csv
+    id: AMP:Missing <html amp> Tag
+  - active: 0
+    file: amp_missing_invalid_doctype_html_tag.csv
+    id: AMP:Missing/Invalid <!doctype html> Tag
+  - active: 0
+    file: amp_missing_head_tag.csv
+    id: AMP:Missing <head> Tag
+  - active: 0
+    file: amp_missing_body_tag.csv
+    id: AMP:Missing <body> Tag
+  - active: 0
+    file: amp_missing_canonical.csv
+    id: AMP:Missing Canonical
+  - active: 0
+    file: amp_missing_invalid_meta_charset_tag.csv
+    id: AMP:Missing/Invalid <meta charset> Tag
+  - active: 0
+    file: amp_missing_invalid_meta_viewport_tag.csv
+    id: AMP:Missing/Invalid <meta viewport> Tag
+  - active: 0
+    file: amp_missing_invalid_amp_script.csv
+    id: AMP:Missing/Invalid AMP Script
+  - active: 0
+    file: ajax_all.csv
+    id: AJAX:All
+  - active: 0
+    file: ajax_with_hash_fragment.csv
+    id: AJAX:With Hash Fragment
+  - active: 0
+    file: ajax_without_hash_fragment.csv
+    id: AJAX:Without Hash Fragment
+  - active: 0
+    file: amp_all.csv
+    id: AMP:All
+  - active: 0
+    file: amp_non200_response.csv
+    id: AMP:Non-200 Response
+  - active: 0
+    file: amp_nonconfirming_canonical.csv
+    id: AMP:Non-Confirming Canonical
+  - active: 1
+    file: images_alt_text_over_100_characters.csv
+    id: Images:Alt Text over X Characters
+  - active: 0
+    file: canonicals_all.csv
+    id: Canonicals:All
+  - active: 0
+    file: canonicals_contains_canonical.csv
+    id: Canonicals:Contains Canonical
+  - active: 0
+    file: canonicals_self_referencing.csv
+    id: Canonicals:Self Referencing
+  - active: 0
+    file: canonicals_canonicalised.csv
+    id: Canonicals:Canonicalised
+  - active: 0
+    file: canonicals_missing.csv
+    id: Canonicals:Missing
+  - active: 0
+    file: canonicals_multiple.csv
+    id: Canonicals:Multiple
+  - active: 0
+    file: canonicals_nonindexable_canonical.csv
+    id: Canonicals:Non-Indexable Canonical
+  - active: 0
+    file: pagination_all.csv
+    id: Pagination:All
+  - active: 0
+    file: pagination_contains_pagination.csv
+    id: Pagination:Contains Pagination
+  - active: 0
+    file: pagination_first_page.csv
+    id: Pagination:First Page
+  - active: 0
+    file: pagination_paginated_2+_pages.csv
+    id: Pagination:Paginated 2+ Pages
+  - active: 0
+    file: pagination_pagination_url_not_in_anchor_tag.csv
+    id: Pagination:Pagination URL Not In Anchor Tag
+  - active: 0
+    file: pagination_non200_pagination_urls.csv
+    id: Pagination:Non-200 Pagination URLs
+  - active: 0
+    file: pagination_unlinked_pagination_urls.csv
+    id: Pagination:Unlinked Pagination URLs
+  - active: 0
+    file: pagination_nonindexable.csv
+    id: Pagination:Non-Indexable
+  - active: 0
+    file: pagination_multiple_pagination_urls.csv
+    id: Pagination:Multiple Pagination URLs
+  - active: 0
+    file: pagination_pagination_loop.csv
+    id: Pagination:Pagination Loop
+  - active: 0
+    file: pagination_sequence_error.csv
+    id: Pagination:Sequence Error
+  - active: 0
+    file: directives_all.csv
+    id: Directives:All
+  - active: 0
+    file: directives_index.csv
+    id: Directives:Index
+  - active: 0
+    file: directives_noindex.csv
+    id: Directives:Noindex
+  - active: 0
+    file: directives_follow.csv
+    id: Directives:Follow
+  - active: 0
+    file: directives_nofollow.csv
+    id: Directives:Nofollow
+  - active: 1
+    file: h1_missing.csv
+    id: H1:Missing
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: h1_duplicate.csv
+    id: H1:Duplicate
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: h1_over_70_characters.csv
+    id: H1:Over X Characters
+  - active: 1
+    file: h1_multiple.csv
+    id: H1:Multiple
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: h2_all.csv
+    id: H2:All
+  - active: 0
+    file: h2_missing.csv
+    id: H2:Missing
+  - active: 0
+    file: h2_duplicate.csv
+    id: H2:Duplicate
+  - active: 0
+    file: h2_over_70_characters.csv
+    id: H2:Over X Characters
+  - active: 0
+    file: h2_multiple.csv
+    id: H2:Multiple
+  - active: 0
+    file: images_all.csv
+    id: Images:All
+  - active: 1
+    file: images_over_100_kb.csv
+    id: Images:Over X KB
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: images_missing_alt_text.csv
+    id: Images:Missing Alt Text
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: link_metrics_all.csv
+    id: Link Metrics:All
+  - active: 1
+    file: meta_description_missing.csv
+    id: Meta Description:Missing
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: meta_description_duplicate.csv
+    id: Meta Description:Duplicate
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: meta_description_over_155_characters.csv
+    id: Meta Description:Over X Characters
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: meta_description_below_70_characters.csv
+    id: Meta Description:Below X Characters
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: meta_description_over_940_pixels.csv
+    id: Meta Description:Over X Pixels
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: meta_description_below_400_pixels.csv
+    id: Meta Description:Below X Pixels
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: meta_description_multiple.csv
+    id: Meta Description:Multiple
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: meta_keywords_all.csv
+    id: Meta Keywords:All
+  - active: 0
+    file: meta_keywords_missing.csv
+    id: Meta Keywords:Missing
+  - active: 1
+    file: meta_keywords_duplicate.csv
+    id: Meta Keywords:Duplicate
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: meta_keywords_multiple.csv
+    id: Meta Keywords:Multiple
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: h1_all.csv
+    id: H1:All
+  - active: 0
+    file: external_css.csv
+    id: External:CSS
+  - active: 0
+    file: external_images.csv
+    id: External:Images
+  - active: 0
+    file: external_pdf.csv
+    id: External:PDF
+  - active: 0
+    file: external_flash.csv
+    id: External:Flash
+  - active: 0
+    file: external_other.csv
+    id: External:Other
+  - active: 0
+    file: external_unknown.csv
+    id: External:Unknown
+  - active: 0
+    file: protocol_all.csv
+    id: Protocol:All
+  - active: 1
+    file: security_http_urls.csv
+    id: Security:HTTP URLs
+    description: "Google gebruikt nu HTTPS als een ranglijstsignaal. Uit gegevensanalyse is gebleken dat HTTPS-websites een hoger voordeel hebben van rangschikken via HTTP-koppelingen, dus overschakelen naar HTTPS komt ten goede aan elke website, ongeacht of het vertrouwelijke informatie betreft. Hieronder een lijst met HTTP urls die gewijzigd dienen te worden."
+    columns: ["Address"]
+  - active: 1
+    file: security_http_urls.csv
+    id: Security:HTTP URLs
+    description: "Google gebruikt nu HTTPS als een ranglijstsignaal. Uit gegevensanalyse is gebleken dat HTTPS-websites een hoger voordeel hebben van rangschikken via HTTP-koppelingen, dus overschakelen naar HTTPS komt ten goede aan elke website, ongeacht of het vertrouwelijke informatie betreft. Hieronder een lijst met HTTP urls die gewijzigd dienen te worden."
+    columns: ["Address"]
+  - active: 0
+    file: security_mixed_content.csv
+    id: Security:Mixed Content
+    description: "Google gebruikt nu HTTPS als een ranglijstsignaal. Uit gegevensanalyse is gebleken dat HTTPS-websites een hoger voordeel hebben van rangschikken via HTTP-koppelingen, dus overschakelen naar HTTPS komt ten goede aan elke website, ongeacht of het vertrouwelijke informatie betreft. Hieronder een lijst met HTTP urls die gewijzigd dienen te worden."
+    columns: ["Address"]
+  - active: 0
+    file: response_codes_all.csv
+    id: Response Codes:All
+  - active: 1
+    file: response_codes_blocked_by_robots_txt.csv
+    id: Response Codes:Blocked by Robots.txt
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: response_codes_blocked_resource.csv
+    id: Response Codes:Blocked Resource
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: url_parameters.csv
+    id: URL:Parameters
+  - active: 1
+    file: url_over_115_characters.csv
+    id: URL:Over X Characters
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: page_titles_all.csv
+    id: Page Titles:All
+  - active: 1
+    file: page_titles_missing.csv
+    id: Page Titles:Missing
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: page_titles_duplicate.csv
+    id: Page Titles:Duplicate
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: page_titles_over_65_characters.csv
+    id: Page Titles:Over X Characters
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: page_titles_below_30_characters.csv
+    id: Page Titles:Below X Characters
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: page_titles_over_568_pixels.csv
+    id: Page Titles:Over X pixels
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: page_titles_below_200_pixels.csv
+    id: Page Titles:Below X pixels
+  - active: 0
+    file: page_titles_same_as_h1.csv
+    id: Page Titles:Same as H1
+  - active: 1
+    file: page_titles_multiple.csv
+    id: Page Titles:Multiple
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: meta_description_all.csv
+    id: Meta Description:All
+  - active: 1
+    file: response_codes_no_response.csv
+    id: Response Codes:No Response
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: response_codes_success_(2xx).csv
+    id: Response Codes:Success (2xx)
+  - active: 1
+    file: response_codes_redirection_(3xx).csv
+    id: Response Codes:Redirection (3xx)
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: response_codes_redirection_(javascript).csv
+    id: Response Codes:Redirection (JavaScript)
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: response_codes_redirection_(meta_refresh).csv
+    id: Response Codes:Redirection (Meta Refresh)
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: response_codes_client_error_(4xx).csv
+    id: Response Codes:Client Error (4xx)
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: response_codes_server_error_(5xx).csv
+    id: Response Codes:Server Error (5xx)
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: url_all.csv
+    id: URL:All
+  - active: 1
+    file: url_non_ascii_characters.csv
+    id: URL:Non ASCII Characters
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: url_underscores.csv
+    id: URL:Underscores
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: url_uppercase.csv
+    id: URL:Uppercase
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: content_exact_duplicates.csv
+    id: Content:Exact Duplicates
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: content_near_duplicates.csv
+    id: Content:Near Duplicates
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: content_spelling_errors.csv
+    id: Content:Spelling Errors
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: content_grammar_errors.csv
+    id: Content:Grammar Errors
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: content_low_content_pages.csv
+    id: Content:Low Content Pages
+    description: ""
+    columns: ["Address"]

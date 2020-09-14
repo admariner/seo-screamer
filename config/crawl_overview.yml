@@ -1,0 +1,777 @@
+"Info":
+  "sr": 0
+  "nr": 3
+  "h":
+  "overview": 0
+"Summary":
+  "sr": 5
+  "nr": 8
+  "h":
+  "overview": 0
+"Internal":
+  "sr": 15
+  "nr": 9
+  "h":
+  "overview": 1
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "HTML":
+      "grades":
+      "difficult":
+    "JavaScript":
+      "grades":
+      "difficult":
+    "CSS":
+      "grades":
+      "difficult":
+    "Images":
+      "grades":
+      "difficult":
+    "PDF":
+      "grades":
+      "difficult":
+    "Flash":
+      "grades":
+      "difficult":
+    "Other":
+      "grades":
+      "difficult":
+    "Unknown":
+      "grades":
+      "difficult":
+"External":
+  "sr": 26
+  "nr": 9
+  "h":
+  "overview": 1
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "HTML":
+      "grades":
+      "difficult":
+    "JavaScript":
+      "grades":
+      "difficult":
+    "CSS":
+      "grades":
+      "difficult":
+    "Images":
+      "grades":
+      "difficult":
+    "PDF":
+      "grades":
+      "difficult":
+    "Flash":
+      "grades":
+      "difficult":
+    "Other":
+      "grades":
+      "difficult":
+    "Unknown":
+      "grades":
+      "difficult":
+"Security":
+  "sr": 37
+  "nr": 13
+  "h":
+  "overview": 1
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "HTTP URLs":
+      "grades": [0, 1]
+      "difficult": 3
+    "HTTPS URLs":
+      "grades":
+      "difficult":
+    "Mixed Content":
+      "grades": [0, 1]
+      "difficult": 3
+    "Form URL Insecure":
+      "grades": [0, 1]
+      "difficult": 3
+    "Form on HTTP URL":
+      "grades": [0, 1]
+      "difficult": 3
+    "Unsafe Cross-Origin Links":
+      "grades": [0, 1]
+      "difficult": 5
+    # "Protocol-Relative Resource Links":
+    #   "grades": [0, 1]
+    #   "difficult": 5
+    # "Missing HSTS Header":
+    #   "grades": [0, 1]
+    #   "difficult": 5
+    # "Missing Content-Security-Policy Header":
+    #   "grades": [0, 1]
+    #   "difficult": 5
+    # "Missing X-Content-Type-Options Header":
+    #   "grades": [0, 1]
+    #   "difficult": 5
+    # "Missing X-Frame-Options Header":
+    #   "grades": [0, 1]
+    #   "difficult": 5
+    # "Bad Content Type":
+    #   "grades": [0, 1]
+    #   "difficult": 5
+"Response Codes":
+  "sr": 52
+  "nr": 10
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Blocked by Robots.txt":
+      "grades":
+      "difficult": 3
+    "Blocked Resource":
+      "grades": [0, 1]
+      "difficult": 3
+    "No Response":
+      "grades": [0, 1]
+      "difficult": 3
+    "Success (2xx)":
+      "grades": [0]
+      "difficult":
+    "Redirection (3xx)":
+      "grades":
+      "difficult":
+    "Redirection (JavaScript)":
+      "grades":
+      "difficult": 5
+    "Redirection (Meta Refresh)":
+      "grades":
+      "difficult": 5
+    "Client Error (4xx)":
+      "grades": [0, 1]
+      "difficult": 5
+    "Server Error (5xx)":
+      "grades": [0, 1]
+      "difficult": 5
+"URL":
+  "sr": 64
+  "nr": 6
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Non ASCII Characters":
+      "grades": [0, 1]
+      "difficult": 2
+    "Underscores":
+      "grades": [0, 1]
+      "difficult": 2
+    "Uppercase":
+      "grades": [0, 1]
+      "difficult": 2
+    "Parameters":
+      "grades": [0, 1]
+      "difficult": 2
+    "Over 115 Characters":
+      "grades": [0, 1]
+      "difficult": 2
+"Page Titles":
+  "sr": 72
+  "nr": 9
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Missing":
+      "grades": [0, 1]
+      "difficult": 1
+    "Duplicate":
+      "grades": [0, 1]
+      "difficult": 1
+    "Over 65 Characters":
+      "grades": [0, 1]
+      "difficult": 1
+    "Below 30 Characters":
+      "grades": [0, 1]
+      "difficult": 1
+    "Over 568 Pixels":
+      "grades": [0, 1]
+      "difficult": 1
+    "Below 200 Pixels":
+      "grades": [0, 1]
+      "difficult": 1
+    "Same as H1":
+      "grades": [0, 1]
+      "difficult": 1
+    "Multiple":
+      "grades": [0, 1]
+      "difficult": 1
+"Meta Description":
+  "sr": 83
+  "nr": 8
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Missing":
+      "grades": [0, 1]
+      "difficult": 1
+    "Duplicate":
+      "grades": [0, 1]
+      "difficult": 1
+    "Over 155 Characters":
+      "grades": [0, 1]
+      "difficult": 1
+    "Below 70 Characters":
+      "grades": [0, 1]
+      "difficult": 1
+    "Over 940 Pixels":
+      "grades": [0, 1]
+      "difficult": 1
+    "Below 400 Pixels":
+      "grades": [0, 1]
+      "difficult": 1
+    "Multiple":
+      "grades": [0, 1]
+      "difficult": 5
+"Meta Keywords":
+  "sr": 93
+  "nr": 4
+  "h":
+  "overview": 90
+  # "Data":
+  #   "All":
+  #     "grades":
+  #     "difficult":
+  #   "Missing":
+  #     "grades":
+  #     "difficult":
+  #   "Duplicate":
+  #     "grades":
+  #     "difficult":
+  #   "Multiple":
+  #     "grades":
+  #     "difficult":
+"H1":
+  "sr": 99
+  "nr": 5
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Missing":
+      "grades": [0, 1]
+      "difficult": 1
+    "Duplicate":
+      "grades": [0, 1]
+      "difficult": 1
+    "Over 70 Characters":
+      "grades": [0, 1]
+      "difficult": 1
+    "Multiple":
+      "grades": [0, 1]
+      "difficult": 1
+"H2":
+  "sr": 106
+  "nr": 5
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Missing":
+      "grades": [0, 1]
+      "difficult": 1
+    "Duplicate":
+      "grades": [0, 1]
+      "difficult": 1
+    "Over 70 Characters":
+      "grades": [0, 1]
+      "difficult": 1
+    "Multiple":
+      "grades": [0, 1]
+      "difficult": 1
+"Content":
+  "sr": 113
+  "nr": 6
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Exact Duplicates":
+      "grades": [0, 1]
+      "difficult": 2
+    "Near Duplicates":
+      "grades": [0, 1]
+      "difficult": 2
+    "Low Content Pages":
+      "grades": [0, 1]
+      "difficult": 1
+    "Spelling Errors":
+      "grades": [0, 1]
+      "difficult": 1
+    "Grammar Errors":
+      "grades": [0, 1]
+      "difficult": 1
+"Images":
+  "sr": 121
+  "nr": 4
+  "h":
+  "overview": 1
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Over 100 KB":
+      "grades": [0, 1]
+      "difficult": 1
+    "Missing Alt Text":
+      "grades": [0, 1]
+      "difficult": 1
+    "Alt Text Over 100 Characters":
+      "grades": [0, 1]
+      "difficult": 1
+"Response Time":
+  "sr": 314
+  "nr": 3
+  "h":
+  "overview": 91
+"Search Console":
+  "sr": 209
+  "nr": 9
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Clicks Above 0":
+      "grades": [0, 1]
+      "difficult": 5
+    "No GSC Data":
+      "grades": [0, 1]
+      "difficult": 5
+    "Non-Indexable with GSC Data":
+      "grades": [0, 1]
+      "difficult": 5
+    "Orphan URLs":
+      "grades": [0, 1]
+      "difficult": 5
+"Analytics":
+  "sr": 268
+  "nr": 5
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Sessions Above 0":
+      "grades": [0, 1]
+      "difficult": 5
+    "Bounce Rate Above 70%":
+      "grades": [0, 1]
+      "difficult": 5
+    "No GA Data":
+      "grades": [0, 1]
+      "difficult": 5
+    "Non-Indexable with GA Data":
+      "grades": [0, 1]
+      "difficult": 5
+    "Orphan URLs":
+      "grades": [0, 1]
+      "difficult": 5
+"PageSpeed":
+  "sr": 230
+  "nr": 22
+  "h":
+  "overview": 1
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Eliminate Render-Blocking Resources":
+      "grades": [0, 1]
+      "difficult": 5
+    "Properly Size Images":
+      "grades": [0, 1]
+      "difficult": 3
+    "Defer Offscreen Images":
+      "grades": [0, 1]
+      "difficult": 5
+    "Minify CSS":
+      "grades":
+      "difficult": 5
+    "Minify JavaScript":
+      "grades":
+      "difficult": 5
+    "Remove Unused CSS":
+      "grades":
+      "difficult": 5
+    "Remove Unused JavaScript":
+      "grades":
+      "difficult": 5
+    "Efficiently Encode Images":
+      "grades":
+      "difficult": 5
+    "Serve Images in Next-Gen Formats":
+      "grades":
+      "difficult": 5
+    "Enable Text Compression":
+      "grades":
+      "difficult": 5
+    "Preconnect to Required Origins":
+      "grades":
+      "difficult": 5
+    "Reduce Server Response Times (TTFB)":
+      "grades":
+      "difficult": 5
+    "Avoid Multiple Page Redirects":
+      "grades":
+      "difficult": 5
+    "Preload Key Requests":
+      "grades":
+      "difficult": 5
+    "Use Video Formats for Animated Content":
+      "grades":
+      "difficult": 5
+    "Avoid Excessive DOM Size":
+      "grades":
+      "difficult": 5
+    "Reduce JavaScript Execution Time":
+      "grades":
+      "difficult": 5
+    "Serve Static Assets with an Efficient Cache Policy":
+      "grades":
+      "difficult": 5
+    "Minimize Main-Thread Work":
+      "grades":
+      "difficult": 5
+    "Ensure Text Remains Visible During Webfont Load":
+      "grades":
+      "difficult": 5
+    "Request Errors":
+      "grades": [0, 1]
+      "difficult": 5
+"Sitemaps":
+  "sr": 220
+  "nr": 8
+  "h":
+  "overview": 1
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "URLs in Sitemap":
+      "grades": [0, 1]
+      "difficult": 5
+    "URLs not in Sitemap":
+      "grades": [0, 1]
+      "difficult": 3
+    "Orphan URLs":
+      "grades": [0, 1]
+      "difficult": 3
+    "Non-Indexable URLs in Sitemap":
+      "grades": [0, 1]
+      "difficult": 5
+    "URLs in Multiple Sitemaps":
+      "grades": [0, 1]
+      "difficult": 5
+    "XML Sitemap with over 50k URLs":
+      "grades": [0, 1]
+      "difficult": 5
+    "XML Sitemap over 50MB":
+      "grades": [0, 1]
+      "difficult": 5
+"Structured Data":
+  "sr": 209
+  "nr": 9
+  "h":
+  "overview": 1
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Contains Structured Data":
+      "grades":
+      "difficult":
+    "Missing":
+      "grades": [0, 1]
+      "difficult": 5
+    "Validation Errors":
+      "grades": [0, 1]
+      "difficult": 5
+    "Validation Warnings":
+      "grades": [0, 1]
+      "difficult": 5
+    "Parse Errors":
+      "grades": [0, 1]
+      "difficult": 5
+    "Microdata URLs":
+      "grades": [0, 1]
+      "difficult": 5
+    "JSON-LD URLs":
+      "grades": [0, 1]
+      "difficult": 5
+    "RDFa URLs":
+      "grades": [0, 1]
+      "difficult": 5
+"AMP":
+  "sr": 189
+  "nr": 18
+  "h":
+  "overview": 2
+  "Data":
+    # "All":
+    #   "grades":
+    #   "difficult":
+    "Non-200 Response":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing Non-AMP Return Link":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing Canonical to Non-AMP":
+      "grades": [0, 1]
+      "difficult": 5
+    "Non-Indexable Canonical":
+      "grades": [0, 1]
+      "difficult": 5
+    "Indexable":
+      "grades": [0, 1]
+      "difficult": 5
+    "Non-Indexable":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing <html amp> Tag":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing/Invalid <!doctype html> Tag":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing <head> Tag":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing <body> Tag":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing Canonical":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing/Invalid <meta charset> Tag":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing/Invalid <meta viewport> Tag":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing/Invalid AMP Script":
+      "grades": [0, 1]
+      "difficult": 5
+    "Missing/Invalid AMP Boilerplate":
+      "grades": [0, 1]
+      "difficult": 5
+    "Contains Disallowed HTML":
+      "grades": [0, 1]
+      "difficult": 5
+    "Other Validation Errors":
+      "grades": [0, 1]
+      "difficult": 5
+"Canonicals":
+  "sr": 127
+  "nr": 7
+  "h":
+  "overview": 99
+#   "Data":
+#     "All":
+#       "grades":
+#       "difficult":
+#     "Contains Canonical":
+#       "grades":
+#       "difficult":
+#     "Self Referencing":
+#       "grades":
+#       "difficult":
+#     "Canonicalised":
+#       "grades":
+#       "difficult":
+#     "Missing":
+#       "grades":
+#       "difficult":
+#     "Multiple":
+#       "grades":
+#       "difficult":
+#     "Non-Indexable Canonical":
+#       "grades":
+#       "difficult":
+"Pagination":
+  "sr": 136
+  "nr": 11
+  "h":
+  "overview": 99
+#   "Data":
+#     "All":
+#       "grades":
+#       "difficult":
+#     "Contains Pagination":
+#       "grades":
+#       "difficult":
+#     "First Page":
+#       "grades":
+#       "difficult":
+#     "Paginated 2+ Pages":
+#       "grades":
+#       "difficult":
+#     "Pagination URL Not In Anchor Tag":
+#       "grades":
+#       "difficult":
+#     "Non-200 Pagination URLs":
+#       "grades":
+#       "difficult":
+#     "Unlinked Pagination URLs":
+#       "grades":
+#       "difficult":
+#     "Non-Indexable":
+#       "grades":
+#       "difficult":
+#     "Multiple Pagination URLs":
+#       "grades":
+#       "difficult":
+#     "Pagination Loop":
+#       "grades":
+#       "difficult":
+#     "Sequence Error":
+#       "grades":
+#       "difficult":
+"Directives":
+  "sr": 149
+  "nr": 17
+  "h":
+  "overview": 99
+#   "Data":
+#     "All":
+#       "grades":
+#       "difficult":
+#     "Index":
+#       "grades":
+#       "difficult":
+#     "Noindex":
+#       "grades":
+#       "difficult":
+#     "Follow":
+#       "grades":
+#       "difficult":
+#     "Nofollow":
+#       "grades":
+#       "difficult":
+#     "None":
+#       "grades":
+#       "difficult":
+#     "NoArchive":
+#       "grades":
+#       "difficult":
+#     "NoSnippet":
+#       "grades":
+#       "difficult":
+#     "Max-Snippet":
+#       "grades":
+#       "difficult":
+#     "Max-Image-Preview":
+#       "grades":
+#       "difficult":
+#     "Max-Video-Preview":
+#       "grades":
+#       "difficult":
+#     "NoODP":
+#       "grades":
+#       "difficult":
+#     "NoYDIR":
+#       "grades":
+#       "difficult":
+#     "NoImageIndex":
+#       "grades":
+#       "difficult":
+#     "NoTranslate":
+#       "grades":
+#       "difficult":
+#     "Unavailable_After":
+#       "grades":
+#       "difficult":
+#     "Refresh":
+#       "grades":
+#       "difficult":
+"Hreflang":
+  "sr": 168
+  "nr": 14
+  "h":
+  "overview": 99
+#   "Data":
+#     "All":
+#       "grades":
+#       "difficult":
+#     "Contains hreflang":
+#       "grades":
+#       "difficult":
+#     "Non-200 hreflang URLs":
+#       "grades":
+#       "difficult":
+#     "Unlinked hreflang URLs":
+#       "grades":
+#       "difficult":
+#     "Missing Return Links":
+#       "grades":
+#       "difficult":
+#     "Inconsistent Language & Region Return Links":
+#       "grades":
+#       "difficult":
+#     "Non-Canonical Return Links":
+#       "grades":
+#       "difficult":
+#     "Noindex Return Links":
+#       "grades":
+#       "difficult":
+#     "Incorrect Language & Region Codes":
+#       "grades":
+#       "difficult":
+#     "Multiple Entries":
+#       "grades":
+#       "difficult":
+#     "Missing Self Reference":
+#       "grades":
+#       "difficult":
+#     "Not Using Canonical":
+#       "grades":
+#       "difficult":
+#     "Missing X-Default":
+#       "grades":
+#       "difficult":
+#     "Missing":
+#       "grades":
+#       "difficult":
+"AJAX":
+  "sr": 184
+  "nr": 3
+  "h":
+  "overview": 99
+#   "Data":
+#     "All":
+#       "grades":
+#       "difficult":
+#     "With Hash Fragment":
+#       "grades":
+#       "difficult":
+#     "Without Hash Fragment":
+#       "grades":
+#       "difficult":

@@ -9,10 +9,11 @@ import json
 
 class GoogleSearchConsole:
     def __init__(self, webproperty=None, domain=None, start_date="today", days=-30, dimension=['device', 'query', 'country',
-                                                                                       'page'], config_path=None):
+                                                                                               'page'], config_path=None):
         try:
             if webproperty == domain == config_path is None:
-                raise Exception("URL or Domain or Config_path variable is None!")
+                raise Exception(
+                    "URL or Domain or Config_path variable is None!")
 
             self.start_date = start_date
             self.days_back = days
@@ -24,7 +25,8 @@ class GoogleSearchConsole:
             self.data_file = ""
 
             self.credentials = os.path.join(config_path, 'credentials.json')
-            self.client_secrets = os.path.join(config_path, 'client_service_secret.json')
+            self.client_secrets = os.path.join(
+                config_path, 'client_service_secret.json')
 
             self.connect_google()  # Connection to Google search
 
@@ -36,7 +38,8 @@ class GoogleSearchConsole:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
     def connect_google(self):
@@ -57,14 +60,17 @@ class GoogleSearchConsole:
             self.data_file = self.file_name(dimension)
 
             if os.path.isfile(self.data_file):
-                logging.info('Found {} google search console json file'.format(dimension))
+                logging.info(
+                    'Found {} google search console json file'.format(dimension))
 
                 file = os.path.basename(self.data_file)
                 file_date = file.split("_")
 
                 if file_date[0] == str(self.start_date):
-                    logging.info('Using {} data from google search console json file'.format(dimension))
-                    self.dimension_data[dimension] = self.open_file_with_contents(self.data_file)
+                    logging.info(
+                        'Using {} data from google search console json file'.format(dimension))
+                    self.dimension_data[dimension] = self.open_file_with_contents(
+                        self.data_file)
                     return
             logging.info('No google search console file found')
 
@@ -72,25 +78,30 @@ class GoogleSearchConsole:
                 self.dimension_data[dimension] = self.get_data(dimension)
 
                 if self.dimension_data[dimension] is not None:
-                    logging.info('Create file with {} google search console json file'.format(dimension))
-                    self.save_file_with_contents(self.data_file, self.dimension_data[dimension])
+                    logging.info(
+                        'Create file with {} google search console json file'.format(dimension))
+                    self.save_file_with_contents(
+                        self.data_file, self.dimension_data[dimension])
             else:
                 raise Exception("We found a dimension that's not in our list!")
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return False
 
     def get_data(self, dimension):
         try:
-            report = self.webproperty.query.range(self.start_date, days=self.days_back).dimension(dimension).get()
+            report = self.webproperty.query.range(
+                self.start_date, days=self.days_back).dimension(dimension).get()
             return report.raw
 
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
     def file_name(self, dimension=None):
@@ -99,13 +110,15 @@ class GoogleSearchConsole:
                 raise Exception("Dimension is None!")
 
             dir_path = os.path.dirname(os.path.realpath(__file__))
-            data_folder = os.path.join(dir_path, "../data", self.domain, 'google_search_console')
+            data_folder = os.path.join(
+                dir_path, "..", "data", self.domain, 'google_search_console')
             data_file_name = "{}_{}.json".format(self.start_date, dimension)
             return os.path.join(data_folder, data_file_name)
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
     def open_file_with_contents(self, file=None):
@@ -118,7 +131,8 @@ class GoogleSearchConsole:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
     def save_file_with_contents(self, file=None, content=None):
@@ -131,7 +145,8 @@ class GoogleSearchConsole:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
 
@@ -146,8 +161,10 @@ if __name__ == '__main__':
 
     dimensions = ['device', 'query', 'country', 'page']
     domain = 'oesterbaron.nl'
-    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today, -30, dimensions, config_path)
-    g = GoogleSearchConsole('https://oesterbaron.nl/', domain, today_lastMonth, -30, dimensions, config_path)
+    g = GoogleSearchConsole('https://oesterbaron.nl/',
+                            domain, today, -30, dimensions, config_path)
+    g = GoogleSearchConsole('https://oesterbaron.nl/',
+                            domain, today_lastMonth, -30, dimensions, config_path)
     logging.info(g.dimension_data)
 
 # https://www.purepython.org/
@@ -168,8 +185,6 @@ if __name__ == '__main__':
 
 # sc-domain:theo-van-der-sluijs.nl
 # sc-domain:purepython.org
-
-
 
     #
     # clicks = 0

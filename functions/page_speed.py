@@ -11,6 +11,9 @@ from datetime import date
 class PageSpeed:
     def __init__(self, ps_api=None, url=None, domain=None, strategy="mobile", locale="nl"):
         try:
+            if domain is None:
+                print("No Domain!!!!!!")
+                return
             if url == ps_api is None:
                 raise Exception("URL or PS_API is None")
 
@@ -36,9 +39,8 @@ class PageSpeed:
 
             dir_path = os.path.dirname(os.path.realpath(__file__))
             domain_folder = os.path.join(
-                dir_path, "../data", "{}".format(domain), 'page_speed')
-            data_file_name = "{}_{}_{}.json".format(
-                self.datum, self.ps_strategy, domain)
+                dir_path, "..", "data", f"{domain}", 'page_speed')
+            data_file_name = f"{self.datum}_{self.ps_strategy}_{domain}.json"
             self.data_file = os.path.join(domain_folder, data_file_name)
 
             self.google_url = ""

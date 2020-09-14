@@ -6,6 +6,10 @@ config/*
 images/*s
 !config/config_sample.yml
 !config/client_service_secret_sample.json
+!config/export_tabs.yml
+!config/bulk_exports.yml
+!config/crawl_overview.yml
+!config/crawl_overview_lang.yml
 data/*
 logging/*
 mail-attachments/
@@ -18,3 +22,6 @@ functions/__pycache__/*
 word_output/*
 venv/
 venv/*
+.venv/
+.venv/*
+.DS_Store

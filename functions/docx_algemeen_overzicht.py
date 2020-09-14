@@ -7,12 +7,12 @@ from docx.enum.table import WD_ALIGN_VERTICAL
 
 
 class AlgemeenOverzicht:
-    def __init__(self, doc=None, config=None, co_readydata=None, co_table_headers=None):
+    def __init__(self, doc=None, config=None, co_readydata=None, co_table_headers=None, descript_lang=None):
         try:
             if doc is None:
                 raise Exception("Doc is None")
 
-            crawl_overview_conf = config['crawl_overview']
+            crawl_overview_conf = descript_lang['crawl_overview']
 
             severity = config['severity']
 
@@ -35,7 +35,7 @@ class AlgemeenOverzicht:
 
             for h in co_table_headers:
                 doc.add_paragraph()
-                doc.add_heading(h, level=2)
+                doc.add_heading(crawl_overview_conf[h]['name'], level=2)
 
                 if crawl_overview_conf[h]['description'] != '':
                     doc.add_paragraph(crawl_overview_conf[h]['description'])
@@ -129,6 +129,7 @@ class AlgemeenOverzicht:
             return None
 
     def set_col_widths(self, table, cells=4):
+        widths = (Cm(8), Cm(2), Cm(2), Cm(4))
         if cells == 2:
             widths = (Cm(10), Cm(6))
         if cells == 3:

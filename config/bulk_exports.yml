@@ -1,0 +1,195 @@
+bulk_exports:
+  - active: 0
+    file: all_inlinks.csv
+    id: All Inlinks
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: all_outlinks.csv
+    id: All Outlinks
+  - active: 0
+    file: queued_urls.csv
+    id: Queued URLs
+  - active: 0
+    file: all_anchor_text.csv
+    id: All Anchor Text
+  - active: 0
+    file: all_images.csv
+    id: All Images
+  - active: 0
+    file: null
+    id: Screenshots
+  - active: 0
+    file: null
+    id: All Page Source
+  - active: 0
+    file: external_links.csv
+    id: External Links
+  - active: 0
+    file: response_codes_blocked_by_robots_txt.csv
+    id: Response Codes:Blocked by Robots.txt Inlinks
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: response_codes_blocked_resource.csv
+    id: Response Codes:Blocked Resource Inlinks
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: response_codes_no_response.csv
+    id: Response Codes:No Response Inlinks
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: response_codes_success_(2xx).csv
+    id: Response Codes:Success (2xx) Inlinks
+  - active: 0
+    file: response_codes_redirection_(3xx).csv
+    id: Response Codes:Redirection (3xx) Inlinks
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: response_codes_redirection_(javascript).csv
+    id: Response Codes:Redirection (JavaScript) Inlinks
+  - active: 0
+    file: response_codes_redirection_(meta_refresh).csv
+    id: Response Codes:Redirection (Meta Refresh) Inlinks
+  - active: 1
+    file: response_codes_client_error_(4xx).csv
+    id: Response Codes:Client Error (4xx) Inlinks
+    description: ""
+    columns: ["Address"]
+  - active: 1
+    file: response_codes_server_error_(5xx).csv
+    id: Response Codes:Server Error (5xx) Inlinks
+    description: ""
+    columns: ["Address"]
+  - active: 0
+    file: directives_index.csv
+    id: Directives:Index Inlinks
+  - active: 0
+    file: directives_noindex.csv
+    id: Directives:Noindex Inlinks
+  - active: 0
+    file: directives_follow.csv
+    id: Directives:Follow Inlinks
+  - active: 0
+    file: directives_nofollow.csv
+    id: Directives:Nofollow Inlinks
+  - active: 0
+    file: directives_none.csv
+    id: Directives:None Inlinks
+  - active: 0
+    file: directives_noarchive.csv
+    id: Directives:NoArchive Inlinks
+  - active: 0
+    file: directives_nosnippet.csv
+    id: Directives:NoSnippet Inlinks
+  - active: 0
+    file: directives_maxsnippet.csv
+    id: Directives:Max-Snippet Inlinks
+  - active: 0
+    file: directives_maximagepreview.csv
+    id: Directives:Max-Image-Preview Inlinks
+  - active: 0
+    file: directives_maxvideopreview.csv
+    id: Directives:Max-Video-Preview Inlinks
+  - active: 0
+    file: directives_noodp.csv
+    id: Directives:NoODP Inlinks
+  - active: 0
+    file: directives_noydir.csv
+    id: Directives:NoYDIR Inlinks
+  - active: 0
+    file: directives_noimageindex.csv
+    id: Directives:NoImageIndex Inlinks
+  - active: 0
+    file: directives_notranslate.csv
+    id: Directives:NoTranslate Inlinks
+  - active: 0
+    file: directives_unavailable_after.csv
+    id: Directives:Unavailable_After Inlinks
+  - active: 0
+    file: directives_refresh.csv
+    id: Directives:Refresh Inlinks
+  - active: 0
+    file: canonicals_contains_canonical.csv
+    id: Canonicals:Contains Canonical Inlinks
+  - active: 0
+    file: canonicals_self_referencing.csv
+    id: Canonicals:Self Referencing Inlinks
+  - active: 0
+    file: canonicals_canonicalised.csv
+    id: Canonicals:Canonicalised Inlinks
+  - active: 0
+    file: canonicals_missing.csv
+    id: Canonicals:Missing Inlinks
+  - active: 0
+    file: canonicals_multiple.csv
+    id: Canonicals:Multiple Inlinks
+  - active: 0
+    file: canonicals_nonindexable_canonical.csv
+    id: Canonicals:Non-Indexable Canonical Inlinks
+  - active: 0
+    file: amp_all.csv
+    id: AMP:All Inlinks
+  - active: 0
+    file: amp_non200_response.csv
+    id: AMP:Non-200 Response Inlinks
+  - active: 0
+    file: amp_nonconfirming_canonical.csv
+    id: AMP:Non-Confirming Canonical Inlinks
+  - active: 0
+    file: amp_missing_nonamp_canonical.csv
+    id: AMP:Missing Non-AMP Canonical Inlinks
+  - active: 0
+    file: amp_nonindexable_canonical.csv
+    id: AMP:Non-Indexable Canonical Inlinks
+  - active: 0
+    file: amp_indexable.csv
+    id: AMP:Indexable Inlinks
+  - active: 0
+    file: amp_nonindexable.csv
+    id: AMP:Non-Indexable Inlinks
+  - active: 0
+    file: structured_data_contains_structured_data.csv
+    id: Structured Data:Contains Structured Data
+  - active: 0
+    file: structured_data_validation_errors.csv
+    id: Structured Data:Validation Errors
+  - active: 0
+    file: structured_data_validation_warnings.csv
+    id: Structured Data:Validation Warnings
+  - active: 0
+    file: structured_data_jsonld_urls.csv
+    id: Structured Data:JSON-LD URLs
+  - active: 0
+    file: structured_data_microdata_urls.csv
+    id: Structured Data:Microdata URLs
+  - active: 0
+    file: structured_data_rdfa_urls.csv
+    id: Structured Data:RDFa URLs
+  - active: 0
+    file: images_missing_alt_text_inlinks.csv
+    id: Images:Images Missing Alt Text Inlinks
+  - active: 0
+    file: images_over_100_kb.csv
+    id: Images:Images over X KB Inlinks
+  - active: 0
+    file: sitemaps_urls_in_sitemap.csv
+    id: Sitemaps:URLs in Sitemap Inlinks
+  - active: 0
+    file: search_console_orphan_urls.csv
+    id: Sitemaps:Orphan URLs Inlinks
+  - active: 0
+    file: sitemaps_nonindexable_urls_in_sitemap.csv
+    id: Sitemaps:Non-Indexable URLs in Sitemap Inlinks
+  - active: 0
+    file: sitemaps_urls_in_multiple_sitemaps.csv
+    id: Sitemaps:URLs in Multiple Sitemaps Inlinks
+  - active: 0
+    file: custom_search_all.csv
+    id: Custom Search:All Inlinks
+  - active: 0
+    file: custom_extraction_all.csv
+    id: Custom Extraction:All Inlinks

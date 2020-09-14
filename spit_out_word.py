@@ -3,6 +3,7 @@
 import os
 import sys
 import logging
+import json
 
 from time import time
 from datetime import date, datetime
@@ -39,7 +40,8 @@ folder = os.path.join(sf, 'logging')
 log_file = os.path.join(folder, "{}.log".format(today))
 
 if os.environ['HOME'] == '/Users/theovandersluijs':
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 else:
     os.makedirs(folder, exist_ok=True)
     logging.basicConfig(filename=log_file, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -47,7 +49,8 @@ else:
 
 
 class CreateWord:
-    def __init__(self, config=None, export_tabs=None, bulk_export=None):
+    def __init__(self, config=None, export_tabs=None, bulk_export=None,
+                 crawl_yml: dict = None, descript_lang: dict = None):
         try:
             self.datum = '{:%d-%b-%Y}'.format(date.today())
             self.maand_jaar = '{:%B-%Y}'.format(date.today())
@@ -67,6 +70,8 @@ class CreateWord:
             self.config_folder = self.get_config_folder()
             self.export_tabs = export_tabs
             self.bulk_export = bulk_export
+            self.crawl_yml = crawl_yml
+            self.descript_lang = descript_lang
 
             self.ps = None
             self.frog_files = {}
@@ -101,7 +106,8 @@ class CreateWord:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return
 
     def get_doc_template(self):
@@ -133,7 +139,8 @@ class CreateWord:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
 
     def create_crawl_data(self):
         try:
@@ -156,29 +163,33 @@ class CreateWord:
                     if b['active'] == 1:
                         bulk_export.append(b['id'])
 
-                s = Screaming(self.domain_folder, self.url, self.search_console_url, export_tabs, bulk_export)
+                s = Screaming(self.domain_folder, self.url,
+                              self.search_console_url, export_tabs, bulk_export)
                 s.run_screamer()
             else:
                 print('Using current Screaming Frog crawl data')
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.critical(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.critical(str(e) + " | " + str(exc_type) +
+                             " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             sys.exit()
 
     def get_crawl_overview_data(self):
         try:
             try:
-                co = CrawlOverview(self.frog_files['crawl_overview.csv'])
+                co = CrawlOverview(
+                    crawl_file=self.frog_files['crawl_overview.csv'], crawl_yml=self.crawl_yml)
             except KeyError as e:
                 raise Exception("Error getting frog files key: {}".format(e))
-
             self.co_table_headers = co.table_headers
             self.co_readydata = co.readydata
+
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.critical(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.critical(str(e) + " | " + str(exc_type) +
+                             " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return {}
 
     def get_google_search_console_data(self):
@@ -202,19 +213,24 @@ class CreateWord:
         toc(self.doc)
 
         # crawl overzicht
-        AlgemeenOverzicht(self.doc, self.config, self.co_readydata, self.co_table_headers)
+        AlgemeenOverzicht(doc=self.doc, config=self.config,
+                          co_readydata=self.co_readydata,
+                          co_table_headers=self.co_table_headers,
+                          descript_lang=self.descript_lang)
 
         # Doc Pagespeed overzicht
         DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'mobile')
         DocxPageSpeed(self.doc, self.config, self.url, self.domain, 'desktop')
 
         if self.dimensions_data != "":  # only use when we have data!
-            DocxGoogleSearch(self.doc, self.dimensions_data, self.graph_data_folder)
+            DocxGoogleSearch(self.doc, self.dimensions_data,
+                             self.graph_data_folder)
         else:
             self.dp.empty_page('Google Search Console')
 
         self.change_orientation()
-        CSV2Docx(self.config, self.doc, self.frog_data_folder, self.export_tabs, self.bulk_export)
+        CSV2Docx(self.config, self.doc, self.frog_data_folder,
+                 self.export_tabs, self.bulk_export)
 
         # self.legenda()
 
@@ -227,7 +243,6 @@ class CreateWord:
             self.doc.add_heading(val['title'], level=3)
             self.doc.add_paragraph(val['description'])
             self.doc.add_paragraph()
-
 
         self.doc.add_heading("Google Zoeken", level=3)
         self.doc.add_heading("Klikken (CLicks)", level=4)
@@ -246,7 +261,7 @@ class CreateWord:
                                "Als je site bijvoorbeeld drie resultaten heeft op posities 2, 4 en 6, wordt de "
                                "positie gerapporteerd als 2. Belangrijk is dat deze waarde zo laag mogelijk is, "
                                "hoe lager hoe hoger in de zoek resultaten.")
-            
+
     def change_orientation(self):
         current_section = self.doc.sections[-1]
         new_width, new_height = current_section.page_height, current_section.page_width
@@ -254,7 +269,7 @@ class CreateWord:
         new_section.orientation = WD_ORIENT.LANDSCAPE
         new_section.page_width = new_width
         new_section.page_height = new_height
-        return new_section            
+        return new_section
 
     def set_repeat_table_header(self, row):
         """ set repeat table row on every new page
@@ -281,10 +296,26 @@ if __name__ == '__main__':
     dir_path = os.path.dirname(os.path.realpath(__file__))
     profiles = os.path.join(dir_path, "data")
 
+    word_output = os.path.join(dir_path, "word_output")
+    os.makedirs(word_output, exist_ok=True)
+
     bulk_export = None
     bulk_export_file = os.path.join(dir_path, 'config', 'bulk_exports.yml')
     if os.path.isfile(bulk_export_file):
         bulk_export = readConfig(bulk_export_file)
+
+    crawl_yml = None
+    crawl_overview_file = os.path.join(
+        dir_path, 'config', 'crawl_overview.yml')
+    if os.path.isfile(crawl_overview_file):
+        crawl_yml = readConfig(crawl_overview_file)
+    else:
+        print('No yml file')
+
+    descript_lang = None
+    descript_file = os.path.join(dir_path, 'config', 'crawl_overview_lang.yml')
+    if os.path.isfile(descript_file):
+        descript_lang = readConfig(descript_file)
 
     export_tabs = None
     export_tabs_file = os.path.join(dir_path, 'config', 'export_tabs.yml')
@@ -294,37 +325,53 @@ if __name__ == '__main__':
     domain = ""
 
     try:
-        if sys.argv[1]:
+        if len(sys.argv) > 1:
             domain = sys.argv[1]
     except KeyError as e:
-        pass
+        print('No sys arg domain given, continuing with domain list.')
+
+    domains = {}
+    domain_ints = []
 
     if domain != "":
+        pass
+    else:
+        i = 1
+        for domain in os.listdir(profiles):
+            donts = ['.DS_Store', 'ORGS',
+                     'ProjectInstanceData', 'crawl.seospiderconfig']
+            if domain in donts:
+                continue
+            domains[i] = domain
+            domain_ints.append(i)
+            i += 1
+
+        for k, v in domains.items():
+            print(k, ": ", v)
+
+        while True:
+            domain_id = int(input('What domain? [int]'))
+            if domain_id in domain_ints:
+                try:
+                    domain = domains[domain_id]
+                except KeyError as e:
+                    print('Wrong id!!')
+                    sys.exit()
+
+                print(f"Okay, processing {domain}")
+                break
+
         profile = os.path.join(profiles, domain)
         config_file = os.path.join(profile, "config.yml")
         if os.path.isfile(config_file):
             c = readConfig(config_file)
 
             if c.config['active'] == 1:
-                m = CreateWord(c.config, export_tabs.config, bulk_export.config)
+                m = CreateWord(config=c.config, export_tabs=export_tabs.config,
+                               bulk_export=bulk_export.config, crawl_yml=crawl_yml.config,
+                               descript_lang=descript_lang.config)
             else:
                 print("Skip: {}".format(profile))
-    else:
-        for domain in os.listdir(profiles):
-            donts = ['.DS_Store', 'ORGS']
-            if domain in donts:
-                continue
-
-            profile = os.path.join(profiles, domain)
-            config_file = os.path.join(profile, "config.yml")
-            if os.path.isfile(config_file):
-                c = readConfig(config_file)
-
-                if c.config['active'] == 1:
-                    m = CreateWord(c.config, export_tabs.config, bulk_export.config)
-                else:
-                    print("Skip: {}".format(profile))
-
 
     # profile = os.path.join(profiles, "oesterbaron.nl")
     # config_file = os.path.join(profile, "config.yml")

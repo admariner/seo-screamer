@@ -1,52 +1,37 @@
-import os
-import sys
-import logging
-from datetime import datetime
+# import searchconsole
+# account = searchconsole.authenticate(client_config='config/client_secrets.json',
+#                                      serialize='config/client_service_secret.json')
+# webproperty = account['https://oesterbaron.nl/']
+# report = webproperty.query.range('today', days=-7).dimension('query').get()
+# print(report.rows)
 
-# import locale
-# locale.setlocale(locale.LC_TIME, "nl_NL.utf8")
+import yaml
+import os.path
 
-now = datetime.now()
-today = "{}-{}-{}".format(now.year, now.month, now.day)
-sf = os.path.dirname(os.path.realpath(__file__))
-folder = os.path.join(sf, 'logging')
-log_file = os.path.join(folder, "{}.log".format(today))
+export = "bulk_exports"
+# export = "export_tabs"
 
-print(os.environ['HOME'])
-
-if os.environ['HOME'] == '/Users/theovandersluijs':
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
-else:
-    os.makedirs(folder, exist_ok=True)
-    logging.basicConfig(filename=log_file, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        level=logging.CRITICAL)
-
-class test:
-    def __init__(self):
-        try:
-            print('init')
-            self.compare_me(1)
-            self.get_file()
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
-            return None
-
-    def compare_me(self, nr=1):
-        if 1 == nr:
-            print('correct')
-        else:
-            raise Exception("We have found an error")
-
-    def get_file(self):
-        try:
-            file = "theo.txt"
-            with open(file, newline='') as f:
-                line = f.readline()
-        except Exception as e:
-            raise Exception("File problem {}".format(e))
+with open(f'config/{export}.yml') as file:
+    rows = yaml.load(file, Loader=yaml.FullLoader)
+    print(len(rows[export]))
 
 
-if __name__ == '__main__':
-    t = test()
+#     for r in rows[export]:
+#         if not r['file'] or r['file'] == "null":
+#             print(r['id'])
+#             filename = r['id']
+#             filename = filename.replace(" Inlinks", "")
+#             filename = filename.replace("-", "")
+#             filename = filename.replace(" ", "_")
+#             filename = filename.replace(":", "_")
+#             filename = f"{filename}.csv"
+#             filename = filename.lower()
+#             if os.path.isfile(
+#                     f'/Users/theovandersluijs/PyProjects/seo-screamer/data/rensini.nl/crawl/{filename}'):
+#                 print(f"{filename} bestaat!")
+#                 r['file'] = filename
+#             else:
+#                 print(f"{filename} bestaat niet")
+
+# with open(f'config/{export}.yml', 'w') as file:
+#     documents = yaml.dump(rows, file)

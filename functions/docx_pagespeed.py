@@ -40,7 +40,8 @@ class DocxPageSpeed:
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            logging.warning(str(e) + " | " + str(exc_type) + " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
+            logging.warning(str(e) + " | " + str(exc_type) +
+                            " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             return None
 
     def create_doc_page(self):
@@ -50,9 +51,11 @@ class DocxPageSpeed:
         if self.ps_strategy == 'mobile':
             icon = self.ps_config['icons']['mobile']
 
-        self.doc.add_heading("{} {} Test".format(icon, self.ps_strategy.capitalize()), level=1)
+        self.doc.add_heading("{} {} Test".format(
+            icon, self.ps_strategy.capitalize()), level=1)
 
-        self.doc.add_paragraph('Onderstaande tests zijn gedaan op basis van de homepage.')
+        self.doc.add_paragraph(
+            'Onderstaande tests zijn gedaan op basis van de homepage.')
 
         table = self.doc.add_table(rows=1, cols=2)
         for v in self.ps.category:
@@ -60,7 +63,8 @@ class DocxPageSpeed:
             row_cells[0].text = self.ps.categorien[v]
             paragraph = row_cells[1].paragraphs[0]
             paragraph.add_run("{}".format(self.ps.ready_data['{}_{}_score'.format(self.ps_strategy, v)])).font.color.rgb = \
-                self.colorsPercent(self.ps.ready_data['{}_{}_score'.format(self.ps_strategy, v)])
+                self.colorsPercent(
+                    self.ps.ready_data['{}_{}_score'.format(self.ps_strategy, v)])
 
         self.doc.add_paragraph()
 
@@ -96,7 +100,7 @@ class DocxPageSpeed:
         self.doc.add_paragraph()
 
         self.doc.add_paragraph("Analyse van de pagina via een geëmuleerd netwerk. Waarden worden geschat en "
-                                  "kunnen variëren.").italic = True
+                               "kunnen variëren.").italic = True
 
         self.doc.add_paragraph()
         icon = self.ps_config['icons']['stopwatch']
@@ -109,11 +113,13 @@ class DocxPageSpeed:
             if i == 0:
                 row_cells = table.add_row().cells
 
-            row_cells[i].text = self.ps.ready_data['{}_{}_title'.format(self.ps_strategy, a)]
+            row_cells[i].text = self.ps.ready_data['{}_{}_title'.format(
+                self.ps_strategy, a)]
             i += 1
             paragraph = row_cells[i].paragraphs[0]
             paragraph.add_run("{}".format(self.ps.ready_data['{}_{}_displayValue'.format(self.ps_strategy, a)])).font.\
-                color.rgb = self.colorsPercent(self.ps.ready_data['{}_{}_score'.format(self.ps_strategy, a)])
+                color.rgb = self.colorsPercent(
+                    self.ps.ready_data['{}_{}_score'.format(self.ps_strategy, a)])
             i += 1
             if i == 4:
                 i = 0
@@ -124,11 +130,13 @@ class DocxPageSpeed:
         icon = self.ps_config['icons']['ballot']
         self.doc.add_heading("{} Aanbevelingen".format(icon), level=2)
         self.doc.add_paragraph()
-        self.doc.add_paragraph("Deze optimalisaties kunnen het laden van je pagina versnellen.")
+        self.doc.add_paragraph(
+            "Deze optimalisaties kunnen het laden van je pagina versnellen.")
         self.doc.add_paragraph()
 
         i = 0
-        table = self.doc.add_table(rows=1, cols=2, style="Seo_pagespeed")  # , style='Table Grid'
+        table = self.doc.add_table(
+            rows=1, cols=2, style="Table Grid")  # , style='Table Grid' ,Seo_pagespeed
         heading_cells = table.rows[0].cells
         heading_cells[0].text = "Aanbeveling"
         heading_cells[1].text = "Geschatte besparing"
@@ -154,10 +162,12 @@ class DocxPageSpeed:
         icon = self.ps_config['icons']['stethoscope']
         self.doc.add_heading("{} Diagnostische gegevens".format(icon), level=2)
         self.doc.add_paragraph()
-        self.doc.add_paragraph("Meer informatie over de prestaties van je app.")
+        self.doc.add_paragraph(
+            "Meer informatie over de prestaties van je app.")
         self.doc.add_paragraph()
 
-        table = self.doc.add_table(rows=1, cols=2, style="Seo_pagespeed")
+        table = self.doc.add_table(
+            rows=1, cols=2, style="Table Grid")  # Seo_pagespeed
         heading_cells = table.rows[0].cells
         heading_cells[0].text = "Aanbeveling"
         heading_cells[1].text = "Geschatte besparing"
@@ -179,7 +189,8 @@ class DocxPageSpeed:
         self.auto_cell(table)
 
     def get_page_speed_data(self):
-        self.ps = PageSpeed(self.ps_api, self.ps_url, self.ps_domain, self.ps_strategy)
+        self.ps = PageSpeed(self.ps_api, self.ps_url,
+                            self.ps_domain, self.ps_strategy)
         self.ps.get_audits()
 
     def auto_cell(self, table):
@@ -197,7 +208,7 @@ class DocxPageSpeed:
             tcPr.append(tcVAlign)
 
     def colorsPercent(self, number=0):
-        #https://www.colorspire.com/rgb-color-wheel/
+        # https://www.colorspire.com/rgb-color-wheel/
         if number < 50:
             return RGBColor(161, 33, 1)
         elif number >= 50 and number < 89:
