@@ -40,8 +40,8 @@ folder = os.path.join(sf, 'logging')
 log_file = os.path.join(folder, "{}.log".format(today))
 
 if os.environ['HOME'] == '/Users/theovandersluijs':
-    logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        level=logging.DEBUG)
 else:
     os.makedirs(folder, exist_ok=True)
     logging.basicConfig(filename=log_file, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -144,6 +144,7 @@ class CreateWord:
 
     def create_crawl_data(self):
         try:
+            t = 0
             try:
                 if os.path.isfile(self.frog_files['crawl_overview.csv']):
                     t = os.path.getmtime(self.frog_files['crawl_overview.csv'])
@@ -250,11 +251,12 @@ class CreateWord:
                                "gebruiker/bezoeker op je site is terechtgekomen.")
 
         self.doc.add_heading("Vertoningen", level=4)
-        self.doc.add_paragraph("Hoeveel links naar je site een gebruiker zag op de pagina met Google zoekresultaten van "
-                               "Google Zoeken. Vertoningen worden geteld wanneer de gebruiker die pagina met "
-                               "resultaten bezoekt, zelfs wanneer de gebruiker niet naar het resultaat is gescrold. "
-                               "Als een gebruiker echter alleen pagina 1 bekijkt en het resultaat op pagina 2 staat, "
-                               "telt die vertoning niet mee.")
+        self.doc.add_paragraph(
+            "Hoeveel links naar je site een gebruiker zag op de pagina met Google zoekresultaten van "
+            "Google Zoeken. Vertoningen worden geteld wanneer de gebruiker die pagina met "
+            "resultaten bezoekt, zelfs wanneer de gebruiker niet naar het resultaat is gescrold. "
+            "Als een gebruiker echter alleen pagina 1 bekijkt en het resultaat op pagina 2 staat, "
+            "telt die vertoning niet mee.")
 
         self.doc.add_heading("Positie", level=4)
         self.doc.add_paragraph("De gemiddelde positie van het hoogste resultaat van de site. "
@@ -323,7 +325,6 @@ if __name__ == '__main__':
         export_tabs = readConfig(export_tabs_file)
 
     domain = ""
-
     try:
         if len(sys.argv) > 1:
             domain = sys.argv[1]

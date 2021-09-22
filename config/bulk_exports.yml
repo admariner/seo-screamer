@@ -193,3 +193,16 @@ bulk_exports:
   - active: 0
     file: custom_extraction_all.csv
     id: Custom Extraction:All Inlinks
+  - active: 0
+    file: content_spelling_grammar_errors.csv
+    id: Content:Spelling & Grammar Errors
+  - active: 1
+    file: spelling_and_grammar_errors_report_summary.csv
+    id: Content:Spelling & Grammar Errors Summary
+    columns: ["Error Type", "URLs Affected","Coverage %","Error Detail","Sample URL"]
+  - active: 0
+    file: content_near_duplicates.csv
+    id: Content:Near Duplicates
+  - active: 0
+    file: content_exact_duplicates.csv
+    id: Content:Exact Duplicates

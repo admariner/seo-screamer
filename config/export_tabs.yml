@@ -340,6 +340,7 @@ export_tabs:
   - active: 1
     file: images_alt_text_over_100_characters.csv
     id: Images:Alt Text over X Characters
+    columns: ["Address"]
   - active: 0
     file: canonicals_all.csv
     id: Canonicals:All

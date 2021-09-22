@@ -43,6 +43,7 @@ class CSV2Docx:
                               "pagina's dient te wijzigen om betere SEO resultaten te krijgen.")
 
             for cf in crawl_files:
+
                 doc.add_paragraph()
                 file = os.path.join(frog_data_folder, cf['file'])
                 c = ParceCSV(file)
@@ -61,7 +62,12 @@ class CSV2Docx:
                     except Exception:
                         pass
 
-                    kolommen = len(cf['columns'])
+                    try:
+                        kolommen = len(cf['columns'])
+                    except Exception as e:
+                        print(e)
+                        sys.exit()
+
                     table = doc.add_table(
                         rows=1, cols=kolommen, style="Grid Table 4 Accent 5")
                     hdr_cells = table.rows[0].cells

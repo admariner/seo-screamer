@@ -1,37 +1,44 @@
-# import searchconsole
-# account = searchconsole.authenticate(client_config='config/client_secrets.json',
-#                                      serialize='config/client_service_secret.json')
-# webproperty = account['https://oesterbaron.nl/']
-# report = webproperty.query.range('today', days=-7).dimension('query').get()
-# print(report.rows)
-
-import yaml
-import os.path
-
-export = "bulk_exports"
-# export = "export_tabs"
-
-with open(f'config/{export}.yml') as file:
-    rows = yaml.load(file, Loader=yaml.FullLoader)
-    print(len(rows[export]))
+import csv
+import json
 
 
-#     for r in rows[export]:
-#         if not r['file'] or r['file'] == "null":
-#             print(r['id'])
-#             filename = r['id']
-#             filename = filename.replace(" Inlinks", "")
-#             filename = filename.replace("-", "")
-#             filename = filename.replace(" ", "_")
-#             filename = filename.replace(":", "_")
-#             filename = f"{filename}.csv"
-#             filename = filename.lower()
-#             if os.path.isfile(
-#                     f'/Users/theovandersluijs/PyProjects/seo-screamer/data/rensini.nl/crawl/{filename}'):
-#                 print(f"{filename} bestaat!")
-#                 r['file'] = filename
-#             else:
-#                 print(f"{filename} bestaat niet")
+csv_file = f'/Users/theovandersluijs/PyProjects/seo-screamer/data/paintdecoratie.nl/crawl/crawl_overview.csv'
+# csv_file = f'/Users/theovandersluijs/PyProjects/seo-screamer/data/oesterbaron.nl/crawl/crawl_overview.csv'
 
-# with open(f'config/{export}.yml', 'w') as file:
-#     documents = yaml.dump(rows, file)
+key = "Site summary"
+data = {}
+data[key] = []
+
+with open(csv_file, encoding='utf-8-sig') as f:
+    cf = csv.reader(f)
+    for row in cf:
+        if len(row) > 1:
+            if row[0] == 'Response Time (Seconds)':
+                key = 'Response Time (Seconds)'
+                data[key] = []
+                continue
+
+            rd = {}
+            rd[row[0]] = row[1:]
+
+            data[key].append(rd)
+            continue
+
+        if len(row) == 1 and row[0] == "":
+            continue
+
+        if len(row) == 1 and row[0] != "":
+            key = row[0]
+            data[key] = []
+
+
+with open("/Users/theovandersluijs/PyProjects/seo-screamer/data/crawl.json", 'w') as f:
+    json_dumps_str = json.dumps(data, indent=4)
+    print(json_dumps_str, file=f)
+
+# # print(data)
+# d1 = {}
+# for i in data['Site summary']:
+#     d1.update(i)
+
+# print(d1)

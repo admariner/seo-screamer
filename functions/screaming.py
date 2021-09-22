@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 
-from functions.readConfig import readConfig
+from theos_functions import readConfig
 
 
 class Screaming:
@@ -24,6 +24,7 @@ class Screaming:
             bulk_export = ""
             export_tabs = ""
             analytics_info = ""
+            moz_info = ""
 
             if self.analytics is not None and self.analytics != '':
                 analytics_info = f"--use-google-analytics {self.analytics['google account']} {self.analytics['account']} {self.analytics['property']} {self.analytics['view']} {self.analytics['segment']} "
@@ -32,10 +33,18 @@ class Screaming:
                 search_console_url = "--use-google-search-console prive {} ".format(
                     self.search_console_url)
 
-            application = "/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"
+            ###
+            #  ADD Screaming frog to bash
+            #  cd ~ && sudo nano .zshrc
+            #  alias sf="/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"
+            ###
+
+            # application = "/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"
+            application = "sf"
             crawl = f"--crawl {self.url}"
             config = f"--config /Users/theovandersluijs/PyProjects/seo-screamer/data/crawl.seospiderconfig"
             output = f"--output-folder {self.folder}/crawl/"
+            moz = "--use-mozscape"
 
             if self.bulk_export is not None:
                 bulk_export = "--bulk-export '{}'".format(
@@ -44,7 +53,10 @@ class Screaming:
                 export_tabs = "--export-tabs '{}'".format(
                     ','.join(self.export_tabs))
 
-            screamer = f"""{application} {crawl} {config} --headless --save-crawl --overwrite {search_console_url} {analytics_info} {output} --save-report 'Crawl Overview' {export_tabs} {bulk_export} --export-format 'csv'"""
+            screamer = f"""{application} {crawl} {config} --headless --save-crawl --overwrite --use-pagespeed {search_console_url} {moz} {analytics_info} {output} --save-report 'Crawl Overview' {export_tabs} {bulk_export} --export-format 'csv'"""
+            print(screamer)
+            sys.exit()
+
             os.system(screamer)
 
         except Exception as e:
@@ -54,29 +66,63 @@ class Screaming:
                              " | " + str(fname) + " | " + str(exc_tb.tb_lineno))
             sys.exit()
             return {}
-# --use-google-analytics [google account] [account] [property] [view] [segment]
 
 
 if __name__ == '__main__':
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    folder = os.path.join(dir_path, "..", "data")
+    profiles = os.path.join(dir_path, "..", "data")
 
-    for domain in os.listdir(folder):
-        if domain == 'ORGS':
-            continue
-        domain_folder = os.path.join(folder, domain)
-        config_file = os.path.join(domain_folder, "config.yml")
+    domain = ""
+    try:
+        if len(sys.argv) > 1:
+            domain = sys.argv[1]
+    except KeyError as e:
+        print('No sys arg domain given, continuing with domain list.')
 
-        if not os.path.isfile(config_file):
-            continue
+    domains = {}
+    domain_ints = []
 
-        c = readConfig(config_file)
+    if domain != "":
+        pass
+    else:
+        i = 1
+        for domain in os.listdir(profiles):
+            donts = ['.DS_Store', 'ORGS',
+                     'ProjectInstanceData', 'crawl.seospiderconfig']
+            if domain in donts:
+                continue
+            domains[i] = domain
+            domain_ints.append(i)
+            i += 1
+
+        for k, v in domains.items():
+            print(k, ": ", v)
+
+        while True:
+            domain_id = int(input('What domain? [int]'))
+            if domain_id in domain_ints:
+                try:
+                    domain = domains[domain_id]
+                except KeyError as e:
+                    print('Wrong id!!')
+                    sys.exit()
+
+                print(f"Okay, processing {domain}")
+                break
+
+        profile = os.path.join(profiles, domain)
+        config_file = os.path.join(profile, "config.yml")
+        if os.path.isfile(config_file):
+            c = readConfig(config_file)
+        else:
+            print('error!')
+            sys.exit()
 
         url = c.config['url']
         domain = c.config['domain']
         search_console_url = c.config['search_console_url']
 
-        s = Screaming(domain_folder, url, search_console_url)
+        s = Screaming(profile, url, search_console_url)
         s.run_screamer()
 
 

@@ -1,6 +1,12 @@
 {
+    // "python.pythonPath": "/Users/theovandersluijs/PyProjects/seo-screamer/.venv/bin/python3.8",
     "editor.rulers": [
         100
     ],
-    "python.pythonPath": "/Users/theovandersluijs/PyProjects/seo-screamer/.venv/bin/python3.8"
+    "editor.wordWrapColumn": 180,
+    "python.linting.pylintArgs": [
+        "--max-line-length",
+        "120",
+        "--aggressive"
+    ]    
 }

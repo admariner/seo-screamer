@@ -27,10 +27,8 @@ class CrawlOverview:
                 raise Exception(
                     "file is not a file or is None {}".format(self.file))
 
-            self.data = self.get_csv()
-
-            # self.get_csv()
-            self.get_data()
+            self.crawl_data = self.get_csv()
+            # self.get_data()
 
             self.table_headers = []
             for k, v in self.crawl_yml.items():
@@ -41,30 +39,36 @@ class CrawlOverview:
                         if k == "Meta Description":
                             self.table_headers.append('Meta Keywords')
                 except KeyError as e:
-                    print(k, e)
+                    # print(k, e)
+                    pass
 
             self.readydata = {}
             self.readydata['Info'] = []
             try:
                 self.readydata['Info'].append(
-                    self.happy_data("Datum laatste crawl", self.crawl_data['Info']['Date'][0]))
+                    self.happy_data("Datum laatste crawl", self.crawl_data['Site summary']['Date'][0]))
                 self.readydata['Info'].append(self.happy_data(
-                    "Found pages & content", round(self.crawl_data['Summary']['Total URLs Encountered'][0])))
+                    "Found pages & content", round(int(self.crawl_data['Site summary']['Total URLs Encountered'][0]))))
                 self.readydata['Info'].append(self.happy_data(
-                    "Crawled pages & content", self.crawl_data['Summary']['Total URLs Crawled'][0]))
+                    "Crawled pages & content", self.crawl_data['Site summary']['Total URLs Crawled'][0]))
                 self.readydata['Info'].append(self.happy_data(
-                    "Total internal urls", self.crawl_data['Summary']['Total Internal URLs'][0]))
+                    "Total internal urls", self.crawl_data['Site summary']['Total Internal URLs'][0]))
                 self.readydata['Info'].append(self.happy_data(
-                    "Total external urls", self.crawl_data['Summary']['Total External URLs'][0]))
+                    "Total external urls", self.crawl_data['Site summary']['Total External URLs'][0]))
                 self.readydata['Info'].append(self.happy_data(
-                    "Total blocked for robots", self.crawl_data['Summary']['Total External blocked by robots.txt'][0]))
+                    "Total blocked for robots", self.crawl_data['Site summary']
+                    ['Total External blocked by robots.txt'][0]))
             except KeyError as e:
                 raise Exception("KeyError: {}".format(e))
 
             self.readydata['Meta Keywords'] = []
             try:
-                meta_aanwezig = (int(self.crawl_data['Internal']['HTML'][0])-int(
+                meta_aanwezig = (int(self.crawl_data['Meta Keywords']['All'][0])-int(
                     self.crawl_data['Meta Keywords']['Missing'][0]))
+
+                if meta_aanwezig < 0:
+                    meta_aanwezig = 0
+
                 self.readydata['Meta Keywords'].append(
                     self.happy_data('Present', meta_aanwezig, [0, 1], 1))
             except KeyError as e:
@@ -80,11 +84,16 @@ class CrawlOverview:
                     for k, v in self.crawl_data[th].items():
                         try:
                             if self.crawl_yml[th]['Data'][k]:
-                                self.readydata[th].append(self.happy_data(
-                                    k, v[0], self.crawl_yml[th]['Data'][k]['grades'], self.crawl_yml[th]['Data'][k]['difficult']))
+                                self.readydata[th].append(
+                                    self.happy_data(
+                                        k, v[0],
+                                        self.crawl_yml[th]['Data'][k]['grades'],
+                                        self.crawl_yml[th]['Data'][k]['difficult']))
 
                         except KeyError as e:
-                            # print("KeyError: {}".format(e))
+                            print(k)
+                            print(v)
+                            print("KeyError: {}".format(e))
                             pass
 
             self.table_headers.insert(0, 'Info')
@@ -105,12 +114,40 @@ class CrawlOverview:
 
     def get_csv(self):
         try:
-            datafile = open(self.file, 'r')
-            datareader = csv.reader(datafile, delimiter=",")
-            data = []
-            for row in datareader:
-                data.append(row)
-            datafile.close()
+            key = "Site summary"
+            data = {}
+            data[key] = []
+
+            with open(self.file, encoding='utf-8-sig') as f:
+                cf = csv.reader(f)
+                for row in cf:
+                    if len(row) > 1:
+                        if row[0] == 'Response Time (Seconds)':
+                            key = 'Response Time (Seconds)'
+                            data[key] = []
+                            continue
+
+                        rd = {}
+                        rd[row[0]] = row[1:]
+                        data[key].append(rd)
+                        continue
+
+                    if len(row) == 1 and row[0] == "":
+                        continue
+
+                    if len(row) == 1 and row[0] != "":
+                        key = row[0]
+                        data[key] = []
+            try:
+                for k, v in self.crawl_yml.items():
+                    d1 = {}
+                    for i in data[k]:
+                        d1.update(i)
+                    data[k] = d1
+            except KeyError as e:
+                print(e)
+                pass
+
             return data
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -144,7 +181,6 @@ class CrawlOverview:
                                  nrows=v['nr'], header=v['h'])
                 df = df.dropna()
                 if v['h'] == 0:
-                    print(k)
                     self.crawl_data[k] = df.to_dict('list')
                 else:
                     self.crawl_data[k] = df.set_index(0).T.to_dict('list')
@@ -161,14 +197,13 @@ class CrawlOverview:
             grader = ""
         else:
             grade = int(grade)
-            count = len(grades)
 
-            if count == 1:
+            if len(grades) == 1:
                 if grade < int(grades[0]):
                     grader = 3
                 else:
                     grader = 0
-            elif count > 2:
+            elif len(grades) > 2:
                 if grade <= int(grades[0]):
                     grader = 0
                 elif int(grades[0]) < grade <= int(grades[1]):
@@ -177,13 +212,14 @@ class CrawlOverview:
                     grader = 2
                 elif grade > int(grades[2]):
                     grader = 3
-            elif count == 2:
+            elif len(grades) == 2:
                 if grade <= int(grades[0]):
                     grader = 0
                 else:
                     grader = 3
 
         how_difficult = ""
+
         try:
             if int(grader) > 0 and difficult is not None:
                 how_difficult = " "*difficult
